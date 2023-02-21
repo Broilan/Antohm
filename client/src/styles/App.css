@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+body {
+  background-color: #E6E2DD;
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  }
+  
+  .form__title{
+    color: black;
+    text-align: center;
+    width: fit-content;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .todo__form{
+    width: fit-content;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #F2F2F2;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    border-radius: 10px;
+    border: 1px solid white;
+    -webkit-box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 7px 7px 5px 0px rgba(0,0,0,0.75);
+  }
+  
+  .form{
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .todo__input{
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 4px;
+  }
+  
+  .todo__select{
+    margin-left: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 5px;
+  }
+  
+  .todo__submit{
+    position: absolute;
+    margin-left: 25%;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 5px;
+  }
+  
+  .todo__select-label{
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    border-radius: 12px;
+    font-weight: bolder;
+    font-size: 23px;
+  }
+  
+  
+  .todo__submit:hover{
+    background-color: rgb(0, 255, 229);
+    color: rgb(135, 133, 140);
+  }
+
+  

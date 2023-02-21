@@ -1,0 +1,137 @@
+.to-do-list-container {
+    border-radius: 100%;
+    margin-left: auto;
+    margin-right: 2%;
+    transform: translateY(-65%);
+}
+
+.to-do-innards{
+    display: flex;
+    flex-direction: column;
+    border-radius: 10%;
+    align-items: center;
+    background-color: white;
+    width: 20vw;
+    height: 35vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-shadow: 0 0 10px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+.task-modal-btn-wrapper{
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-left: 45%;
+}
+
+.edit-task-btn {
+    cursor: pointer;
+    background-color: darkturquoise;
+    border-radius: 10px;
+    font-weight: bold;
+    transform: translateX(-400%);
+    padding: 5px;
+    }
+
+.archive-task-btn {
+cursor: pointer;
+background-color: darkturquoise;
+border-radius: 10px;
+font-weight: bold;
+padding: 5px;
+}
+
+.delete-task-btn {
+    cursor: pointer;
+    background-color: tomato;
+    border-radius: 10px;
+    font-weight: bold;
+    padding: 6px;
+
+}
+
+.task-modal-content {
+    box-shadow: 0 0 5px;
+    width: 100%;
+    width: 100%;
+}
+
+.top-bar {
+    position: fixed;
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+    opacity: 80%;
+    display: flex;
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid black;
+}
+
+.top-bar>:nth-child(1) {
+    margin-left: 1rem;
+}
+
+.task-btns {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto;
+    margin-top: 0.5rem;
+    margin-right: 2rem;
+}
+
+.add-btn {
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    color: black;
+    font-size: 40px;
+}
+
+.kanban {
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    color: black;
+    margin-top: 0.7rem;
+    font-size: 20px;
+}
+
+.unordered-list {
+    width: 100%;
+    margin-top: 20%;
+}
+
+.list-items {
+    gap: 0.2rem;
+    width: fit-content;
+    list-style: none;
+    width: 100%;
+    cursor: pointer;
+    transition: ease-in-out 250ms;
+}
+
+.list-items>:nth-child(1) {
+    width: 50%;
+   }
+
+.list-items>:nth-child(2) {
+ margin-left: 90%;
+ position: relative;
+}
+
+.list-item {
+    overflow: hidden;
+    height: 3rem;
+    margin-left: 1rem;
+}
+
+.list-items:hover {
+
+    background-color: rgb(170, 205, 234);
+}
