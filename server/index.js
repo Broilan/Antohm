@@ -2,17 +2,19 @@ const cors = require("cors");
 require('dotenv').config()
 const express = require("express");
 const mongoose = require("mongoose")
+const passport = require('passport');
+require('./config/passport')(passport);
 const PORT = parseInt(process.env.PORT || 8080);
 const routes = require('./routes');
 
 const app = express();
-const router = express.Router();
 
 
 // Middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json()); // JSON parsing
 app.use(cors()); // allow all CORS requests
+app.use(passport.initialize());
 
 // Database Set Up
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
@@ -27,12 +29,13 @@ db.on('error', (error) => {
     console.log(`Database Error: ${error}`);
 })
 
-// API Routes
+
 app.get('/', (req, res) => {
     res.json("we open for business")
   });
 
-  router.use("/user", routes.user);
+// API Routes
+  app.use("/user", routes.user);
 
 
   // Server

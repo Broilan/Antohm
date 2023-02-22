@@ -3,11 +3,89 @@ const User = require('../models/User')
 // const Job = require('../models/Job')
 // const Task = require('../models/Task')
 
-const seed =  (req, res) => {
-    console.log('hit seed route');
-    console.log(req.user)
-    return res.json({payload: req.user})
-}
+require('dotenv').config();
+const { JWT_SECRET } = process.env;
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+
+
+//USER SIGNUP
+const userSignup = (req, res) => {
+    User.findOne({ email: req.body.email })
+    .then(user => {
+        if (user) {
+            return res.status(400).json({ message: 'Email already exists' });
+        } else {
+            // Create a new user
+            const newUser = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password,
+            });
+
+            // Salt and hash the password - before saving the user
+            bcrypt.genSalt(10, (err, salt) => {
+                if (err) throw Error;
+
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if (err) console.log('==> Error inside of hash', err);
+                    // Change the password in newUser to the hash
+                    newUser.password = hash;
+                    newUser.save()
+                    .then(createdUser => res.json({ user: createdUser}))
+                    .catch(err => {
+                        console.log('error with creating new user', err);
+                        res.json({ message: 'Error occured... Please try again.'});
+                    });
+                });
+            });
+        }
+    })
+    .catch(err => { 
+        console.log('Error finding user', err);
+        res.json({ message: 'Error occured... Please try again.'})
+    })
+};
+
+
+//USER LOGIN
+    const userLogin = async (req, res) => {
+    const foundUser = await User.findOne({ email: req.body.email });
+
+    if (foundUser) {
+        // user is in the DB
+        let isMatch = await bcrypt.compare(req.body.password, foundUser.password);
+        console.log('Does the passwords match?', isMatch);
+        if (isMatch) {
+            // if user match, then we want to send a JSON Web Token
+            // Create a token payload
+            // add an expiredToken = Date.now()
+            // save the user
+            const payload = {
+                id: foundUser.id,
+                email: foundUser.email,
+                name: foundUser.name
+            }
+
+            jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+                if (err) {
+                    res.status(400).json({ message: 'Session has endedd, please log in again'});
+                }
+                const legit = jwt.verify(token, JWT_SECRET, { expiresIn: 60 });
+                console.log('===> legit', legit);
+                res.json({ success: true, token: `Bearer ${token}`, userData: legit });
+            });
+
+        } else {
+            return res.status(400).json({ message: 'Email or Password is incorrect' });
+        }
+    } else {
+        return res.status(400).json({ message: 'User not found' });
+    }
+};
+
+
 
 //GET Users
 const getUsers = (req, res) => {
@@ -41,39 +119,6 @@ const userJobs = (req, res) => {
     Job.find({user: req.params.email})
     .then(jobsOfUser => {
         res.json({jobsOfUser: jobsOfUser})
-    })
-}
-
-//Check if a user is new, if not add them to our database
-const checkIfNew = (req, res) => {
-    User.find({email: req.params.email})
-    .then(user => {
-        console.log(user)
-        if(user.email == req.params.email) {
-            return res.status(400).json({ message: "User already exists!" }); 
-        } User.create({
-            name: req.params.name,
-            email: req.params.email,
-            display_name: req.params.name,
-            isSocialDash: true,
-            tasks: [],
-            external_links: [],
-            jobs: [],
-            job_materials: [],
-            connections: []
-        })
-        .then(newUser => {
-            console.log('New user =>>', newUser);
-            res.json({newUser: newUser})
-        })
-        .catch(error => { 
-            console.log('error', error) 
-            res.json({ message: 'email already exists!' })
-        });
-    })
-    .catch(error => { 
-        console.log('error', error) 
-        res.json({ message: error })
     })
 }
 
@@ -228,19 +273,10 @@ const deleteTaskComment = (req, res) => {
 
 
 
-//  Log user session out
-const test = (req, res) => {
-    console.log("test route hit");
-    return res.status(200).json({ message: 'logged out' });
-}
-
-
-
 
 module.exports = {
-    seed,
-    test,
-    checkIfNew,
+    userSignup,
+    userLogin,
     postTask,
     updateTaskIntent,
     postTaskComment,
