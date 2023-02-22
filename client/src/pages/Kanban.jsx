@@ -1,7 +1,6 @@
 import React from 'react'
 import "../styles/kanban.css"
 import { useEffect } from 'react';
-import ListItemText from '@mui/material/ListItemText';
 import { BsTrash } from 'react-icons/bs';
 
 const Kanban = () => {
@@ -62,7 +61,7 @@ const Kanban = () => {
             <h1>Todo</h1>
          <div className='kanban-todo-list'>
               <div className='kanban-listitem-draggable'>
-                <ListItemText className='kanban-listitem-text' draggable="true" primary="taskname" secondary="actual task"  /> 
+                <div className='kanban-listitem-text' draggable="true" primary="taskname" secondary="actual task"> List Itme</div>
               </div>
          </div>
         </div>
@@ -71,7 +70,7 @@ const Kanban = () => {
         <h1>In prog</h1>
         <div className='kanban-progress-list'>
           <div className='kanban-listitem-draggable'>
-            <ListItemText className='kanban-listitem-text' draggable="true" primary="inpro" secondary="actual task"  /> 
+          <div className='kanban-listitem-text' draggable="true" primary="taskname" secondary="actual task"> List Itme</div>
             </div>
         </div>
         </div>
@@ -80,7 +79,7 @@ const Kanban = () => {
         <h1>finished</h1>
         <div className='kanban-finished-list'>
           <div className='kanban-listitem-draggable'>
-            <ListItemText className='kanban-listitem-text' draggable="true" primary="fini" secondary="actual task"  /> 
+          <div className='kanban-listitem-text' draggable="true" primary="taskname" secondary="actual task"> List Itme</div>
             </div>
         </div>
         </div>

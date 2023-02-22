@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/profile.css"
 import Kanban from "./Kanban";
 import DashboardApps from "../components/DashboardApps";
-import { TodoList, ProfileSideBar, Calendar } from "../components";
+import { TodoList, ProfileSideBar } from "../components";
 
 const Profile = () => {
 
@@ -15,7 +15,6 @@ const Profile = () => {
        <Kanban />
        <TodoList/>
       </div>
-      <Calendar />
       </div>
   );
 };

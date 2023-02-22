@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
 import MaterialModal from './MaterialModal';
 import { BsKanban } from 'react-icons/bs';
 import TodoListForm from './TodoListForm';
@@ -55,8 +53,8 @@ export default function TodoList(){
         <div className='unordered-list'>
           {userTasks?.map(({ taskName, comments, importance, isComplete, task, added, _id }) => (
               <li onClick={(e) => taskModal(added,  task, _id, taskName)} className='list-items'>
-                <ListItemText  className='list-item' primary={taskName} secondary={task}  /> <input type="checkbox" />
-                <Divider />
+                {/* <ListItemText  className='list-item' primary={taskName} secondary={task}  /> <input type="checkbox" /> */}
+                {/* <Divider /> */}
               </li>
                
           ))}

@@ -1,5 +1,5 @@
 import React from 'react'
-import "/Users/Tanner/Desktop/CodingPractice2/Thriver/client/src/styles/profile.css"
+import "/Users/Tanner/Desktop/ThriverFolder/Thriver/client/src/styles/profile.css"
 import { useContext } from 'react';
 import { DataContext } from '../../App';
 import { MdOutlineDashboardCustomize } from 'react-icons/md';
@@ -11,17 +11,16 @@ import { GrResources } from 'react-icons/gr';
 import { AiFillFileExcel } from 'react-icons/ai';
 import { VscSettingsGear } from 'react-icons/vsc';
 import { BiLogOut } from 'react-icons/bi';
-import Settings from '../Settings';
 
 
 const ProfileSideBar = () => {
     const {open, setOpen, setModalType} = useContext(DataContext)
     
-    function settingsModal() {
-        setOpen(true)
-        setModalType(<Settings />)
+    // function settingsModal() {
+    //     setOpen(true)
+    //     setModalType(<Settings />)
 
-    }
+    // }
 
   return (
     <div className='sidebar-container'>
@@ -45,7 +44,7 @@ const ProfileSideBar = () => {
             <h4 className='titles'>other</h4>
             <div className='other-wrapper'>
             <div><AiFillFileExcel /> Report an issue</div>
-            <div style={{cursor:"pointer"}} onClick={settingsModal}><VscSettingsGear onClick={settingsModal}/> Settings</div>
+            <div style={{cursor:"pointer"}} ><VscSettingsGear/> Settings</div>
             <div><BiLogOut /> Sign out</div>
             </div>
         </div>
