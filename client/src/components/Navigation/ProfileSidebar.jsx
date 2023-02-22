@@ -33,8 +33,9 @@ const ProfileSideBar = () => {
             </div>
             
             <h4 className='titles'>tools</h4>
+
             <div className='tools-wrapper'>
-            <div><BsKanban/> Kanban</div>
+            <div className='whitespace-nowrap'><BsKanban/> Kanban</div>
             <div><AiOutlineCalendar /> Calendar</div>
             <div><BiNotepad /> Applications</div>
             <div><BsPen /> Materials</div>

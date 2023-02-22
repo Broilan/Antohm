@@ -6,7 +6,6 @@
     margin-top: 18%;
     border-radius: 1rem;
     box-shadow: 0px 0px 25px;
-    margin-left: -4%;
 }
 
 .kanban-wrapper {
@@ -26,22 +25,6 @@
    margin-left: 38%;
    border-bottom: 1px solid black;
    width: fit-content;
-}
-
-.kanban-todo-list {
-    width: 100%;
-}
-
-.kanban-finished-list {
-    width: 100%;
-}
-
-.kanban-progress-list {
-    width: 100%;
-}
-
-.kanban-listitem-text {
-    margin-left: 5%;
 }
 
 .kanban-inside-containers {
