@@ -127,8 +127,6 @@ const updatePersonalInfo = (req, res) => {
         User.findByIdAndUpdate(req.params.id, {
             name: req.body.name,
             email: req.body.email,
-            display_name: req.body.name,
-            isSocialDash: req.body.isSocialDash,
         })
         .then(updatedUser => {
             console.log('Updated User =>>', updatedUser);
