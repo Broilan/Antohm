@@ -1,66 +1,71 @@
 // import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { Profile  } from "./pages";
+import jwt_decode from 'jwt-decode';
+import setAuthToken from './utils/setAuthToken';
+import { Profile, Login, Signup, Home  } from "./pages";
 import { Navbar } from "./components";
 import axios from "axios";
 
 export const DataContext = React.createContext();
 
+// const PrivateRoute = ({ component: Component, ...rest}) => {
+//   let token = localStorage.getItem('jwtToken');
+//   console.log('===> Hitting a Private Route');
+//   return <Route {...rest} render={(props) => {
+//     return token ? <Component {...rest} {...props} /> : <Redirect to="/login"/>
+//   }} />
+// }
+
 function App() {
-  // const BACK_URI = process.env.REACT_APP_API_SERVER_URL;
+  //user & auth
+  const [currentUser, setCurrentUser] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   //modal stuff
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState()
 
-  
-//  const getProtectedResource = async () => { 
-//   const token = await getAccessTokenSilently();    
-//       const config = {
-//         url: `${BACK_URI}/api/user/seed`,
-//         method: "POST",
-//         headers: {
-//           "content-type": "application/json",
-//           "Authorization": `bearer ${token}`
-//         }
-//   }
-//   axios(config)
-//   .then(response => {
-//     const name = response.data.payload.name
-//     const email = response.data.payload.email
-//     axios({
-//       method: 'POST',
-//       url: `${BACK_URI}/api/user/create/${name}/${email}`,
-//       headers: {
-//         "content-type": "application/json",
-//         "Authorization": `bearer ${token}`
-//       }
-//     }).then(response => {
-//       console.log(response)
-//     }).catch(err =>{
-//       console.log("error", err)
-//     })   
-//   }).catch(err =>{
-//     console.log("error", err)
-//   })
-// };
+  useEffect(() => {
+    let token;
 
-//runs the function above and logs the bearer token, token acquired using the getAccessTokenSilently() function at the top of the page
+    if (!localStorage.getItem('jwtToken')) {
+      setIsAuthenticated(false);
+      console.log('====> Authenticated is now FALSE');
+    } else {
+      token = jwt_decode(localStorage.getItem('jwtToken'));
+      setAuthToken(localStorage.getItem('jwtToken'));
+      setCurrentUser(token);
+    }
+  }, []);
 
-  
-//   useEffect(() => {
-//      getProtectedResource()
-//     console.log(token)
-//  }, []) 
+  const nowCurrentUser = (userData) => {
+    console.log('===> nowCurrent is here.');
+    setCurrentUser(userData);
+    setIsAuthenticated(true);
+  }
+
+  const handleLogout = () => {
+    if (localStorage.getItem('jwtToken')) {
+      // remove token for localStorage
+      localStorage.removeItem('jwtToken');
+      setCurrentUser(null);
+      setIsAuthenticated(false);
+      <Navigate to="/"/>
+    }
+  }
+
 
 
   return (
     <BrowserRouter>
-    <DataContext.Provider value={{ open, setOpen, modalType, setModalType}}>
+    <DataContext.Provider value={{ currentUser, handleLogout, nowCurrentUser, isAuthenticated, setIsAuthenticated, open, setOpen, modalType, setModalType}}>
     <Navbar/>
           <Routes>
+              <Route path='/' element={ <Home />} />
               <Route path='/profile' element={ <Profile />} /> 
+              <Route path='/login' element={ <Login />} />
+              <Route path='/signup' element={ <Signup />} />
           </Routes>
       </DataContext.Provider>
     </BrowserRouter>

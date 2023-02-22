@@ -1,5 +1,4 @@
 import React from 'react'
-import ListItemText from '@mui/material/ListItemText';
 import axios from 'axios';
 
 
@@ -18,7 +17,7 @@ const TaskContent = (props) => {
   return (
     <div>          
           <div className='task-modal-content'>
-              <ListItemText primary={taskName} secondary={task} />  
+              {/* <ListItemText primary={taskName} secondary={task} />   */}
           </div>
           <div className="task-modal-btn-wrapper">
           <div className="edit-task-btn" >edit</div>

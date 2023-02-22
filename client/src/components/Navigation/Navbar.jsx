@@ -1,26 +1,36 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { DataContext } from "../../App";
 import './NavStyles/navbar.css'
 
 const Navbar = () => {            
-    
+    const {isAuthenticated, handleLogout} = useContext(DataContext)
 
     return (
         <>
             <header>
                 <div className="nav__area">
                     <h1 className="nav__title">Thriver!</h1>
+                    
+                    {isAuthenticated?
+                     <>
                     <NavLink to="/" className='nav__link'>Home</NavLink>
-                    <NavLink to="/about" className='nav__link'>About</NavLink>
                     <NavLink to="/profile" className='nav__link'>Profile</NavLink>
-                    <NavLink to="/test/public" className='nav__link'>public-test</NavLink>
-                    <NavLink to="/test/protected" className='nav__link'>protected-test</NavLink>
-                    <NavLink to="/test/admin" className='nav__link'>admin-test</NavLink>
-                    &nbsp; | &nbsp;
+                    <div onClick={handleLogout} className='nav__link'>Logout</div>
+                    </>
+                    :
+                    <>
+                    <NavLink to="/login" className='nav__link'>Login</NavLink>
+                    <NavLink to="/signup" className='nav__link'>Signup</NavLink> 
+                    </>
+                    }
+                   
+                    
+                    
+                    
+                    
                 </div>
             </header>
-            <section>
-                <Outlet />
-            </section>
         </>
     );
 }
