@@ -1,21 +1,13 @@
 // import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import PrivateRoute from "./utils/PrivateRoute";
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { Profile, Login, Signup, Home  } from "./pages";
 import { Navbar } from "./components";
-import axios from "axios";
 
 export const DataContext = React.createContext();
-
-// const PrivateRoute = ({ component: Component, ...rest}) => {
-//   let token = localStorage.getItem('jwtToken');
-//   console.log('===> Hitting a Private Route');
-//   return <Route {...rest} render={(props) => {
-//     return token ? <Component {...rest} {...props} /> : <Redirect to="/login"/>
-//   }} />
-// }
 
 function App() {
   //user & auth
@@ -63,7 +55,7 @@ function App() {
     <Navbar/>
           <Routes>
               <Route path='/' element={ <Home />} />
-              <Route path='/profile' element={ <Profile />} /> 
+              <Route path='/profile' element={ <PrivateRoute><Profile /></PrivateRoute>} /> 
               <Route path='/login' element={ <Login />} />
               <Route path='/signup' element={ <Signup />} />
           </Routes>
