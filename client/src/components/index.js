@@ -10,6 +10,8 @@ export { default as Settings } from './Settings';
 export { default as Calendar } from "./Calendar";
 export { default as Resources } from './Resources';
 export { default as Report } from './Report';
+export { default as Post } from './Post';
+
 
 
 

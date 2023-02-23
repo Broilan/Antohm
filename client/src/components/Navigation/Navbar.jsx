@@ -13,7 +13,7 @@ const Navbar = () => {
         {isAuthenticated?
             <header>       
                 <div className="nav__area">
-                <img src={logo} className="relative left-[-7rem] h-96 w-96" />
+                <NavLink to="/"><img src={logo} className="relative left-[-7rem] h-96 w-96" /></NavLink>
                     
                     
                      <>
