@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/profile.css"
-import Kanban from "../components/Kanban";
 import QuantDash from "../components/QuantDash";
 import { ProfileSideBar } from "../components";
 
