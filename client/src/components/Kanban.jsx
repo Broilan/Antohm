@@ -53,9 +53,9 @@ const Kanban = () => {
   return (
     <div className='kanban-container'>
       <h1 className='kanban-title'>Welcome To your Kanban</h1>
-      <div style={{position:"absolute", fontSize:"1.5rem", fontWeight:"bold", marginLeft:"85%", top:"7%"}}> <BsTrash /> </div>
-      <div style={{position:"absolute", fontSize:"3rem", fontWeight:"bold", marginLeft:"90%", top:"4%"}}> + </div>
 
+      <div className='text-[4rem] ml-[90%]'> + </div>
+      
       <div className='kanban-wrapper'>
         <div className='kanban-inside-containers'>
             <h1>Todo</h1>

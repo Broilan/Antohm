@@ -4,7 +4,9 @@ import React, { useEffect, useState } from "react";
 import PrivateRoute from "./utils/PrivateRoute";
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
-import { Profile, Login, Signup, Home  } from "./pages";
+import { Profile, Login, Signup, Home} from "./pages";
+import Applications from "./components/Applications";
+import MaterialModal from "./components/Modal";
 import { Navbar } from "./components";
 
 export const DataContext = React.createContext();
@@ -55,7 +57,12 @@ function App() {
     <Navbar/>
           <Routes>
               <Route path='/' element={ <Home />} />
-              <Route path='/profile' element={ <PrivateRoute><Profile /></PrivateRoute>} /> 
+
+              <Route path='test' element={ <MaterialModal />} />
+
+              <Route path='/profile' element={ <PrivateRoute><Profile /></PrivateRoute>}/> 
+              <Route path='applications' element={ <Applications />} />
+
               <Route path='/login' element={ <Login />} />
               <Route path='/signup' element={ <Signup />} />
           </Routes>
