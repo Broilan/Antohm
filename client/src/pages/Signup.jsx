@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
-import "../styles/signup.css"
-
+import capybara from '../assets/Capybara.png'
+import logo from '../assets/Thrive.png'
 
 const Signup = () => {
     const [name, setName] = useState('');
@@ -57,8 +57,9 @@ const Signup = () => {
 
     return (
         <div className='h-screen bg-blue-500'>
-
+         <img src={logo} className="absolute left-[-3rem] overflow-hidden h-96 w-96 top-[75%]" />
         <div className=' flex flex-col items-center absolute w-[60%] h-screen'>
+        <img src={capybara} className=" absolute h-96 w-96 mt-[25rem]"/>
         <p className='absolute text-center text-white font-bold text-[2rem] mt-[5rem]'>Steamline your job search and <br></br>
                 be apart of a  like-minded, supportive <br></br>
              community that'll help you<br></br> achieve your goals <br></br> and help you stay motivated.</p>
