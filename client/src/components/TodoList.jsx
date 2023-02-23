@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import MaterialModal from './MaterialModal';
+import Modal from './Modal';
 import { BsKanban } from 'react-icons/bs';
 import TodoListForm from './TodoListForm';
 import TaskContent from './TaskContent';
-import '../styles/todo.css'
-import { Kanban } from '../pages';
+import { Kanban } from '../components';
 import { DataContext } from '../App';
 
 
@@ -31,7 +30,7 @@ export default function TodoList(){
 
   const taskModal = (added, task, id, taskName) => {
     setOpen(true)
-    setModalType(<TaskContent taskName={taskName} added={added} task={task} id={id}/>)
+    // setModalType(<TaskContent taskName={taskName} added={added} task={task} id={id}/>)
   }
 
   const kanbanModal = () => {
@@ -41,27 +40,33 @@ export default function TodoList(){
   
 
   return (
-  <div className='to-do-list-container'>
-        <div className='to-do-innards'>
-          <div className='top-bar'>
-        <h1>Tasks</h1>
-        <div className='task-btns'>
-        <div onClick={kanbanModal} className='kanban'><BsKanban/></div>
-        <div onClick={postModal} className='add-btn'>+</div>
-        </div>
-        </div>
-        <div className='unordered-list'>
-          {userTasks?.map(({ taskName, comments, importance, isComplete, task, added, _id }) => (
-              <li onClick={(e) => taskModal(added,  task, _id, taskName)} className='list-items'>
-                {/* <ListItemText  className='list-item' primary={taskName} secondary={task}  /> <input type="checkbox" /> */}
-                {/* <Divider /> */}
-              </li>
-               
-          ))}
+    <div>       
+      <> <Modal component={modalType} /></>
+
+        <div className='w-[25rem] h-[30rem] m-5 bg-white absolute right-0 rounded-3xl shadow-2xl'>
+        <div className='w-[100%] flex items-center bg-white rounded-tr-3xl rounded-tl-3xl opacity-80 border-b-[1px] border-black'>
+        <h1 className='ml-auto font-bold text-[2rem] text-center'>Tasks</h1>
+        <div className='flex gap-3 ml-auto mr-2 ' >
+        <div onClick={kanbanModal} className='text-[1.5rem] mt-5'><BsKanban/></div>
+        <div onClick={postModal} className='text-[3rem]'>+</div>
         </div>
         </div> 
-        <MaterialModal component={modalType} />
+
+        <div>
+          {/* {userTasks?.map(({ taskName, comments, importance, isComplete, task, added, _id }) => ( */}
+              <div onClick={(e) => taskModal()} className='list-items'>
+
+                <div className='flex h-20 cursor-pointer hover:bg-gray-300 hover:opacity-90'>
+                <div className='ml-4 mt-2'> Taskname <br />Task Content </div>
+                <input type="checkbox" className='ml-auto mr-3'/>
+                </div> 
+
+              </div>
+               
+          {/* ))} */}
+        </div>
+            
     </div>
-    
+    </div>
   );
 }

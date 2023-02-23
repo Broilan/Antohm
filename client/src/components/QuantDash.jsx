@@ -1,11 +1,14 @@
 import * as React from 'react';
 import '../styles/dashboardapps.css'
+import TodoList from './TodoList';
 
-
-
-export default function DashboardApps(){ 
+export default function QuantDash(){ 
 
   return (
+
+    <div>
+      
+
  <div className='applications-container'>
 
   <div className='applications-wrapper'>
@@ -26,5 +29,10 @@ export default function DashboardApps(){
 
  </div>
   </div>
+  
+  <TodoList/>
+</div>
+
+
   );
 }
