@@ -1,11 +1,24 @@
 import React from 'react'
-import {Post} from './'
+import {Post, Usercard, UserGroups} from './'
 
 const SocialDash = () => {
   return (
     <>
+
+      <div className='flex flex-col right-[5%] top-[10%] fixed gap-4' >
+
+      <div >
+          <Usercard />
+      </div>
+
+      <div >
+          <UserGroups />
+      </div>
+
+      </div>
+
     <div className='flex flex-col justify-center text-center'>
-    <div className='mx-auto w-[40%]'>
+    <div className='mx-auto w-[50%]'>
     <div className='bg-gray-300 h-[8rem]'>hi</div>
 
     <div className='bg-white h-[18rem] flex flex-col justify-end'>

@@ -17,8 +17,9 @@ const TaskContent = (props) => {
   return (
     <div>          
           <div className='task-modal-content'>
-              {/* <ListItemText primary={taskName} secondary={task} />   */}
-          </div>
+                <div>{taskName}</div>
+                <div>{task}</div>
+              </div>
           <div className="task-modal-btn-wrapper">
           <div className="edit-task-btn" >edit</div>
           <div className="archive-task-btn" >archive</div>

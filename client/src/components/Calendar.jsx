@@ -4,6 +4,7 @@ import { AiOutlineArrowRight } from 'react-icons/ai';
 
 function Calendar() {
   const [name, setName] = useState("January")
+  const [year, setYear] = useState(2023)
   const render = useRef(0)
 
 const monthsNames = ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"]
@@ -36,7 +37,9 @@ const months =[
 
 function previousMonth() {
   if (render.current == 0) {
-    alert("Can't go back from here!")
+    render.current = 10
+    setName(monthsNames[render.current])
+    setYear(year - 1)
   }else {
   render.current = render.current - 1
   setName(monthsNames[render.current])
@@ -45,7 +48,9 @@ function previousMonth() {
 
 function nextMonth() {
   if (render.current == 10) {
-    alert("Can't go forward from here!")
+    render.current = 0
+    setName(monthsNames[render.current])
+    setYear(year + 1)
   } else {
       render.current = render.current + 1
   setName(monthsNames[render.current])
@@ -56,7 +61,7 @@ function nextMonth() {
   return (
     <>
     <div className='relative ml-auto w-[55%] h-fit mr-[30%] mt-5 p-6 rounded-3xl shadow-2xl bg-dimWhite'>
-
+      <div>{year}</div>
       <div className='flex gap-2 text-[3rem]'>
       <div onClick={previousMonth} className="mt-3 cursor-pointer ml-auto"> <AiOutlineArrowLeft/> </div>
       <div>{name}</div>
@@ -64,7 +69,7 @@ function nextMonth() {
       </div>
 
       <div className='flex flex-wrap' >
-      {months[render.current].map((d) => <div className='w-36 h-36 border-black border-[1px]'>{d}</div> )}
+      {months[render.current]?.map((d) => <div className='w-36 h-36 border-black border-[1px]'>{d}</div> )}
       </div>
 
     </div>

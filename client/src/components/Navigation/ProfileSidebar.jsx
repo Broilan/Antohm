@@ -7,12 +7,10 @@ import { MdOutlineDashboardCustomize } from 'react-icons/md';
 import { BsKanban } from 'react-icons/bs';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { BiNotepad } from 'react-icons/bi';
-import { BsPen } from 'react-icons/bs';
 import { GrResources } from 'react-icons/gr';
-import { AiFillFileExcel } from 'react-icons/ai';
 import { VscSettingsGear } from 'react-icons/vsc';
 import { BiLogOut } from 'react-icons/bi';
-import {Kanban, Applications, QuantDash, SocialDash, Settings, Calendar, Resources, Report} from '../';
+import {Kanban, Applications, QuantDash, SocialDash, Settings, Calendar, Resources} from '../';
 
 
 
@@ -48,7 +46,6 @@ const ProfileSideBar = () => {
 
             <h4 className='titles'>other</h4>
             <div className='other-wrapper'>
-            <div className="cursor-pointer" onClick={()=> setDash(<Report/>)}><AiFillFileExcel /> Report an issue</div>
             <div  onClick={()=> setDash(<Settings/>)} className="cursor-pointer" ><VscSettingsGear/> Settings</div>
             <div onClick={handleLogout} className="cursor-pointer"><BiLogOut /> Sign out</div>
             </div>

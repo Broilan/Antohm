@@ -40,23 +40,23 @@ function TodoListForm(props) {
   
   
   return(
-    <div className='todo__form'>
-      <div className='form__title'>
-        <h1>Add an item to your todo list!</h1>
-      </div>
-      <div className='form'>
-      <h4>task name</h4>
-         <input className='todo__input' onChange={(e) => handleTaskName(e)} type='text' id='todo-input' placeholder='New item'></input>
-         <h4>task</h4>
-          <input className='todo__input' onChange={(e) => handleTask(e)} type='text' id='todo-input' placeholder='New item'></input>
-          <h4>urgency</h4>
-            <select className='todo__select'  onChange={(e) => handleImportance(e)} type='text' id='todo-select' placeholder='Level of importance'>
+    <div className='border-black border-[1px] p-2 w-[20rem] h-[30rem] bg-blue-400 shadow-[0_0_12px]'>
+        <h1 className='font-semibold text-center text-[1.5rem] mb-8'>Add an item to your todo list!</h1>
+      <div className='flex flex-col gap-3'>
+      <h4 className='font-bold'>Task name</h4>
+         <input className='border-black border-[1px] rounded-3xl w-fit pl-2' onChange={(e) => handleTaskName(e)} type='text' placeholder='Task Name'></input>
+         <h4 className='font-bold'>Task</h4>
+          <input className='border-black border-[1px] rounded-3xl h-20' onChange={(e) => handleTask(e)} type='text'></input>
+          <h4 className='font-bold'>Urgency</h4>
+
+            <select className='border-black border-[1px] rounded-3xl w-fit pl-1' onChange={(e) => handleImportance(e)} type='text' placeholder='Level of importance'>
               <option value='Low' selected>Low</option>
               <option value='Medium' >Medium</option>
               <option value='High' >High</option>
               <option value='Urgent' >Urgent</option>
             </select>
-            <button onClick={postUserTasks} className='todo__submit' id='todo-submit' >Add Item</button>
+
+            <button onClick={postUserTasks} className='border-black border-[1px] bg-white rounded-3xl font-bold' >Add Item</button>
       </div>
     </div>
   )
