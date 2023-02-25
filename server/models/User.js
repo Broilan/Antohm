@@ -3,22 +3,23 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
     email: {type: String, required: true},
+    displayName: {type: String, required: true},
     name: {type: String, reqired: true},
     password: {
         type: String,
         required: true,
         minLength: 8
     },
-    tasks: [{type: String}],
+    tasks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Task'}],
+    savedDates: [{type: mongoose.Schema.Types.ObjectId, ref: 'Calendar'}],
     external_links: [{
         title: {type: String},
         url: {type: String}
     }],
-    jobs: [{type: String}],
-    job_materials: [{type: Schema.Types.ObjectId, ref: 'Material'}],
-    connections: [{type: Schema.Types.ObjectId, ref: 'User'}],
-    messages_sent: [{type: Schema.Types.ObjectId, ref: 'DM_Sent'}],
-    messages_received: [{type: Schema.Types.ObjectId, ref: 'DM_Received'}],
+    applications: [{type: String}],
+    followers: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    following: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+    Dms: [{type: Schema.Types.ObjectId, ref: 'Dm'}],
 });
 
 const User = mongoose.model('User', userSchema);

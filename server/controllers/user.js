@@ -7,8 +7,6 @@ require('dotenv').config();
 const { JWT_SECRET } = process.env;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
-
 
 //USER SIGNUP
 const userSignup = (req, res) => {
@@ -21,6 +19,7 @@ const userSignup = (req, res) => {
             const newUser = new User({
                 name: req.body.name,
                 email: req.body.email,
+                displayName: req.body.displayName,
                 password: req.body.password,
             });
 
@@ -56,15 +55,12 @@ const userSignup = (req, res) => {
     if (foundUser) {
         // user is in the DB
         let isMatch = await bcrypt.compare(req.body.password, foundUser.password);
-        console.log('Does the passwords match?', isMatch);
+        console.log('Do the passwords match?', isMatch);
         if (isMatch) {
-            // if user match, then we want to send a JSON Web Token
-            // Create a token payload
-            // add an expiredToken = Date.now()
-            // save the user
             const payload = {
                 id: foundUser.id,
                 email: foundUser.email,
+                displayName: foundUser.displayName,
                 name: foundUser.name
             }
 
