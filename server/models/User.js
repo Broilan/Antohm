@@ -10,7 +10,13 @@ const userSchema = new Schema({
         required: true,
         minLength: 8
     },
+    posts: Array,
     tasks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Task'}],
+    resources: [{type: mongoose.Schema.Types.ObjectId, ref: 'Resource'}],
+    comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
+    bookmarks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Bookmark'}],
+    likes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Like'}],
+    notifications: [{type: mongoose.Schema.Types.ObjectId, ref: 'Notification'}],
     savedDates: [{type: mongoose.Schema.Types.ObjectId, ref: 'Calendar'}],
     external_links: [{
         title: {type: String},

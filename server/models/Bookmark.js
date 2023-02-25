@@ -2,13 +2,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const bookmarkSchema = new Schema({
-    UserID: String,
-    post: {
-        type: mongoose.Schema.Types.Mixed,
-        ref: 'Post'
-    },
-    postID: String, 
-    marked: Boolean
+    bookmarkTo: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    bookmarkFrom: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    post: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'},
 })
 
 const Bookmark = mongoose.model('Bookmark', bookmarkSchema);

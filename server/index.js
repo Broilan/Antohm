@@ -36,6 +36,7 @@ app.get('/', (req, res) => {
 
 // API Routes
   app.use("/user", routes.user);
+  app.use("/post", routes.post);
 
 
   // Server
