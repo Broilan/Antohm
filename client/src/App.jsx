@@ -6,7 +6,7 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { Profile, Login, Signup, Home} from "./pages";
 import Applications from "./components/Applications";
-import { Navbar, News } from "./components";
+import { Navbar, DmModal } from "./components";
 
 export const DataContext = React.createContext();
 
@@ -57,7 +57,7 @@ function App() {
           <Routes>
               <Route path='/' element={ <Home />} />
 
-              <Route path='test' element={ <News />} />
+              <Route path='test' element={ <DmModal />} />
 
               <Route path='/profile' element={ <PrivateRoute><Profile /></PrivateRoute>}/> 
               <Route path='applications' element={ <Applications />} />

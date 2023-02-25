@@ -13,4 +13,14 @@ body {
 #usergroups::-webkit-scrollbar {
   display: none;
 }
+
+#dms::-webkit-scrollbar {
+  display: none;
+}
+
+#dmp::-webkit-scrollbar {
+  display: none;
+}
+
+
   

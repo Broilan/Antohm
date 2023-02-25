@@ -12,6 +12,7 @@ export { default as Resources } from './Resources';
 export { default as Post } from './Post';
 export { default as Usercard } from './Usercard';
 export { default as UserGroups } from './UserGroups';
+export { default as DmModal } from './DmModal';
 export { default as News } from './News';
 
 
