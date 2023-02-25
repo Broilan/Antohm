@@ -22,5 +22,8 @@ body {
   display: none;
 }
 
+#notifs::-webkit-scrollbar {
+  display: none;
+}
 
   

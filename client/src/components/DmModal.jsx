@@ -4,8 +4,8 @@ const DmModal = (props) => {
     const {mOpen, setMOpen} = props
   return (
     <>
-    <div className='w-screen h-screen absolute flex items-end justify-end'>
-    <div className='flex bg-white rounded-3xl rounded-br-none w-[45rem] h-[30rem] mb-20'>
+    <div className='w-screen h-screen absolute flex items-end justify-end '>
+    <div className='flex bg-white rounded-3xl border-gray-400 border-[2px] rounded-br-none w-[45rem] h-[30rem] z-10 mb-20'>
 
     <div className='w-[40%] border-r-gray-400 border-r-[1px] overflow-y-scroll ' id="dmp">
         <h1 className='text-center font-bold mt-1'>Chat</h1>
@@ -30,7 +30,7 @@ const DmModal = (props) => {
 
         <div className='rounded-[50%] border-[1px] w-10 h-10 p-6 mx-auto border-black'></div>
         
-            <div className='fixed bottom-[0%] mt-auto flex w-[24%] h-12 gap-2 bg-white'>
+            <div className='fixed border-b-gray-400 border-b-[2px] bottom-[0%] mt-auto flex w-[24%] h-12 gap-2 bg-white'>
             <input type="text" className='border-black border-[1px] rounded-lg ml-16 p-2' placeholder='Be nice' />
             <div className='w-16 h-10 bg-blue-400 text-white text-center pt-2 font-bold rounded-lg'>Send</div>
             </div>  
