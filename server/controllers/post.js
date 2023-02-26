@@ -54,7 +54,7 @@ const makeAPost = (req, res) => {
             posts: userPosts
         })
         .then(response => {
-            res.json({response: response})
+            res.json({response: newPost})
         })
         })
     })
