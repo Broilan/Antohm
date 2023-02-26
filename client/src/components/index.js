@@ -15,6 +15,8 @@ export { default as UserGroups } from './UserGroups';
 export { default as DmModal } from './DmModal';
 export { default as News } from './News';
 export { default as NotifDd } from './NotifDd';
+export { default as Comment } from './Comment';
+
 
 
 
