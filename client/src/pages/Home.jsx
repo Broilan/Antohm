@@ -1,9 +1,25 @@
-import React from 'react'
+import React, {useState, useEffect, useContext} from 'react'
+import axios from 'axios';
 import { AiOutlineFileGif, AiFillPicture } from 'react-icons/ai';
 import { Post, Usercard, UserGroups, News } from '../components'
 import { GrEmoji } from 'react-icons/gr';
+import { DataContext } from '../App';
 
 const Home = () => {
+const {currentUser} = useContext(DataContext)
+const [postFeed, setPostFeed] = useState()
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/post')
+            .then(response=> {
+                console.log(response.data.allPosts)
+            setPostFeed(response.data.allPosts)
+            }
+        )
+    }, [])
+    
+
+
   return (
     <>
     <div className='flex flex-col ml-[15%] top-[10%] fixed gap-4' >
@@ -21,7 +37,7 @@ const Home = () => {
         <News />
     </div>
 
-    <div className='w-screen h-screen flex flex-col items-center'>
+    <div className='w-screen h-screen flex flex-col items-center overflow-y-scroll'>
 
     <h1 className='font-bold text-[3rem] border-black border-[1px] w-[33%] text-center bg-white opacity-90'>Home</h1>
 
@@ -29,7 +45,7 @@ const Home = () => {
 
     <div className='flex gap-1'>
     <div className='rounded-lg border-[1px] w-16 h-16 border-black'></div>
-    <div className='font-semibold'>Username <br /> <p className='text-[0.8rem]'>@Username</p></div>
+    <div className='font-semibold'>{currentUser.name} <br /> <p className='text-[0.8rem]'>@{currentUser.displayName}</p></div>
     </div>
 
     <br />
@@ -50,9 +66,9 @@ const Home = () => {
         <option value="Following">Following</option>
     </select>
 
-    <div className='w-[33%]'>
-    <Post />
-    </div>
+    {postFeed?.map((p) => <div className='w-[33%]'><Post postID={p._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div>)}
+
+
 
     
 

@@ -7,7 +7,7 @@ const postSchema = new Schema({
     content: String,
     likes: [{type: mongoose.Schema.Types.ObjectId,ref: 'Like' }],
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
-    bookmarks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Bookmarks'}],
+    bookmarks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Bookmark'}],
     sourced: [{type: mongoose.Schema.Types.ObjectId, ref: 'Resource'}],
     date: {
         type: Date,

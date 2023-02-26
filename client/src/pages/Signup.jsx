@@ -6,6 +6,7 @@ import logo from '../assets/Thrive.png'
 
 const Signup = () => {
     const [name, setName] = useState('');
+    const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -20,6 +21,10 @@ const Signup = () => {
     const handleName = (e) => {
          setName(e.target.value);
     }     
+
+    const handleDisplayName = (e) => {
+        setDisplayName(e.target.value);
+   }  
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -38,7 +43,7 @@ const Signup = () => {
         // make sure password and confirm password are equal
         // password length >= 8 characters
         if (password === confirmPassword && password.length >= 8) {
-            const newUser = { name, email, password };
+            const newUser = { name, displayName, email, password };
             axios.post(`http://localhost:8000/user/signup`, newUser)
             .then(response => {
                 console.log('===> Yay, new user');
@@ -71,6 +76,11 @@ const Signup = () => {
                             <>
                             <label htmlFor="name" className='font-bold text-[1.5rem]'>Name</label>
                             <input type="text" name="name" value={name} onChange={handleName} className="border-[1px] mb-6 border-black w-96 h-14 rounded-lg"/>
+                            </>
+
+                            <>
+                            <label htmlFor="display name" className='font-bold text-[1.5rem]'>Display Name</label>
+                            <input type="text" name="name" placeholder='This cant be changed in the future!' value={displayName} onChange={handleDisplayName} className="border-[1px] p-1 mb-6 border-black w-96 h-14 rounded-lg"/>
                             </>
 
                             <>
