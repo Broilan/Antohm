@@ -14,12 +14,12 @@ export default function QuantDash(){
   <div className='applications-wrapper'>
   <div className='applications-amount'>
     <h3 className='app-title'>applications sent</h3>
-    <p className='app-number'>0</p>
+    <p className='text-[5rem]'>0</p>
   </div>
 
   <div className='applications-responses'>
   <h3 className='app-title'>responses</h3>
-  <p className='app-number'>0</p>
+  <p className='text-[5rem]'>0</p>
   </div>
 
   <div className='tamagatchi'>

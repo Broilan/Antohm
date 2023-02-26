@@ -11,11 +11,11 @@ const Applications = () => {
     <h1 className='text-2xl text-center font-bold mt-10'>Job Tracking Board</h1>
 
       <ul className='flex gap-10 w-screen items-center justify-center mt-4 text-xl'>
-        <li>Applied</li>
-        <li>In review</li>
-        <li>Interviews</li>
-        <li>Rejected</li>
-        <li>Accepted</li>
+        <li className='hover:underline font-bold'>Applied</li>
+        <li className='hover:underline font-bold'>In review</li>
+        <li className='hover:underline font-bold'>Interviews</li>
+        <li className='hover:underline font-bold'>Rejected</li>
+        <li className='hover:underline font-bold'>Accepted</li>
       </ul>
 
       <div className='w-[30rem] h-[20rem] ml-60 mt-20 border-black border-[1px] rounded-3xl bg-dimWhite'>

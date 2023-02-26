@@ -54,9 +54,9 @@ export default function TodoList(){
 
         <div>
           {/* {userTasks?.map(({ taskName, comments, importance, isComplete, task, added, _id }) => ( */}
-              <div onClick={(e) => taskModal()} className='list-items'>
+              <div onClick={(e) => taskModal()}>
 
-                <div className='flex h-20 cursor-pointer hover:bg-gray-300 hover:opacity-90'>
+                <div className='flex h-20 cursor-pointer hover:bg-gray-300 hover:opacity-90 border-b-gray-300 border-[1px]'>
                 <div className='ml-4 mt-2'> Taskname <br />Task Content </div>
                 <input type="checkbox" className='ml-auto mr-3'/>
                 </div> 
