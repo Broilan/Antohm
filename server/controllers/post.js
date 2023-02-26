@@ -9,8 +9,31 @@ const Bookmark = require('../models/Bookmark')
 require('dotenv').config();
 
 const getAllPosts = (req, res) => {
-    Post.find({}).then(response => {
+    Post.find({}).populate('UserID').then(response => {
         res.json({allPosts: response})
+    })
+}
+
+const getAPost = (req, res) => {
+    Post.findById(req.params.id)
+    .populate('UserID')
+    .populate('comments')
+    .populate('likes')
+    .populate('bookmarks')
+    .populate('sourced')
+    .then(response => {
+        res.json({post: response})
+    })
+}
+
+const getPostComments = (req, res) => {
+    Comment.find({postID: req.params.id})
+    .populate('commentFrom')
+    .populate('commentTo')
+    .populate('comments')
+    .populate('likes')
+    .then(response => {
+        res.json({comments: response})
     })
 }
 
@@ -91,6 +114,7 @@ const likeAPost = (req, res) => {
 }
 
 const commentOnAPost = (req, res) => {
+
     Comment.create({   
     commentTo: req.params.to,
     commentFrom: req.params.by,
@@ -269,9 +293,11 @@ const deleteAPost = (req, res) => {
 
 
 
-module.exports = {
+module.exports = { 
+    getPostComments,
     makePostAResource,
     getAllPosts,
+    getAPost,
     makeAPost,
     likeAPost,
     commentOnAPost,
