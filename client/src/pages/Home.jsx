@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, {useState, useEffect, useContext, useRef} from 'react'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AiOutlineFileGif, AiFillPicture } from 'react-icons/ai';
 import { Post, Usercard, UserGroups, News } from '../components'
@@ -8,15 +9,29 @@ import { DataContext } from '../App';
 const Home = () => {
 const {currentUser} = useContext(DataContext)
 const [postFeed, setPostFeed] = useState()
+const postForm = useRef()
+const navigate = useNavigate()
 
     useEffect(() => {
         axios.get('http://localhost:8000/post')
             .then(response=> {
-                console.log(response.data.allPosts)
-            setPostFeed(response.data.allPosts)
+            setPostFeed(response.data.allPosts.reverse())
             }
         )
     }, [])
+
+    const formChange = (e) => {
+        postForm.current = e.target.value 
+
+    }
+
+    const handleSubmit = () => {
+        let data = {"content": postForm.current}
+        axios.put(`http://localhost:8000/post/${currentUser.id}`, data)
+        .then(response => {
+              navigate(`/post/${response.data.response._id}`)
+        })
+    }
     
 
 
@@ -49,7 +64,7 @@ const [postFeed, setPostFeed] = useState()
     </div>
 
     <br />
-    <input type="text" className='border-black border-[1px] rounded-3xl w-[100%] h-32 text-center' placeholder='Post Something!' />
+    <input type="text" className='border-black border-[1px] rounded-3xl w-[100%] h-32 text-center' onChange={(e) => formChange(e)} placeholder='Post Something!' />
 
     <div className='flex gap-4 relative mt-[-1.2rem] ml-5'>
         <div><AiOutlineFileGif /></div>
@@ -57,7 +72,7 @@ const [postFeed, setPostFeed] = useState()
         <div><GrEmoji /></div>
     </div>
 
-    <div className='absolute bg-blue-500 h-10 w-24 text-center text-white font-bold p-2 rounded-3xl ml-[26.5%] mt-[-2.5rem]'>post</div>
+    <div onClick={handleSubmit} className='absolute bg-blue-500 h-10 w-24 text-center text-white font-bold p-2 rounded-3xl ml-[26.5%] mt-[-2.5rem]'>post</div>
 
     </div>
 
