@@ -81,7 +81,7 @@ const navigate = useNavigate()
         <option value="Following">Following</option>
     </select>
 
-    {postFeed?.map((p) => <div className='w-[33%]'><Post postID={p._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div>)}
+    {postFeed?.map((p) => <div className='w-[33%]'><Post postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div>)}
 
 
 
