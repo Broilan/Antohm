@@ -229,6 +229,7 @@ const makePostAResource = (req, res) => {
     resourceBy: req.params.to,
     UserID: req.params.by,
     archived: false,
+    linkTo: req.body.link,
     resourceType: "add a type!",
     post: req.params.postid,
     })
