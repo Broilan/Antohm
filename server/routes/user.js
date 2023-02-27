@@ -6,6 +6,7 @@ const ctrls = require('../controllers');
 router.post('/signup', ctrls.user.userSignup)
 router.post('/login', ctrls.user.userLogin)
 router.get('/:name', ctrls.user.getUsers);
+router.get('/resources/:UserID', ctrls.user.getUserResources);
 router.get('/tasks/:name', ctrls.user.getTasks);
 router.get('/taskcomments/:id', ctrls.user.taskComments);
 router.get('/jobs/:name', ctrls.user.userJobs);

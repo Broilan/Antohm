@@ -3,8 +3,9 @@ const { Schema } = mongoose;
 
 const resourceSchema = new Schema({
     UserID: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    resourceBy: String,
+    resourceBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     resourceType: String,
+    linkTo: String,
     archived: Boolean,
     post: [{type: mongoose.Schema.Types.ObjectId,ref: 'Post' }],
     

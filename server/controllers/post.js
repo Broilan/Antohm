@@ -54,7 +54,7 @@ const makeAPost = (req, res) => {
             posts: userPosts
         })
         .then(response => {
-            res.json({response: response})
+            res.json({response: newPost})
         })
         })
     })
@@ -229,6 +229,7 @@ const makePostAResource = (req, res) => {
     resourceBy: req.params.to,
     UserID: req.params.by,
     archived: false,
+    linkTo: req.body.link,
     resourceType: "add a type!",
     post: req.params.postid,
     })

@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const Resource = require('../models/Resource')
 // const Comment = require('../models/Comment')
 // const Job = require('../models/Job')
 // const Task = require('../models/Task')
@@ -88,6 +89,16 @@ const getUsers = (req, res) => {
     User.findOne({email: req.params.email})
     .then(foundUser => {
         res.json({foundUser: foundUser})
+    })
+}
+
+const getUserResources = (req, res) => {
+    Resource.find({UserID: req.params.UserID})
+    .populate('post')
+    .populate('UserID')
+    .populate('resourceBy')
+    .then(foundResources => {
+        res.json({resources: foundResources})
     })
 }
 
@@ -270,6 +281,7 @@ const deleteTaskComment = (req, res) => {
 
 module.exports = {
     userSignup,
+    getUserResources,
     userLogin,
     postTask,
     updateTaskIntent,
