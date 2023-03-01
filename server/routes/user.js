@@ -2,12 +2,17 @@ const express = require('express');
 const router = express.Router();
 const ctrls = require('../controllers');
 
-
 router.post('/signup', ctrls.user.userSignup)
 router.post('/login', ctrls.user.userLogin)
-router.get('/:name', ctrls.user.getUsers);
+router.get('/:id', ctrls.user.getUsers);
+router.get('/:id/posts', ctrls.user.getAUsersPosts);
 router.get('/resources/:UserID', ctrls.user.getUserResources);
 router.get('/tasks/:name', ctrls.user.getTasks);
+
+router.get('/:id/likes', ctrls.user.getAUsersLikes);
+router.get('/:id/comments', ctrls.user.getAUsersComments);
+router.get('/:id/bookmarks', ctrls.user.getAUsersBookmarks);
+
 router.get('/taskcomments/:id', ctrls.user.taskComments);
 router.get('/jobs/:name', ctrls.user.userJobs);
 router.put('/postjob/:name', ctrls.user.postJob);

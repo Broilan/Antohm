@@ -1,6 +1,9 @@
 const User = require('../models/User')
 const Resource = require('../models/Resource')
-// const Comment = require('../models/Comment')
+const Post = require('../models/Post')
+const Like = require('../models/Like')
+const Bookmark = require('../models/Bookmark')
+const Comment = require('../models/Comment')
 // const Job = require('../models/Job')
 // const Task = require('../models/Task')
 
@@ -86,11 +89,48 @@ const userSignup = (req, res) => {
 
 //GET Users
 const getUsers = (req, res) => {
-    User.findOne({email: req.params.email})
+    User.findOne({_id: req.params.id})
     .then(foundUser => {
         res.json({foundUser: foundUser})
     })
 }
+
+const getAUsersPosts = (req, res) => {
+    Post.find({UserID: req.params.id}).populate('UserID').then(response => {
+        res.json({usersPosts: response})
+    })
+}
+
+const getAUsersLikes = (req, res) => {
+    Like.find({likeBy: req.params.id}).populate('likeTo').populate('likeOn').then(response => {
+        res.json({usersLikes: response})
+    })
+}
+
+const getAUsersComments = (req, res) => {
+    Comment.find({commentFrom: req.params.id}).populate("commentFrom").populate('commentTo').populate('postID'
+    ).then(response => {
+        res.json({usersComments: response})
+    })
+}
+
+const getAUsersBookmarks = (req, res) => {
+    Bookmark.find({bookmarkFrom: req.params.id}).populate('bookmarkTo').populate('bookmarkFrom').populate('post').then(response => {
+        res.json({usersBookmarks: response})
+    })
+}
+
+// const getAUsersFollowers = (req, res) => {
+//     Follow.find({likeBy: req.params.id}).populate('UserID').then(response => {
+//         res.json({usersPosts: response})
+//     })
+// }
+
+// const getAUsersFollowing = (req, res) => {
+//     Follow.find({likeBy: req.params.id}).populate('UserID').then(response => {
+//         res.json({usersPosts: response})
+//     })
+// }
 
 const getUserResources = (req, res) => {
     Resource.find({UserID: req.params.UserID})
@@ -280,6 +320,10 @@ const deleteTaskComment = (req, res) => {
 
 
 module.exports = {
+    getAUsersLikes,
+    getAUsersComments,
+    getAUsersBookmarks,
+    getAUsersPosts,
     userSignup,
     getUserResources,
     userLogin,
