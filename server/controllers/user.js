@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const Resource = require('../models/Resource')
 const Post = require('../models/Post')
+const Notification = require('../models/Notification')
 const Like = require('../models/Like')
 const Bookmark = require('../models/Bookmark')
 const Comment = require('../models/Comment')
@@ -95,18 +96,32 @@ const getUsers = (req, res) => {
     })
 }
 
+// getting a users notifs 
+const getUsersNotifs = (req, res) => {
+    Notification.find({to: req.params.id})
+    .populate('to')
+    .populate('from')
+    .populate('postID')
+    .then(foundNotifs => {
+        res.json({notifs: foundNotifs})
+    })
+}
+
+//getting a users posts
 const getAUsersPosts = (req, res) => {
     Post.find({UserID: req.params.id}).populate('UserID').then(response => {
         res.json({usersPosts: response})
     })
 }
 
+//getting a users likes
 const getAUsersLikes = (req, res) => {
     Like.find({likeBy: req.params.id}).populate('likeTo').populate('likeOn').then(response => {
         res.json({usersLikes: response})
     })
 }
 
+//getting a users comments
 const getAUsersComments = (req, res) => {
     Comment.find({commentFrom: req.params.id}).populate("commentFrom").populate('commentTo').populate('postID'
     ).then(response => {
@@ -114,6 +129,7 @@ const getAUsersComments = (req, res) => {
     })
 }
 
+//getting a users bookmarks
 const getAUsersBookmarks = (req, res) => {
     Bookmark.find({bookmarkFrom: req.params.id}).populate('bookmarkTo').populate('bookmarkFrom').populate('post').then(response => {
         res.json({usersBookmarks: response})
@@ -320,6 +336,7 @@ const deleteTaskComment = (req, res) => {
 
 
 module.exports = {
+    getUsersNotifs,
     getAUsersLikes,
     getAUsersComments,
     getAUsersBookmarks,

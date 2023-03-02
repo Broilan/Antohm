@@ -2,21 +2,15 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const notificationSchema = new Schema({
-   from: {
-    type: String
-   }, 
-   to: {
-    type: String
-   }, 
+   from: {type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
+   to: {type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
    likeCommentOrFollow: {
     type: String
    },
    content: {
     type: String
    },
-   postID: {
-    type: String
-   },
+   postID: {type: mongoose.Schema.Types.ObjectId,ref: 'Post' },
    viewed: Boolean,
     date: {
         type: Date,
