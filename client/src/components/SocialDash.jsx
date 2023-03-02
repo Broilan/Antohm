@@ -8,12 +8,12 @@ const SocialDash = () => {
   const [posts, setPosts] = useState()
   console.log(currentUser)
   
-  // useEffect(() => {
-  //     axios.get(`http://localhost:8000/user/${currentUser.id}/posts`)
-  //    .then(response => {
-  //     setPosts(response.data.usersPosts)
-  //    })
-  // }, [])
+  useEffect(() => {
+      axios.get(`http://localhost:8000/user/${currentUser.id}/posts`)
+     .then(response => {
+      setPosts(response.data.usersPosts.map((p) =>  <Post postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
+     })
+  }, [])
 
   function changeFeed(current) {
     switch (current) {
@@ -63,14 +63,19 @@ const SocialDash = () => {
       </div>
 
       </div>
-
+    
     <div className='flex flex-col justify-center text-center'>
-    <div className='mx-auto w-[50%]'>
+      
+    <div className='mx-auto w-[50%] '>
+      <body className='overflow-y-scroll scrollbar-hide'>
     <div className='bg-gray-300 h-[8rem]'>hi</div>
 
-    <div className='bg-white h-[18rem] flex flex-col justify-end'>
-      <div className='bg-white absolute ml-4 border-[1px] border-black rounded-[50%] mb-[15rem] w-24 h-24'> pic</div>
-      <div className='absolute mb-[10rem] ml-4 font-bold'>{currentUser.name} <br /> <p className='font-normal ml-1 text-[0.9rem]'>@{currentUser.displayName}</p> </div>
+    <div className='bg-white h-[12rem] flex flex-col justify-end'>
+
+      <div className='flex gap-4 mb-24 ml-4' >
+      <div className='bg-white border-[1px] border-black rounded-[50%]  w-24 h-24'> pic</div>
+      <div className=' font-bold mt-16'>{currentUser.name} <br /> <p className='font-normal ml-1 text-[0.9rem]'>@{currentUser.displayName}</p> </div>
+      </div>
 
     <ul className='flex gap-10 justify-center text-xl'>
       <li className="cursor-pointer" onClick={(e) => changeFeed('posts')}>Posts</li>
@@ -81,9 +86,12 @@ const SocialDash = () => {
       <li className="cursor-pointer" onClick={(e) => changeFeed('following')}>Following</li>
     </ul>
     </div>
-    {posts}
+    {posts} 
+    </body>
     </div>
+
     </div>
+   
   </>
   )
 }

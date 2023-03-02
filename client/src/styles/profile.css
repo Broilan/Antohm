@@ -1,4 +1,12 @@
- .sidebar-container {
+body {
+  overflow-y: hidden;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-container {
     position: absolute;
     top: 8%;
     height: 100%;

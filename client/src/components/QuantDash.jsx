@@ -6,7 +6,7 @@ export default function QuantDash(){
 
   return (
 
-    <div>
+    <div id="container">
       
 
  <div className='applications-container'>

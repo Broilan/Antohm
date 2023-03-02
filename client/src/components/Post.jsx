@@ -36,32 +36,26 @@ const Post = (props) => {
     likeRef.current = <AiFillHeart />
     likeNum.current = likeNum.current + 1
     axios.put(`http://localhost:8000/post/like/${postID}/${currentUser.id}/${posterID}`)
-    .then(response => {
-      console.log(response)
-    })
+    navigate('/')
   }
 
   const handleAddResource = () => {
     const link = {'link':`http://127.0.0.1:5173/post/${postID}` }
     resourcesNum.current = resourcesNum.current + 1
     axios.put(`http://localhost:8000/post/resource/${postID}/${currentUser.id}/${posterID}`, link )
-    .then(response => {
-      console.log(response)
-    })
+    navigate('/')
   }
 
   const handleBookmark = () => {
     bookmarkNum.current = bookmarkNum.current + 1
     bookmarkRef.current = <BsFillBookmarkFill />
     axios.put(`http://localhost:8000/post/bookmark/${postID}/${currentUser.id}/${posterID}`)
-    .then(response => {
-      console.log(response)
-    })
+    navigate('/')
   }
 
   return (
     <>
-    <div className='bg-white border-gray-400 border-[1px] h-fit cursor-pointer z-10' onClick={() => nav(postID) }>
+    <div className='bg-white border-gray-400 border-[1px] h-fit z-10'>
     <div className='flex w-[100%] gap-2 m-5'>
       
     <div className='border-black border-[1px]  h-16 w-16 rounded-[50%]'>userpic</div>
@@ -71,28 +65,31 @@ const Post = (props) => {
     </div>
     <div className='ml-auto mr-8'><BsThreeDots /></div>
     </div>
-    <div className="px-4">{content}</div>
-    <div className='flex pl-4 gap-10 mt-4 mb-1'>
+    <div className="px-4 cursor-pointer" onClick={() => nav(postID) }>{content}</div>
 
+    <div className='flex pl-4 gap-10 mt-4 mb-1'>
     <div className='flex gap-2 text-xl'>
-    <div className='mt-1' onClick={handleLike}>{likeRef.current}</div>
+    <div className='mt-1 cursor-pointer' onClick={handleLike}>{likeRef.current}</div>
     <div className='text-sm'> {likeNum.current}</div>
     </div>
     <div className='flex gap-2 text-xl'>
-    <div className='mt-1'><FaRegCommentDots/></div>
+    <div className='mt-1 cursor-pointer'><FaRegCommentDots/></div>
     <div className='text-sm'>{commentsNum.current}</div>
     </div>
     <div className='flex gap-2 text-xl'>
-    <div className='mt-1' onClick={handleAddResource}><GrResources/></div>
+    <div className='mt-1 cursor-pointer' onClick={handleAddResource}><GrResources/></div>
     <div className='text-sm'>{resourcesNum.current}</div>
     </div>
-    <div className='flex gap-2 text-xl'>
-    <div className='mt-1' onClick={handleBookmark}>{bookmarkRef.current}</div>
+    <div className='flex relative gap-2 text-xl'>
+    <div className='mt-1 cursor-pointer' onClick={handleBookmark}>{bookmarkRef.current}</div>
     <div className='text-sm'>{bookmarkNum.current}</div>
     </div>
     </div>
+    </div>
+
+
   
-  </div>
+  
   </>
   )
 }

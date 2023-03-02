@@ -62,6 +62,7 @@ const navigate = useNavigate()
     </div>
 
     <br />
+    <div onClick={handleSubmit} className=' relative cursor-pointer ml-auto mr-2 top-[7.5rem] bg-blue-500 h-10 w-24 text-center text-white font-bold p-2 rounded-3xl'>post</div>
     <input type="text" className='border-black border-[1px] rounded-3xl w-[100%] h-32 text-center' onChange={(e) => formChange(e)} placeholder='Post Something!' />
 
     <div className='flex gap-4 relative mt-[-1.2rem] ml-5'>
@@ -70,7 +71,7 @@ const navigate = useNavigate()
         <div><GrEmoji /></div>
     </div>
 
-    <div onClick={handleSubmit} className='absolute bg-blue-500 h-10 w-24 text-center text-white font-bold p-2 rounded-3xl ml-[26.5%] mt-[-2.5rem]'>post</div>
+   
 
     </div>
 
