@@ -6,7 +6,7 @@ const Like = require('../models/Like')
 const Bookmark = require('../models/Bookmark')
 const Comment = require('../models/Comment')
 // const Job = require('../models/Job')
-// const Task = require('../models/Task')
+const Task = require('../models/Task')
 
 require('dotenv').config();
 const { JWT_SECRET } = process.env;
@@ -160,7 +160,7 @@ const getUserResources = (req, res) => {
 
 //Get Tasks
 const getTasks = (req, res) => {
-    Task.find({createdBy: req.params.name})
+    Task.find({owner: req.params.id})
     .then(userTasks => {
         res.json({userTasks: userTasks})
     })
@@ -218,20 +218,22 @@ const updatePersonalInfo = (req, res) => {
 //creates task and adds it to the user
 const postTask = (req, res) => {
     Task.create({
+        taskName: req.body.taskName,
         task: req.body.task,
+        importance: req.body.importance,
         isComplete: false,
-        comments: ['no comments yet'],
-        createdBy: req.params.email,
+        comments: [],
+        owner: req.params.id
     })
     .then(createdTask => {
         console.log("new task", createdTask)
-        User.findOne({email: req.params.email})
+        User.findOne({_id: req.params.id})
 .then(user => {
     console.log("found user", user)
     const currentTasks = user.tasks
     console.log(user)
     currentTasks.push(createdTask._id)
-    User.findOneAndUpdate({email: req.params.email}, {
+    User.findOneAndUpdate({_id: req.params.id}, {
         tasks: currentTasks
     })
     .then(response => {

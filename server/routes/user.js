@@ -7,7 +7,7 @@ router.post('/login', ctrls.user.userLogin)
 router.get('/:id', ctrls.user.getUsers);
 router.get('/:id/posts', ctrls.user.getAUsersPosts);
 router.get('/resources/:UserID', ctrls.user.getUserResources);
-router.get('/tasks/:name', ctrls.user.getTasks);
+router.get('/tasks/:id', ctrls.user.getTasks);
 
 router.get('/:id/notifications', ctrls.user.getUsersNotifs);
 router.get('/:id/likes', ctrls.user.getAUsersLikes);
@@ -17,7 +17,7 @@ router.get('/:id/bookmarks', ctrls.user.getAUsersBookmarks);
 router.get('/taskcomments/:id', ctrls.user.taskComments);
 router.get('/jobs/:name', ctrls.user.userJobs);
 router.put('/postjob/:name', ctrls.user.postJob);
-router.put('/:name/createtask', ctrls.user.postTask);
+router.put('/:id/createtask', ctrls.user.postTask);
 router.put('/task/:id/update', ctrls.user.updateTaskIntent);
 router.put('/comment/task/:postID', ctrls.user.postTaskComment);
 router.put('/:id/update', ctrls.user.updatePersonalInfo);

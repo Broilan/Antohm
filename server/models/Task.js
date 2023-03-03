@@ -3,8 +3,8 @@ const { Schema } = require("mongoose");
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
+    taskName: {type: String},
     task: {type: String},
-    description: {type: String},
     isComplete: {type: Boolean, default: false},
     importance: {type: String},
     target_date: {type: Date},

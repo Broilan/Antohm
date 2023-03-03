@@ -118,6 +118,7 @@ const commentOnAPost = (req, res) => {
     Comment.create({   
     commentTo: req.params.to,
     commentFrom: req.params.by,
+    likeCommentOrFollow: "Comment",
     content: req.body.content,
     likes: [],
     comments: [],
