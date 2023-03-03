@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import PrivateRoute from "./utils/PrivateRoute";
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
-import { Profile, Login, Signup, Home, PostPage, GroupsPage } from "./pages";
+import { Profile, Login, Signup, Home, PostPage, GroupsPage, OtherUserProf } from "./pages";
 import Applications from "./components/Applications";
 import { Navbar, Comment } from "./components";
 
@@ -51,16 +51,18 @@ function App() {
 
 
   return (
-    <BrowserRouter>
+    <BrowserRouter>      
+    
     <DataContext.Provider value={{ currentUser, handleLogout, nowCurrentUser, isAuthenticated, setIsAuthenticated, open, setOpen, modalType, setModalType}}>
     <Navbar/>
           <Routes>
               <Route path='/' element={ <Home />} />
 
               <Route path='/post/:id' element={ <PostPage />} />
-              <Route path='/test' element={ <Comment />} />
+              
 
               <Route path='/profile' element={ <PrivateRoute><Profile /></PrivateRoute>}/> 
+              <Route exact path='/profile/:userid' element={ <OtherUserProf />} />
               <Route path='/groups' element={ <GroupsPage/>}/> 
               <Route path='applications' element={ <Applications />} />
 

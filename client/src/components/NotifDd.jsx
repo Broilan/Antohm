@@ -14,7 +14,7 @@ const NotifDd = (props) => {
   useEffect(() => {
     axios.get(`http://localhost:8000/user/${currentUser.id}/notifications`)
         .then(response=> {
-        setNotifsArray(response.data.notifs)
+        setNotifsArray(response.data.notifs.reverse())
         }
     )
 }, [])
@@ -36,8 +36,8 @@ console.log(notifsArray)
     <div className='rounded-[50%] m-1 border-[1px] w-5 h-8 p-5 border-black'></div>
     
     <div>
-    <div className='font-semibold text-sm mt-1'> <div className='cursor-pointer z-20' onClick={(e) => navigate('/profile')}>@{n.from.displayName}</div> {n.content}</div>
-    <div onClick={(e) => navigate(`/post/${n.postID._id}`)} className='truncate text-sm cursor-pointer'>{n.likeCommentOrFollow == 'Follow'? n.content: n.postID.content}</div>
+    <div className='font-semibold text-sm mt-1'> <div className='cursor-pointer' onClick={(e) => navigate('/profile')}>@{n.from.displayName}</div>{n.likeCommentOrFollow=='Comment'? "commented on your post!" :n.content}</div>
+    <div onClick={(e) => navigate(`/post/${n.postID._id}`)} className='truncate text-sm cursor-pointer'>{n.likeCommentOrFollow == 'Follow'? n.content: n.likeCommentOrFollow == "Comment"? n.content: n.postID.content}</div>
     </div>
     </div>
     )}

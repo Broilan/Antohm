@@ -66,7 +66,7 @@ const SocialDash = () => {
     
     <div className='flex flex-col justify-center text-center'>
       
-    <div className='mx-auto w-[50%] '>
+    <div className='mx-auto w-[35%] '>
       <body className='overflow-y-scroll scrollbar-hide'>
     <div className='bg-gray-300 h-[8rem]'>hi</div>
 

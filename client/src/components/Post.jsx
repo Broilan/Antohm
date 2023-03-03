@@ -58,10 +58,10 @@ const Post = (props) => {
     <div className='bg-white border-gray-400 border-[1px] h-fit z-10'>
     <div className='flex w-[100%] gap-2 m-5'>
       
-    <div className='border-black border-[1px]  h-16 w-16 rounded-[50%]'>userpic</div>
+    <div onClick={(e) => navigate(`/profile/${posterID}`)} className='border-black border-[1px]  h-16 w-16 rounded-[50%]'>userpic</div>
     <div>
-    <h2 className='font-bold'>{username? username: null}</h2>
-    <h2 className='font-semibold'>@{displayName? displayName: null}</h2>
+    <h2 onClick={(e) => navigate(`/profile/${posterID}`)} className='font-bold'>{username? username: null}</h2>
+    <h2 onClick={(e) => navigate(`/profile/${posterID}`)} className='font-semibold'>@{displayName? displayName: null}</h2>
     </div>
     <div className='ml-auto mr-8'><BsThreeDots /></div>
     </div>

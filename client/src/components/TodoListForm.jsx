@@ -1,36 +1,35 @@
-import React from 'react'
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useRef, useContext } from 'react';
 import '../styles/app.css'
+import { DataContext } from '../App';
 
-function TodoListForm(props) {
-  const [task, setTask] = useState({})
-  const [importance, setImportance] = useState({})
-  const [taskName, setTaskName] = useState({})
-  const email = props.email
-
+function TodoListForm() {
+  const {currentUser} = useContext(DataContext)
+  const importanceRef = useRef()
+  const taskRef = useRef()
+  const taskNameRef = useRef()
+  
   const handleTaskName = (e) => {
     const tn = e.target.value
-    setTaskName(tn)
-    console.log(task)
+    taskNameRef.current = tn
+    
   }
 
   const handleTask = (e) => {
     const t = e.target.value
-    setTask(t)
-    console.log(task)
+    taskRef.current = t
   }
 
   const handleImportance = (e) => {
     const i = e.target.value
-    setImportance(i)
-    console.log(importance)
+    importanceRef.current = i
+    console.log(importanceRef.current)
   }
 
   function postUserTasks() {
-    const data = {taskName, task, importance}
+    const data = {"taskName":taskNameRef.current, "task": taskRef.current, "importance": importanceRef.current}
     console.log(data)
-    axios.put(`${BACK_URI}/api/user/${email}/createtask`, data)
+    axios.put(`http://localhost:8000/user/${currentUser.id}/createtask`, data)
     .then(response => {
       console.log(response)
     }).catch(err => {
@@ -53,7 +52,7 @@ function TodoListForm(props) {
               <option value='Low' selected>Low</option>
               <option value='Medium' >Medium</option>
               <option value='High' >High</option>
-              <option value='Urgent' >Urgent</option>
+              <option value='Extreme' >Extreme</option>
             </select>
 
             <button onClick={postUserTasks} className='border-black border-[1px] bg-white rounded-3xl font-bold' >Add Item</button>

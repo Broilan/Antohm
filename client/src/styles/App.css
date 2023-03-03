@@ -19,6 +19,10 @@ body {
   display: none;
 }
 
+#todolist::-webkit-scrollbar {
+  display: none;
+}
+
 #dmp::-webkit-scrollbar {
   display: none;
 }
