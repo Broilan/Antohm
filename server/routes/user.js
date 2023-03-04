@@ -8,6 +8,8 @@ router.get('/:id', ctrls.user.getUsers);
 router.get('/:id/posts', ctrls.user.getAUsersPosts);
 router.get('/resources/:UserID', ctrls.user.getUserResources);
 router.get('/tasks/:id', ctrls.user.getTasks);
+router.get('/dms/:to', ctrls.user.getUsersDms);
+router.get('/specdm/:from/:to', ctrls.user.getSpecificDms);
 
 router.get('/:id/notifications', ctrls.user.getUsersNotifs);
 router.get('/:id/likes', ctrls.user.getAUsersLikes);

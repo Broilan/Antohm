@@ -4,6 +4,7 @@ const Post = require('../models/Post')
 const Notification = require('../models/Notification')
 const Like = require('../models/Like')
 const Bookmark = require('../models/Bookmark')
+const Dm = require('../models/Dm')
 const Comment = require('../models/Comment')
 // const Job = require('../models/Job')
 const Task = require('../models/Task')
@@ -93,6 +94,22 @@ const getUsers = (req, res) => {
     User.findOne({_id: req.params.id})
     .then(foundUser => {
         res.json({foundUser: foundUser})
+    })
+}
+
+//get all of users dms
+const getUsersDms = (req, res) => {
+    Dm.find({to: req.parms.to})
+    .then(response => {
+        res.json({dms: response})
+    })
+}
+
+//get specific dms
+const getSpecificDms = (req, res) => {
+    Dm.find({$and: [{from: req.params.from}, {to: req.params.to}   ]})
+    .then(response => {
+        res.json({dms: response})
     })
 }
 
@@ -338,6 +355,8 @@ const deleteTaskComment = (req, res) => {
 
 
 module.exports = {
+    getUsersDms,
+    getSpecificDms,
     getUsersNotifs,
     getAUsersLikes,
     getAUsersComments,

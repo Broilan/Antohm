@@ -1,6 +1,8 @@
 const cors = require("cors");
 require('dotenv').config()
 const express = require("express");
+const {Server} = require('socket.io')
+const http = require('http')
 const mongoose = require("mongoose")
 const passport = require('passport');
 require('./config/passport')(passport);
@@ -21,12 +23,29 @@ const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
+const server = http.createServer(app)
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://127.0.0.1:5173",
+    methoids: ['GET', 'POST', "DELETE", "PUT"]
+  },
+});
+
 db.once('open', () => {
     console.log(`Connected to MongoDB at HOST: ${db.host} and PORT: ${db.port}`);
 });
 
 db.on('error', (error) => {
     console.log(`Database Error: ${error}`);
+})
+
+io.on("connection", (socket) => {
+  console.log(`user connected:${socket.id}`)
+
+  socket.on('send_message', (data) => {
+    socket.broadcast.emit('recieve_message', data, socket.id)  
+  })
 })
 
 
@@ -37,9 +56,8 @@ app.get('/', (req, res) => {
 // API Routes
   app.use("/user", routes.user);
   app.use("/post", routes.post);
+  app.use("/chat", routes.chat);
 
 
   // Server
-const server = app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`));
-
-module.exports = server;
+server.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`));

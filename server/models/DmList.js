@@ -1,16 +1,12 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const dmSchema = new Schema({
+const dmListSchema = new Schema({
     from: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     to: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    message: Array,
-    date: {
-        type: Date,
-        default: Date.now()
-    }
+    messages: [{type: mongoose.Schema.Types.ObjectId, ref: 'Dm' }],
 })
 
-const Dm = mongoose.model('Dm', dmSchema);
+const DmList = mongoose.model('DmList', dmListSchema);
 
-module.exports = Dm;
+module.exports = DmList;
