@@ -1,7 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:8000')
 
 const DmModal = (props) => {
     const {mOpen, setMOpen} = props
+    const messageRef = useRef()
+    const [msgs, setMsgs] = useState()
+    const [socketId, setSocketId] = useState('')
+
+    class textBubble {
+      constructor(message, from) {
+        this.message = message
+        this.from = from
+      }
+    }
+
+    const sendMessage = () => {
+      socket.emit("send_message", {message: messageRef.current, from:'tanner' })
+    }
+
+    useEffect(() => {
+      
+      socket.on('recieve_message', (data, socket) => {
+        setMsgs((new textBubble(data.message, data.from)))
+        setSocketId(socket)
+      })
+    }, [socket])
+
+    console.log(msgs)
   return (
     <>
     <div className='w-screen h-screen absolute flex items-end justify-end '>
@@ -31,21 +57,17 @@ const DmModal = (props) => {
         <div className='rounded-[50%] border-[1px] w-10 h-10 p-6 mx-auto border-black'></div>
         
             <div className='fixed border-b-gray-400 border-b-[2px] bottom-[0%] mt-auto flex w-[24%] h-12 gap-2 bg-white'>
-            <input type="text" className='border-black border-[1px] rounded-lg ml-16 p-2' placeholder='Be nice' />
-            <div className='w-16 h-10 bg-blue-400 text-white text-center pt-2 font-bold rounded-lg'>Send</div>
+            <input type="text" onChange={(e) => messageRef.current = e.target.value} className='border-black border-[1px] rounded-lg ml-16 p-2' placeholder='Be nice' />
+            <div onClick={sendMessage} className='w-16 h-10 bg-blue-400 text-white text-center pt-2 font-bold rounded-lg'>Send</div>
             </div>  
 
             <div className='mt-4'>
-            <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-auto mr-1'>text-bubble</div>
+            <>
+            <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-auto mr-1'> {msgs?.message}</div>
             <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-1'>text-bubble</div>
-            <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-auto mr-1'>text-bubble</div>
-            <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-1'>text-bubble</div>
-            <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-auto mr-1'>text-bubble</div>
-            <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-1'>text-bubble</div>
-            <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-auto mr-1'>text-bubble</div>
-            <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-1'>text-bubble</div>
-            <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-auto mr-1'>text-bubble</div>
+            </>
             </div>
+
     </div>
 
     </div>

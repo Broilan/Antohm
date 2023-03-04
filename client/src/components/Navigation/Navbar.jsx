@@ -27,6 +27,10 @@ const Navbar = () => {
         dropdown == true? setDropdown(false) : setDropdown(true)
     }
 
+    function openMessages(){
+        setMOpen(true)
+    }
+
 
     return (
         <>
@@ -98,7 +102,7 @@ const Navbar = () => {
                     <NavLink to="/groups" className='border-[1px] border-black p-[10px] bg-blue-500 text-white rounded-[20px] mr-[20px] text-[20px] font-bold transition-color hover:shadow-2xl '><MdOutlineGroups /></NavLink>
                     <NavLink to="/profile" className='border-[1px] border-black p-[10px] bg-blue-500 text-white rounded-[20px] mr-[20px] text-[20px] font-bold transition-color hover:shadow-2xl '><MdOutlinePerson /></NavLink>
                     <div id="notif-btn" onClick={() => setNotifsOpen(true)} className=' cursor-pointer border-[1px] border-black p-[10px] bg-blue-500 text-white rounded-[20px] mr-[20px] text-[20px] font-bold hover:shadow-2xl  '><AiOutlineBell/></div>
-                    <div onClick={() => setMOpen(true)} className='cursor-pointer border-[1px] border-black p-[10px] bg-blue-500 text-white rounded-[20px] mr-[20px] text-[20px] font-bold hover:shadow-2xl  '><TfiEmail/></div>
+                    <div onClick={openMessages} className='cursor-pointer border-[1px] border-black p-[10px] bg-blue-500 text-white rounded-[20px] mr-[20px] text-[20px] font-bold hover:shadow-2xl  '><TfiEmail/></div>
                     </>
                 </div>
                                                                                                                                        

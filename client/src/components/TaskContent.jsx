@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 const TaskContent = (props) => {
-  const{added, taskName, task, id} = props
+  const{added, taskName, task, id, importance} = props
 
     
     const handleDelete = () => { 
@@ -17,11 +17,17 @@ const TaskContent = (props) => {
                 <div className='text-md m-3'>{task}</div>
               </div>
           <div className="flex gap-6">
-          <div className="bg-blue-400 rounded-lg p-2 m-1 text-white font-bold" >Edit</div>
-          <div className="bg-blue-400 rounded-lg p-2 m-1 text-white font-bold" >Urgency</div>
-          <div className="bg-blue-400 rounded-lg p-2 m-1 text-white font-bold" >Notes</div>
-          <div className="bg-gray-400 text-white font-bold rounded-xl p-2 m-1" >Archive</div>
-          <div className="bg-red-400 text-white font-bold rounded-xl p-2 m-1" onClick={handleDelete}>Delete</div>
+          <div className="bg-blue-400 rounded-lg p-2 m-1 text-white font-bold cursor-pointer" >Edit</div>
+          
+                {importance == "Low"?<div className=" text-white bg-gray-400 rounded-lg p-2 m-1 font-bold">{importance}</div>:
+                importance == 'Medium'?<div className=" text-white bg-blue-400 rounded-lg p-2 m-1 font-bold">{importance}</div>:
+                importance == "High"?<div className=" text-white bg-red-500 rounded-lg p-2 m-1 font-bold">{importance}</div>:
+                importance == "Extreme"?<div className=" text-white bg-red-800 rounded-lg p-2 m-1 font-bold">{importance}</div>:
+                null}
+
+          <div className="bg-blue-400 rounded-lg p-2 m-1 text-white font-bold cursor-pointer" >Notes</div>
+          <div className="bg-gray-400 text-white font-bold rounded-xl p-2 m-1 cursor-pointer" >Archive</div>
+          <div className="bg-red-400 text-white font-bold rounded-xl p-2 m-1 cursor-pointer" onClick={handleDelete}>Delete</div>
           </div>
   </div>
   )

@@ -2,10 +2,9 @@ import * as React from 'react';
 import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
-import { BsKanban } from 'react-icons/bs';
 import TodoListForm from './TodoListForm';
 import TaskContent from './TaskContent';
-import { Kanban } from '../components';
+import { BsArchive } from 'react-icons/bs';
 import { DataContext } from '../App';
 
 
@@ -18,7 +17,6 @@ export default function TodoList(){
   useEffect(() => {
     axios.get(`http://localhost:8000/user/tasks/${currentUser.id}`)
     .then(response => {
-      console.log(response.data)
       setUserTasks(response.data.userTasks)
     })
   }, [])
@@ -42,6 +40,7 @@ export default function TodoList(){
         <div className=' w-[100%] flex items-center bg-white rounded-tr-3xl rounded-tl-3xl opacity-80 border-b-[1px] border-black'>
         <h1 className='ml-auto font-bold text-[2rem] text-center'>Tasks</h1>
         <div className='flex gap-3 ml-auto mr-2 ' >
+        <div  className='text-[2rem] mt-4'><BsArchive /></div>
         <div onClick={postModal} className='text-[3rem]'>+</div>
         </div>
         </div> 
