@@ -26,25 +26,29 @@ const postDM = (req, res) => {
             User.findByIdAndUpdate(req.params.to, {
                 Dms: arr2
             }).then(response=> {
-                if(DmList.find({ $and: [{from: req.params.from}, {to:req.params.to}]}) == false) {
-                    console.log('yoooo')
+            DmList.findOne({ $and: [
+                { $or: [{from: req.params.from}, {from: req.params.to}]},
+                { $or: [{to: req.params.to}, {to: req.params.from}]}
+            ]})
+            .then(dmList => {
+                if(dmList == null) {
                     DmList.create({
                         from: req.params.from,
                         to: req.params.to,
-                        messages: []
+                        messages: [newDM]
                     })
-                }
-            DmList.findOne({ $and: [{from: req.params.from}, {to:req.params.to}]})
-            .then(dmList => {
-                console.log(dmList)
+                } else { 
                 let dmArr = dmList.messages
                 dmArr.push(newDM)
-                DmList.findOneAndUpdate({ $and: [{from: req.params.from}, {to:req.params.to}]}, {
+                DmList.findOneAndUpdate(({ $and: [
+                    { $or: [{from: req.params.from}, {from: req.params.to}]},
+                    { $or: [{to: req.params.to}, {to: req.params.from}]}
+                ]}), {
                     messages: dmArr
                 })
                 .then(response => {
                     console.log(response)
-                })
+                })}
             })
                 
             })

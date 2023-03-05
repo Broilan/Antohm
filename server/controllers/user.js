@@ -5,6 +5,7 @@ const Notification = require('../models/Notification')
 const Like = require('../models/Like')
 const Bookmark = require('../models/Bookmark')
 const Dm = require('../models/Dm')
+const DmList = require('../models/DmList')
 const Comment = require('../models/Comment')
 // const Job = require('../models/Job')
 const Task = require('../models/Task')
@@ -99,7 +100,8 @@ const getUsers = (req, res) => {
 
 //get all of users dms
 const getUsersDms = (req, res) => {
-    Dm.find({to: req.parms.to})
+    DmList.find({ $or: [{from: req.params.to}, {to: req.params.to}]})
+    .populate('from').populate('to').populate('messages')
     .then(response => {
         res.json({dms: response})
     })
@@ -107,7 +109,10 @@ const getUsersDms = (req, res) => {
 
 //get specific dms
 const getSpecificDms = (req, res) => {
-    Dm.find({$and: [{from: req.params.from}, {to: req.params.to}   ]})
+    DmList.findOne({ $and: [
+        { $or: [{from: req.params.from}, {from: req.params.to}]},
+        { $or: [{to: req.params.to}, {to: req.params.from}]}
+    ]}).populate('messages')
     .then(response => {
         res.json({dms: response})
     })
