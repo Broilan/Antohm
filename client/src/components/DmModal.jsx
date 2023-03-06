@@ -8,10 +8,10 @@ const DmModal = (props) => {
   const {currentUser} = useContext(DataContext)
     const {mOpen, setMOpen} = props
     const messageRef = useRef()
-    const [msgs, setMsgs] = useState()
+    const [msgs, setMsgs] = useState() 
+    const [newBubbles, setNewBubbles] = useState([])
     const [allDms, setAllDms] = useState()
     const [dmArray, setDmArray] = useState([])
-    const [socketId, setSocketId] = useState('')
     const [dmName, setDmName] = useState()
     const dmRef = useRef()
 
@@ -30,16 +30,21 @@ const DmModal = (props) => {
     }, [])
 
     useEffect(() => {
-      socket.on('recieve_message', (data, socket) => {
-        setMsgs((new textBubble(data.message, data.from)))
-        setSocketId(socket)
+      socket.on('recieve_message', (data) => {
+        setDmArray(data)
       })
+      
     }, [socket])
 
     const sendMessage = (to) => {
       const data = {"message": messageRef.current}
+      const data2= {data, "userid":currentUser.id}
       axios.put(`http://localhost:8000/chat/send/${currentUser.id}/${dmRef.current}`, data)
-      socket.emit("send_message", {message: messageRef.current, from:'tanner' })
+      .then(response => {
+        setDmArray(response.data.newDmArr.messages)
+        socket.emit("send_message", response.data.newDmArr.messages)
+      })
+      
     }
 
     const openDM = (dm) => {
@@ -69,6 +74,7 @@ const DmModal = (props) => {
     )}
 
 
+
     </div>
 
     <div className='w-[60%] h-[100%] overflow-y-scroll' id="dms">
@@ -80,10 +86,7 @@ const DmModal = (props) => {
 
         <div className='rounded-[50%] border-[1px] w-10 h-10 p-6 mx-auto border-black'></div>
         
-            <div className='fixed border-b-gray-400 border-b-[2px] bottom-[0%] mt-auto flex w-[24%] h-12 gap-2 bg-white'>
-            <input type="text" onChange={(e) => messageRef.current = e.target.value} className='border-black border-[1px] rounded-lg ml-16 p-2' placeholder='Be nice' />
-            <div onClick={(e) => sendMessage()} className='w-16 h-10 bg-blue-400 text-white text-center pt-2 font-bold rounded-lg'>Send</div>
-            </div>  
+
 
             <div className='mt-4'>
             {dmArray == false?<div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 mx-auto'>Welcome to your DM's!</div> : null} 
@@ -93,8 +96,11 @@ const DmModal = (props) => {
            {d.from == currentUser.id?<div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-auto mr-1'> {d.message[0]}</div> : 
             <div className='rounded-lg border-black border-[1px] w-44 h-fit p-5 ml-1'>{d.message[0]}</div>} 
             </>
-            )}
-
+            )}    
+            <div className='relative border-b-gray-400 border-b-[2px] bottom-[0%] mt-auto flex w-[24%] h-12 gap-2 bg-white'>
+            <input type="text" onChange={(e) => messageRef.current = e.target.value} className='border-black border-[1px] rounded-lg ml-16 p-2' placeholder='Be nice' />
+            <div onClick={(e) => sendMessage()} className='w-16 h-10 bg-blue-400 text-white text-center pt-2 font-bold rounded-lg'>Send</div>
+            </div>  
             
             </div>
 
