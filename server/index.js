@@ -43,8 +43,8 @@ db.on('error', (error) => {
 io.on("connection", (socket) => {
   console.log(`user connected:${socket.id}`)
 
-  socket.on('send_message', (data) => {
-    socket.broadcast.emit('recieve_message', data, socket.id)  
+  socket.on('send_message', (data2) => {
+    socket.broadcast.emit('recieve_message', data2)  
   })
 })
 

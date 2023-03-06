@@ -45,16 +45,20 @@ const postDM = (req, res) => {
                     { $or: [{to: req.params.to}, {to: req.params.from}]}
                 ]}), {
                     messages: dmArr
+                }).then(response => {
+                    console.log(response)               
+                     DmList.findOne({ $and: [
+                    { $or: [{from: req.params.from}, {from: req.params.to}]},
+                    { $or: [{to: req.params.to}, {to: req.params.from}]}
+                ]}).populate('messages').then(response=>{res.json({"newDmArr": response})})
                 })
-                .then(response => {
-                    console.log(response)
-                })}
+            }
+
             })
                 
             })
         })
     })                    
-res.json({'dmarrrr': newDM})
 })
 
 }
