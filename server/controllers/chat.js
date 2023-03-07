@@ -28,7 +28,7 @@ const postDM = (req, res) => {
             }).then(response=> {
             DmList.findOne({ $and: [
                 { $or: [{from: req.params.from}, {from: req.params.to}]},
-                { $or: [{to: req.params.to}, {to: req.params.from}]}
+                { $or: [{to: req.params.to}, {to: req.params.from}]},
             ]})
             .then(dmList => {
                 if(dmList == null) {
@@ -36,6 +36,8 @@ const postDM = (req, res) => {
                         from: req.params.from,
                         to: req.params.to,
                         messages: [newDM]
+                    }) .then(response => {
+                        res.json({'newDmArr': response})
                     })
                 } else { 
                 let dmArr = dmList.messages

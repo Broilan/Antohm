@@ -111,8 +111,8 @@ const getUsersDms = (req, res) => {
 const getSpecificDms = (req, res) => {
     DmList.findOne({ $and: [
         { $or: [{from: req.params.from}, {from: req.params.to}]},
-        { $or: [{to: req.params.to}, {to: req.params.from}]}
-    ]}).populate('messages')
+        { $or: [{to: req.params.to}, {to: req.params.from}]},
+    ]}).populate('messages').populate('to').populate('from')
     .then(response => {
         res.json({dms: response})
     })
