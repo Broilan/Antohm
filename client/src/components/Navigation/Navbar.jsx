@@ -18,8 +18,7 @@ import logo from '/Users/Tanner/Desktop/ThriverFolder/Thriver/client/src/assets/
 
 
 const Navbar = () => {            
-    const {isAuthenticated, handleLogout} = useContext(DataContext)
-    const [mOpen, setMOpen] = useState(false)
+    const {isAuthenticated, handleLogout, mOpen, setMOpen} = useContext(DataContext)
     const [dropdown, setDropdown] = useState(false)
     const [notifsOpen, setNotifsOpen] = useState(false)
 
@@ -106,7 +105,7 @@ const Navbar = () => {
                     </>
                 </div>
                                                                                                                                        
-                { mOpen == true?<><DmModal mOpen={mOpen} setMOpen={setMOpen}/></> : null }
+                { mOpen != false?<><DmModal mOpen={mOpen} setMOpen={setMOpen}/></> : null }
                 { notifsOpen == true?<><NotifDd notifsOpen={notifsOpen} setNotifsOpen={setNotifsOpen}/></> : null }
             </header>
                     :null

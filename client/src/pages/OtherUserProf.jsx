@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { DataContext } from '../App'
-import {Post, Usercard} from '../components'
+import {Post, Usercard, OpsButton} from '../components'
 
 const OtherUserProf = () => {
     const {currentUser} = useContext(DataContext)
@@ -69,10 +69,14 @@ const OtherUserProf = () => {
       <div className='bg-gray-300 h-[8rem]'>hi</div>
   
       <div className='bg-white h-[12rem] flex flex-col justify-end'>
-  
+
         <div className='flex gap-4 mb-24 ml-4' >
         <div className='bg-white border-[1px] border-black rounded-[50%]  w-24 h-24'> pic</div>
         <div className=' font-bold mt-16'>{otherUser?.name} <br /> <p className='font-normal ml-1 text-[0.9rem]'>@{otherUser?.displayName}</p> </div>
+        <div className='flex gap-2 mt-auto'>
+        <OpsButton buttonType={'Follow'} otheruser={otherUser?.name} />
+        <OpsButton buttonType={'Message'} otheruser={otherUser?.name}/>
+        </div>
         </div>
   
       <ul className='flex gap-10 justify-center text-xl'>

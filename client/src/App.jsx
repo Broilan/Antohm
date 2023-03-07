@@ -6,13 +6,14 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { Profile, Login, Signup, Home, PostPage, GroupsPage, OtherUserProf } from "./pages";
 import Applications from "./components/Applications";
-import { Navbar, Comment } from "./components";
+import { Navbar, OpsButton } from "./components";
 
 export const DataContext = React.createContext();
 
 function App() {
   //user & auth
   const [currentUser, setCurrentUser] = useState('');
+  const [mOpen, setMOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   //modal stuff
@@ -53,13 +54,14 @@ function App() {
   return (
     <BrowserRouter>      
     
-    <DataContext.Provider value={{ currentUser, handleLogout, nowCurrentUser, isAuthenticated, setIsAuthenticated, open, setOpen, modalType, setModalType}}>
+    <DataContext.Provider value={{ currentUser, handleLogout, nowCurrentUser,  isAuthenticated, setIsAuthenticated, open, setOpen, mOpen, setMOpen, modalType, setModalType}}>
     <Navbar/>
           <Routes>
               <Route path='/' element={ <Home />} />
 
               <Route path='/post/:id' element={ <PostPage />} />
               
+              <Route path='/test' element={ <OpsButton />} />
 
               <Route path='/profile' element={ <PrivateRoute><Profile /></PrivateRoute>}/> 
               <Route exact path='/profile/:userid' element={ <OtherUserProf />} />
