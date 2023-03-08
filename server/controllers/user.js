@@ -98,6 +98,13 @@ const getUsers = (req, res) => {
     })
 }
 
+const getAllUsers = (req, res) => {
+    User.find({})
+    .then(response => {
+        res.json({allusers: response})
+    })
+}
+
 //get all of users dms
 const getUsersDms = (req, res) => {
     DmList.find({ $or: [{from: req.params.to}, {to: req.params.to}]})
@@ -360,6 +367,7 @@ const deleteTaskComment = (req, res) => {
 
 
 module.exports = {
+    getAllUsers,
     getUsersDms,
     getSpecificDms,
     getUsersNotifs,
