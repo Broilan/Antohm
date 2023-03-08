@@ -11,7 +11,18 @@ const DmModal = (props) => {
     const [allDms, setAllDms] = useState()
     const [dmArray, setDmArray] = useState([])
     const [dmName, setDmName] = useState()
+    const [allUsers, setAllUsers] = useState()
+    const [isTyping, setIsTyping] = useState(false)
+    const searchRef = useRef()
     const dmRef = useRef()
+
+    function getAllUsers() {
+            axios.get(`http://localhost:8000/user`)
+      .then(response => {
+        setAllUsers(response.data.allusers)
+      })
+    } 
+
 
     useEffect(() => {
       axios.get(`http://localhost:8000/user/dms/${currentUser.id}/`)
@@ -31,6 +42,7 @@ const DmModal = (props) => {
         }
         })
       }
+      getAllUsers()
     }, [])
 
     useEffect(() => {
@@ -44,7 +56,8 @@ const DmModal = (props) => {
       const data = {"message": messageRef.current}
       axios.put(`http://localhost:8000/chat/send/${currentUser.id}/${dmRef.current}`, data)
       .then(response => {
-          setDmArray(response.data.newDmArr.messages)    
+          setDmArray(response.data.newDmArr.messages)
+          console.log(response.data.newDmArr)    
         socket.emit("send_message", response.data.newDmArr.messages)
         if(dmArray == 0) {
           console.log('what')
@@ -57,15 +70,49 @@ const DmModal = (props) => {
     const openDM = (dm) => {
       setDmArray(dm.messages)
       if(dm.from) {  
+        console.log('f1')
       dm.to._id == currentUser.id? setDmName(dm.from.name) : setDmName(dm.to.name)      
       dm.to._id == currentUser.id? dmRef.current = dm.from._id : dmRef.current = dm.to._id   
-      } else {
+      } else if (window.location.pathname == '/profile/:id') {
         setDmName(mOpen[2])
+        console.log('f2')
         dmRef.current = mOpen[1]
       }
-   
+
+      if(!dm.from) { 
+        allDms.map(d => {
+          if(d.to.name == dm.name || d.from.name == dm.name) { 
+          setDmName(dm.name)     
+          dmRef.current = dm._id
+          setDmArray(d.messages)
+          console.log('ggggggggggggg')
+          }
+         })
+      } 
+        if(isTyping == true) {
+          console.log('f3')
+            setDmName(dm.name)
+            dmRef.current = dm._id
+          }
     }
 
+    function searchUsers(e) {
+      setIsTyping(true)
+      searchRef.current = e.target.value
+      const regex = new RegExp(searchRef.current, 'i')
+      if(searchRef.current == '') {
+        setIsTyping(false)
+        getAllUsers()
+      } else {
+        let filterDms = allUsers.filter(c => {
+          return c.name.match(regex)
+        }
+        )
+        setAllUsers(filterDms)
+        
+    }}
+
+    
 
 
   return (
@@ -75,13 +122,22 @@ const DmModal = (props) => {
 
     <div className='flex flex-col w-[40%] border-r-gray-400 border-r-[1px] overflow-y-scroll ' id="dmp">
         <h1 className='text-center font-bold mt-1 border-b-[1px] border-black pb-6'>Chats</h1>
-        <input type="text" className='border-black border-2 w-48 mx-auto my-2 relative mt-[-1rem] rounded-md p-1 ' placeholder='Search users'/>
-    {allDms?.map((d) => 
+        <input onChange={(e) => searchUsers(e)} type="text" className='border-black border-2 w-48 mx-auto my-2 relative mt-[-1rem] rounded-md p-1 ' placeholder='Search users'/>
+    {isTyping==false? allDms?.map((d) => 
         <div onClick={(e) => openDM(d)} className='flex truncate border-b-gray-500 border-b-[1px] hover:bg-gray-200'>
     <div className='rounded-[50%] m-1 border-[1px] w-5 h-8 p-5 border-black'></div>
     <div>
     <div className='font-semibold text-sm mt-1'>{d.from?.name == currentUser.name? d.to?.name: d.from?.name? d.from?.name: mOpen[2]}</div>
      <div className='truncate text-sm'>{Array.isArray(d.messages)?d.messages[d.messages.length-1].message[0] : d.message}</div>
+    </div>
+    </div>
+    ) :
+        allUsers?.map((d) => 
+        <div onClick={(e) => openDM(d, e)} className='flex truncate  border-b-gray-500 border-b-[1px] hover:bg-gray-200'>
+    <div className='rounded-[50%] m-1 border-[1px] w-5 h-8 p-5 border-black'></div>
+    <div>
+    <div className='font-semibold text-sm mt-1'>{d.name}</div>
+     <div className='truncate text-sm'>d.bio</div>
     </div>
     </div>
     )}
