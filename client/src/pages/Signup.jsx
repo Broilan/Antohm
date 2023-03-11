@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 import capybara from '../assets/Capybara.png'
 import logo from '../assets/Thrive.png'
+import defaultpfp from '../assets/defaultpfp.png'
 
 const Signup = () => {
     const [name, setName] = useState('');
@@ -43,7 +44,8 @@ const Signup = () => {
         // make sure password and confirm password are equal
         // password length >= 8 characters
         if (password === confirmPassword && password.length >= 8) {
-            const newUser = { name, displayName, email, password };
+            const pfp = defaultpfp
+            const newUser = { name, displayName, email, password, pfp };
             axios.post(`http://localhost:8000/user/signup`, newUser)
             .then(response => {
                 console.log('===> Yay, new user');

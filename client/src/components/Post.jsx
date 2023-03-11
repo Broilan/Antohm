@@ -1,5 +1,6 @@
 import React, {useContext, useRef, useParams} from 'react'
 import { DataContext } from '../App';
+import defaultpfp from '../assets/defaultpfp.png'
 import axios from 'axios';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { FaRegCommentDots } from 'react-icons/fa';
@@ -13,12 +14,11 @@ const Post = (props) => {
   const {currentUser} = useContext(DataContext)
 
   //props
-  const {postID, posterID, displayName, username, bookmarks, comments, likes, datePosted, content, sourced} = props
-
+  const {postID, image, posterID, displayName, username, bookmarks, comments, likes, datePosted, content, sourced, pfp} = props
   //refs
   const likeRef = useRef(<AiOutlineHeart />)
   const likeNum = useRef(likes?.length)
-
+//  console.log(pfp)
   const bookmarkRef = useRef(<BsBookmark />)
   const bookmarkNum = useRef(bookmarks?.length)
 
@@ -58,14 +58,16 @@ const Post = (props) => {
     <div className='bg-white border-gray-400 border-[1px] h-fit z-10'>
     <div className='flex w-[100%] gap-2 m-5'>
       
-    <div onClick={(e) => navigate(`/profile/${posterID}`)} className='border-black border-[1px]  h-16 w-16 rounded-[50%]'>userpic</div>
+    <img src={pfp.pfp? pfp.pfp:defaultpfp} alt='' onClick={(e) => navigate(`/profile/${posterID}`)} className='border-black border-[1px] h-16 w-16 rounded-[50%]'/>
     <div>
     <h2 onClick={(e) => navigate(`/profile/${posterID}`)} className='font-bold'>{username? username: null}</h2>
     <h2 onClick={(e) => navigate(`/profile/${posterID}`)} className='font-semibold'>@{displayName? displayName: null}</h2>
     </div>
     <div className='ml-auto mr-8'><BsThreeDots /></div>
     </div>
+    
     <div className="px-4 cursor-pointer" onClick={() => nav(postID) }>{content}</div>
+    {image? <img src={image} className="w-[100%]"/> : null}
 
     <div className='flex pl-4 gap-10 mt-4 mb-1'>
     <div className='flex gap-2 text-xl'>

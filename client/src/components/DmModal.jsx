@@ -60,7 +60,6 @@ const DmModal = (props) => {
           console.log(response.data.newDmArr)    
         socket.emit("send_message", response.data.newDmArr.messages)
         if(dmArray == 0) {
-          console.log('what')
           console.log(allDms)
           setAllDms(prev => [{"message": messageRef.current }, ...prev]  )
         }
@@ -70,12 +69,10 @@ const DmModal = (props) => {
     const openDM = (dm) => {
       setDmArray(dm.messages)
       if(dm.from) {  
-        console.log('f1')
       dm.to._id == currentUser.id? setDmName(dm.from.name) : setDmName(dm.to.name)      
       dm.to._id == currentUser.id? dmRef.current = dm.from._id : dmRef.current = dm.to._id   
       } else if (window.location.pathname == '/profile/:id') {
         setDmName(mOpen[2])
-        console.log('f2')
         dmRef.current = mOpen[1]
       }
 
@@ -85,7 +82,6 @@ const DmModal = (props) => {
           setDmName(dm.name)     
           dmRef.current = dm._id
           setDmArray(d.messages)
-          console.log('ggggggggggggg')
           }
          })
       } 
@@ -125,7 +121,9 @@ const DmModal = (props) => {
         <input onChange={(e) => searchUsers(e)} type="text" className='border-black border-2 w-48 mx-auto my-2 relative mt-[-1rem] rounded-md p-1 ' placeholder='Search users'/>
     {isTyping==false? allDms?.map((d) => 
         <div onClick={(e) => openDM(d)} className='flex truncate border-b-gray-500 border-b-[1px] hover:bg-gray-200'>
-    <div className='rounded-[50%] m-1 border-[1px] w-5 h-8 p-5 border-black'></div>
+          {d.to.name == currentUser.name?
+    <img src={d.from.pfp} className='rounded-[50%] m-1 border-[1px] w-5 h-8 p-5 border-black'/>:
+    <img src={d.to.pfp} className='rounded-[50%] m-1 border-[1px] w-5 h-8 p-5 border-black'/>}
     <div>
     <div className='font-semibold text-sm mt-1'>{d.from?.name == currentUser.name? d.to?.name: d.from?.name? d.from?.name: mOpen[2]}</div>
      <div className='truncate text-sm'>{Array.isArray(d.messages)?d.messages[d.messages.length-1].message[0] : d.message}</div>
@@ -134,7 +132,7 @@ const DmModal = (props) => {
     ) :
         allUsers?.map((d) => 
         <div onClick={(e) => openDM(d, e)} className='flex truncate  border-b-gray-500 border-b-[1px] hover:bg-gray-200'>
-    <div className='rounded-[50%] m-1 border-[1px] w-5 h-8 p-5 border-black'></div>
+    <img src={d.pfp} className='rounded-[50%] m-1 border-[1px] w-10 h-10 border-black'/> 
     <div>
     <div className='font-semibold text-sm mt-1'>{d.name}</div>
      <div className='truncate text-sm'>d.bio</div>

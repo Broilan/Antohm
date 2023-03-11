@@ -6,7 +6,7 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { Profile, Login, Signup, Home, PostPage, GroupsPage, OtherUserProf } from "./pages";
 import Applications from "./components/Applications";
-import { Navbar, OpsButton } from "./components";
+import { Navbar } from "./components";
 
 export const DataContext = React.createContext();
 
@@ -61,7 +61,6 @@ function App() {
 
               <Route path='/post/:id' element={ <PostPage />} />
               
-              <Route path='/test' element={ <OpsButton />} />
 
               <Route path='/profile' element={ <PrivateRoute><Profile /></PrivateRoute>}/> 
               <Route exact path='/profile/:userid' element={ <OtherUserProf />} />

@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import handleFile from '../utils/FileUpload'
 import { AiOutlineFileGif, AiFillPicture } from 'react-icons/ai';
 import { Post, Usercard, UserGroups, News } from '../components'
 import { GrEmoji } from 'react-icons/gr';
@@ -9,6 +10,7 @@ import { DataContext } from '../App';
 const Home = () => {
 const {currentUser, isAuthenticated} = useContext(DataContext)
 const [postFeed, setPostFeed] = useState()
+const [img, setImg] = useState()
 const postForm = useRef()
 const navigate = useNavigate()
 
@@ -19,20 +21,26 @@ const navigate = useNavigate()
             }
         )
     }, [])
-
+    
     const formChange = (e) => {
         postForm.current = e.target.value 
 
     }
 
-    const handleSubmit = () => {
-        let data = {"content": postForm.current}
+   async function addPicture(e) {
+  const response = await handleFile({"type": "post", "e": e, "userid": currentUser.id });
+    setImg(response)
+}
+
+    const handleSubmit = (e) => {
+        console.log("imgg", img)
+        let data = {"content": postForm.current, "image": img}
         axios.put(`http://localhost:8000/post/${currentUser.id}`, data)
         .then(response => {
               navigate(`/post/${response.data.response._id}`)
         })
     }
-    
+
   return (
     <>
     
@@ -57,7 +65,7 @@ const navigate = useNavigate()
     <div className='border-black border-[1px] w-[33%] h-fit p-2 bg-white'>
 
     <div className='flex gap-1'>
-    <div className='rounded-lg border-[1px] w-16 h-16 border-black'></div>
+    <img src={currentUser.pfp} className='rounded-lg border-[1px] w-16 h-16 border-black'/>
     <div className='font-semibold'>{currentUser.name} <br /> <p className='text-[0.8rem]'>@{currentUser.displayName}</p></div>
     </div>
 
@@ -67,7 +75,8 @@ const navigate = useNavigate()
 
     <div className='flex gap-4 relative mt-[-1.2rem] ml-5'>
         <div><AiOutlineFileGif /></div>
-        <div><AiFillPicture /></div>
+        <label htmlFor="add-pic" className='cursor-pointer'><AiFillPicture /></label>
+        <input onChange={(e) => addPicture(e)} id="add-pic" className='z-[-1] absolute' type="file"/>
         <div><GrEmoji /></div>
     </div>
 
@@ -80,7 +89,7 @@ const navigate = useNavigate()
         <option value="Following">Following</option>
     </select>
 
-    {postFeed?.map((p) => <div className='w-[33%]'><Post postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div> )}
+    {postFeed?.map((p) => <div className='w-[33%]'><Post pfp={p.UserID} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div> )}
 
 
 
