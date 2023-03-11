@@ -5,6 +5,13 @@ const Resource = require('../models/Resource')
 const Comment = require('../models/Comment')
 const Notification = require('../models/Notification')
 const Bookmark = require('../models/Bookmark')
+const cloudinary = require('cloudinary').v2
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
 
 require('dotenv').config();
 
@@ -37,10 +44,13 @@ const getPostComments = (req, res) => {
     })
 }
 
-const makeAPost = (req, res) => {
+const makeAPost = async (req, res) => {
+    const photoUrl = req.body.image? await cloudinary.uploader.upload(req.body.image):null
+    console.log(photoUrl)
     Post.create({   
     UserID: req.params.userid,
     content: req.body.content,
+    image: photoUrl.url,
     likes: [],
     comments: [],
     bookmarks: [],  

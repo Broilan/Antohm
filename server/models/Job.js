@@ -12,6 +12,7 @@ const jobSchema = new Schema({
     PositionLocation: String, //remote, at office
     PriorityLevel: String, //Low, medium, high, extreme
     Notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+    image: String,
     date: {
         type: Date,
         default: Date.now()

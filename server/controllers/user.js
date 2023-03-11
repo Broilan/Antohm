@@ -27,6 +27,7 @@ const userSignup = (req, res) => {
                 name: req.body.name,
                 email: req.body.email,
                 displayName: req.body.displayName,
+                pfp: req.body.pfp,
                 password: req.body.password,
             });
 
@@ -68,7 +69,8 @@ const userSignup = (req, res) => {
                 id: foundUser.id,
                 email: foundUser.email,
                 displayName: foundUser.displayName,
-                name: foundUser.name
+                name: foundUser.name,
+                pfp: foundUser.pfp
             }
 
             jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 }, (err, token) => {

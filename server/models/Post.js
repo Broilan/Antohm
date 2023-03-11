@@ -9,10 +9,12 @@ const postSchema = new Schema({
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
     bookmarks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Bookmark'}],
     sourced: [{type: mongoose.Schema.Types.ObjectId, ref: 'Resource'}],
+    image: {type: String},
     date: {
         type: Date,
         default: Date.now()
-    }
+    },
+    
 })
 
 const Post = mongoose.model('Post', postSchema);

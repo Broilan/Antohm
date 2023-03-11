@@ -22,6 +22,7 @@ const userSchema = new Schema({
         title: {type: String},
         url: {type: String}
     }],
+    pfp: String,
     applications: [{type: String}],
     followers: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     following: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],

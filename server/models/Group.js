@@ -12,6 +12,7 @@ const groupSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'post'
     }],
+    image: {type: String},
     dateCreated: {
         type: Date,
         default: Date.now()

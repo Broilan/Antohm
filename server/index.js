@@ -18,6 +18,8 @@ app.use(express.json()); // JSON parsing
 app.use(cors()); // allow all CORS requests
 app.use(passport.initialize());
 
+
+
 // Database Set Up
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -57,6 +59,7 @@ app.get('/', (req, res) => {
   app.use("/user", routes.user);
   app.use("/post", routes.post);
   app.use("/chat", routes.chat);
+  app.use("/upload", routes.upload);
 
 
   // Server

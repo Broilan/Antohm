@@ -8,7 +8,7 @@ const resourceSchema = new Schema({
     linkTo: String,
     archived: Boolean,
     post: [{type: mongoose.Schema.Types.ObjectId,ref: 'Post' }],
-    
+    image: {type: String},
     date: {
         type: Date,
         default: Date.now()
