@@ -17,6 +17,7 @@ export default function TodoList(){
   useEffect(() => {
     axios.get(`http://localhost:8000/user/tasks/${currentUser.id}`)
     .then(response => {
+      console.log(currentUser)
       setUserTasks(response.data.userTasks)
     })
   }, [])

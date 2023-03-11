@@ -1,8 +1,10 @@
-import * as React from 'react';
+import React, {useContext} from 'react';
+import { DataContext } from '../App';
 import '../styles/dashboardapps.css'
 import TodoList from './TodoList';
 
-export default function QuantDash(){ 
+export default function QuantDash(props){ 
+  const {currentUser} = props
 
   return (
 
@@ -30,7 +32,7 @@ export default function QuantDash(){
  </div>
   </div>
   
-  <TodoList/>
+  <TodoList currentUser={currentUser.id}/>
 </div>
 
 

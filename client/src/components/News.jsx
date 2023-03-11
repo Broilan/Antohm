@@ -3,7 +3,7 @@ import React from 'react'
 const News = () => {
   return (
     <>
-    <div className='absolute bg-white rounded-3xl w-[20rem] border-gray-400 border-[2px] h-[26rem] overflow-y-scroll' id="usergroups">
+    <div className='absolute bg-white rounded-2xl w-[18rem] border-gray-400 border-[1px] h-[26rem] overflow-y-scroll' id="usergroups">
 
         <div className=' border-b-[2px] border-black rounded-b-none bg-white bg-opacity-90 rounded-3xl font-bold text-3xl p-2 w-[20rem]'>
         <h1 className='text-center'>News</h1>

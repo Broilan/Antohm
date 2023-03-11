@@ -15,6 +15,14 @@ body {
   display: none;
 }
 
+/* #job-board-list {
+  overflow: scroll;
+}
+
+#job-board-list::-webkit-scrollbar {
+  
+} */
+
 #dms::-webkit-scrollbar {
   display: none;
 }

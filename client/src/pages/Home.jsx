@@ -44,7 +44,7 @@ const navigate = useNavigate()
   return (
     <>
     
-    <div className='flex flex-col ml-[15%] top-[10%] fixed gap-4' >
+    <div className='flex flex-col ml-[16%] top-[10%] fixed gap-4' >
 
     <div >
         <Usercard />
@@ -60,20 +60,17 @@ const navigate = useNavigate()
     </div>
     <div className='w-screen h-screen flex flex-col items-center overflow-y-scroll'>
 
-    <h1 className='font-bold text-[3rem] border-black border-[1px] w-[33%] text-center bg-white opacity-90'>Home</h1>
+    <div className='border-black border-[1px] w-[33%] p-3 pt-4 bg-white'>
 
-    <div className='border-black border-[1px] w-[33%] h-fit p-2 bg-white'>
-
-    <div className='flex gap-1'>
-    <img src={currentUser.pfp} className='rounded-lg border-[1px] w-16 h-16 border-black'/>
-    <div className='font-semibold'>{currentUser.name} <br /> <p className='text-[0.8rem]'>@{currentUser.displayName}</p></div>
+    <div className=' bg-white flex gap-1 mb-[-6rem] w-16 h-12 z-10 p-1 mr-2'>
+    <img src={currentUser.pfp} className='rounded-[50%] border-[1px] w-12 h-12 mt-1 z-10 border-gray-400'/>
+    <div className='font-semibold bg-white z-10'>{currentUser.name} <br /> <p className='text-[0.8rem] after:content-[""] bg-white after:border-gray-300 after:ml-1 after:border-[1px] z-10'>@{currentUser.displayName}</p></div>
     </div>
 
-    <br />
-    <div onClick={handleSubmit} className=' relative cursor-pointer ml-auto mr-2 top-[7.5rem] bg-blue-500 h-10 w-24 text-center text-white font-bold p-2 rounded-3xl'>post</div>
-    <input type="text" className='border-black border-[1px] rounded-3xl w-[100%] h-32 text-center' onChange={(e) => formChange(e)} placeholder='Post Something!' />
+    <div onClick={handleSubmit} className=' relative cursor-pointer ml-auto mr-2 top-[5.7rem] bg-blue-500 h-10 w-24 text-center text-white font-bold p-2 rounded-3xl'>post</div>
+    <input type="text" className='border-black border-[1px] rounded-3xl w-[100%] h-24 text-center truncate' onChange={(e) => formChange(e)} placeholder='Post Something!' />
 
-    <div className='flex gap-4 relative mt-[-1.2rem] ml-5'>
+    <div className='flex gap-4 relative mt-[-1.4rem] ml-5 text-xl '>
         <div><AiOutlineFileGif /></div>
         <label htmlFor="add-pic" className='cursor-pointer'><AiFillPicture /></label>
         <input onChange={(e) => addPicture(e)} id="add-pic" className='z-[-1] absolute' type="file"/>

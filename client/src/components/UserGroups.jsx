@@ -4,7 +4,7 @@ import '../styles/App.css'
 const UserGroups = () => {
   return (
     <>
-    <div className='relative bg-white border-gray-400 border-[2px] rounded-3xl w-[20rem] h-[26rem] overflow-y-scroll' id="usergroups">
+    <div className='relative bg-white border-gray-400 border-[1px] rounded-2xl w-[18rem] h-[26rem] overflow-y-scroll' id="usergroups">
 
         <div className=' border-b-[2px] border-black rounded-b-none bg-white bg-opacity-90 rounded-3xl font-bold text-3xl p-2 w-[20rem]'>
         <h1 className='text-center'> My Groups</h1>

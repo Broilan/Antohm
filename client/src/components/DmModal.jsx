@@ -14,6 +14,7 @@ const DmModal = (props) => {
     const [allUsers, setAllUsers] = useState()
     const [isTyping, setIsTyping] = useState(false)
     const searchRef = useRef()
+    const [dmPfp, setDmPfp] = useState()
     const dmRef = useRef()
 
     function getAllUsers() {
@@ -45,6 +46,7 @@ const DmModal = (props) => {
       getAllUsers()
     }, [])
 
+
     useEffect(() => {
       socket.on('recieve_message', (data) => {
         setDmArray(data)
@@ -67,9 +69,12 @@ const DmModal = (props) => {
     }
 
     const openDM = (dm) => {
+      
       setDmArray(dm.messages)
-      if(dm.from) {  
-      dm.to._id == currentUser.id? setDmName(dm.from.name) : setDmName(dm.to.name)      
+      if(dm.from) { 
+        console.log(dm.to.pfp, dm.from.pfp) 
+      dm.to._id == currentUser.id? setDmName(dm.from.name) : setDmName(dm.to.name) 
+      dm.to._id == currentUser.id? setDmPfp(dm.from.pfp) : setDmPfp(dm.to.pfp)     
       dm.to._id == currentUser.id? dmRef.current = dm.from._id : dmRef.current = dm.to._id   
       } else if (window.location.pathname == '/profile/:id') {
         setDmName(mOpen[2])
@@ -80,6 +85,7 @@ const DmModal = (props) => {
         allDms.map(d => {
           if(d.to.name == dm.name || d.from.name == dm.name) { 
           setDmName(dm.name)     
+          setDmPfp(d.pfp)
           dmRef.current = dm._id
           setDmArray(d.messages)
           }
@@ -87,7 +93,6 @@ const DmModal = (props) => {
       } 
         if(isTyping == true) {
           console.log('f3')
-            setDmName(dm.name)
             dmRef.current = dm._id
           }
     }
@@ -114,16 +119,16 @@ const DmModal = (props) => {
   return (
     <>
     <div className='w-screen h-screen absolute flex items-end justify-end '>
-    <div className='flex bg-white rounded-3xl border-gray-400 border-[2px] rounded-br-none w-[45rem] h-[30rem] z-10 mb-20'>
+    <div className='flex bg-white rounded-3xl border-gray-400 border-[2px] rounded-b-none rounded-tr-none w-[45rem] h-[30rem] z-10 mb-[3.1rem]'>
 
     <div className='flex flex-col w-[40%] border-r-gray-400 border-r-[1px] overflow-y-scroll ' id="dmp">
         <h1 className='text-center font-bold mt-1 border-b-[1px] border-black pb-6'>Chats</h1>
         <input onChange={(e) => searchUsers(e)} type="text" className='border-black border-2 w-48 mx-auto my-2 relative mt-[-1rem] rounded-md p-1 ' placeholder='Search users'/>
     {isTyping==false? allDms?.map((d) => 
         <div onClick={(e) => openDM(d)} className='flex truncate border-b-gray-500 border-b-[1px] hover:bg-gray-200'>
-          {d.to.name == currentUser.name?
-    <img src={d.from.pfp} className='rounded-[50%] m-1 border-[1px] w-5 h-8 p-5 border-black'/>:
-    <img src={d.to.pfp} className='rounded-[50%] m-1 border-[1px] w-5 h-8 p-5 border-black'/>}
+          {d.to._id == currentUser.id?
+    <img src={d.from.pfp} className='rounded-[50%] m-1 border-[1px] w-12 border-black'/>:
+    <img src={d.to.pfp} className='rounded-[50%] m-1 border-[1px] w-12  border-black'/>}
     <div>
     <div className='font-semibold text-sm mt-1'>{d.from?.name == currentUser.name? d.to?.name: d.from?.name? d.from?.name: mOpen[2]}</div>
      <div className='truncate text-sm'>{Array.isArray(d.messages)?d.messages[d.messages.length-1].message[0] : d.message}</div>
@@ -151,9 +156,7 @@ const DmModal = (props) => {
         <div onClick={() => setMOpen(false)} className='bg-black cursor-pointer rounded-[50%] h-5 w-5 text-white text-center ml-auto mr-5 mt-[-2.5rem]'>x</div>
         </div>
 
-       {dmArray == false? null:<div className='rounded-[50%] border-[1px] w-10 h-10 p-6 mx-auto border-black'></div> } 
-        
-
+       {dmArray == false? null:<img src={dmPfp} className='rounded-[50%] border-[1px] w-12 mx-auto border-black' />}
 
             <div className='mt-4'>
             {dmArray == false?<div className='rounded-lg border-black bg-blue-400 text-white font-bold break-words border-[1px] w-fit h-fit p-5 mx-auto'>Search for other users to chat with.<br></br> <p className='text-center text-2xl'>Be kind!</p> </div> : null} 
