@@ -194,7 +194,7 @@ const getTasks = (req, res) => {
     Task.find({owner: req.params.id})
     .then(userTasks => {
         res.json({userTasks: userTasks})
-    })
+    }).catch(err => {res.json({error: err})})
 }
 
 //Get task comments
