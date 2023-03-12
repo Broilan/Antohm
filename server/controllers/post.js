@@ -50,7 +50,8 @@ const makeAPost = async (req, res) => {
     Post.create({   
     UserID: req.params.userid,
     content: req.body.content,
-    image: photoUrl.url,
+    image: photoUrl?.url,
+    niche: req.body.niche? req.body.niche: false,
     likes: [],
     comments: [],
     bookmarks: [],  

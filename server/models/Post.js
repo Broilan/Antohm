@@ -10,6 +10,7 @@ const postSchema = new Schema({
     bookmarks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Bookmark'}],
     sourced: [{type: mongoose.Schema.Types.ObjectId, ref: 'Resource'}],
     image: {type: String},
+    niche: {type: String},
     date: {
         type: Date,
         default: Date.now()

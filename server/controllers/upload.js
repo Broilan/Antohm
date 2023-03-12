@@ -28,14 +28,19 @@ cloudinary.config({
         post: req.params.post || null
       })
       .then(response => {
-        console.log(response)
-        res.json({response: response})
-      User.findByIdAndUpdate(req.params.user, {
-        pfp: response.photo
-      }).then(response => { console.log(response)})
-      }).catch(err =>  console.log(err))
+        if(response.postType == "header") {
+          User.findByIdAndUpdate(req.params.user, {
+            pfp: response.photo
+          }).then(response => { res.json({response:response}), console.log(response)})
+        } else {
+        User.findByIdAndUpdate(req.params.user, {
+          header: response.photo
+        }).then(response => { res.json({response:response}), console.log(response)})
+        }})}
+        
+        
+      
 
-    };
 
 module.exports = {
     postPhoto,
