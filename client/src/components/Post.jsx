@@ -12,9 +12,9 @@ import { useNavigate } from 'react-router-dom';
 const Post = (props) => {
   //context
   const {currentUser} = useContext(DataContext)
-
+  console.log(props)
   //props
-  const {postID, image, posterID, displayName, username, bookmarks, comments, likes, datePosted, content, sourced, pfp} = props
+  const {postID, niche, image, posterID, displayName, username, bookmarks, comments, likes, datePosted, content, sourced, pfp} = props
   //refs
   const likeRef = useRef(<AiOutlineHeart />)
   const likeNum = useRef(likes?.length)
@@ -58,10 +58,15 @@ const Post = (props) => {
     <div className='bg-white border-gray-400 border-[1px] h-fit z-10'>
     <div className='flex w-[100%] gap-2 m-5'>
       
-    <img src={pfp.pfp? pfp.pfp:defaultpfp} alt='' onClick={(e) => navigate(`/profile/${posterID}`)} className='border-black border-[1px] h-16 w-16 rounded-[50%]'/>
+    <img src={pfp? pfp.pfp? pfp.pfp:defaultpfp:defaultpfp} alt='' onClick={(e) => navigate(`/profile/${posterID}`)} className='border-black border-[1px] h-16 w-16 rounded-[50%]'/>
     <div>
+      <div className='flex gap-2'>
     <h2 onClick={(e) => navigate(`/profile/${posterID}`)} className='font-bold'>{username? username: null}</h2>
+   
+    {niche? niche == "false"? null: <h2 className='font-semibold bg-blue-200 rounded-xl text-sm p-1 text-center shadow-xl'>{niche}</h2> : null}
+      </div>
     <h2 onClick={(e) => navigate(`/profile/${posterID}`)} className='font-semibold'>@{displayName? displayName: null}</h2>
+    
     </div>
     <div className='ml-auto mr-8'><BsThreeDots /></div>
     </div>

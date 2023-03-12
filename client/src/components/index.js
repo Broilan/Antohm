@@ -18,8 +18,7 @@ export { default as News } from './News';
 export { default as NotifDd } from './NotifDd';
 export { default as CommentForm } from './CommentForm';
 export { default as Comment } from './Comment';
-
-
+export { default as AboutGroup } from './AboutGroup';
 
 
 
