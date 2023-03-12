@@ -52,6 +52,7 @@ const makeAPost = async (req, res) => {
     content: req.body.content,
     image: photoUrl?.url,
     niche: req.body.niche? req.body.niche: false,
+    subNiche: req.body.subNiche? req.body.subNiche: false,
     likes: [],
     comments: [],
     bookmarks: [],  

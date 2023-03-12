@@ -11,6 +11,7 @@ const postSchema = new Schema({
     sourced: [{type: mongoose.Schema.Types.ObjectId, ref: 'Resource'}],
     image: {type: String},
     niche: {type: String},
+    subNiche: {type: String},
     date: {
         type: Date,
         default: Date.now()
