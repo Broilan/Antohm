@@ -1,12 +1,16 @@
-export const engineering = [
+
+
+export const engineering = {"discipline": "Engineering", 
+ "types":[
     {"type": "Chemical", "subsets": ["Biomolecular", "Materials", "Molecular", "Process", "Corrosion"] },
     {"type": "Electrical", "subsets": ["Electronic", "Computer", "Power", "Optical"] },
     {"type": "Civil", "subsets": ["Environmental", "Geotechnical", "Structural", "Transport", "Utility", "Water Resources" ] },
     {"type": "Mechanical", "subsets": ["Acoustical", "Aerospace", "Automotive", "Marine", "Thermal", "Manufacturing", "Optomechanical", "Thermal", "Power", "Industrial", "Energy"] },
     {"type": "Interdisciplinary", "subsets": ["Agricultural", "Applied", "Biomedical", "Biological", "Information", "Industrial", "Mechatronics", "Quantum", "Nuclear", "Software"] },
-  ]
+]}
 
-  export const math = [
+  export const math = { "discipline":"Math",
+   "types":[
     {"type": "Number Theory", "subsets": [] },
     {"type": "Geometry", "subsets": ["Projective", "Affine", "Differential", "Manifold Theory", "Riemannian", "Algebraic", "Topology", "Discrete", "Convex", "Complex"] },
     {"type": "Algebra", "subsets": ["Group Theory", "Field Theory", "Linear", "Ring Theory", "Commutative", "Homological", "Lie Group Theory", "Boolean"  ] },
@@ -15,10 +19,12 @@ export const engineering = [
     {"type": "Logic & Set Theory", "subsets": [] },  
     {"type": "Stastics", "subsets": [] },  
     {"type": "Computational", "subsets": [] },  
-  ]
+  ]}
 
-  export const science = [
+  export const science = {"discipline": "Science", "types":[
     {"type": "Physical", "subsets" : ["Physics", "Chemistry", "Astronomy", "Earth Science"]},
     {"type": "Life", "subsets" : ["anthropology", "ecology", "entomology", "botany", "zoology", "microbiology", "physiology", "biotechnology", "evolutionary biology", "genetics", "human anatomy", "marine biology", "molecular biology", "neuroscience", "paleontology", "plant biology", "Biochemistry"]},
     {"type": "Social", "subsets": ["Anthropology", "Economics", "Sociology", "Psychology"]},
-  ]
+]}
+
+export const disciplines = [engineering, math, science]

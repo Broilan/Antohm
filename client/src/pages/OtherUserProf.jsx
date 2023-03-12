@@ -16,7 +16,7 @@ const OtherUserProf = () => {
     useEffect(() => {
         axios.get(`http://localhost:8000/user/${userID}/posts`)
        .then(response => {
-        setPosts(response.data.usersPosts.map((p) =>  <Post postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
+        setPosts(response.data.usersPosts.map((p) =>  <Post postID={p._id} niche={p.niche} subNiche={p.subNiche} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
        })
        axios.get(`http://localhost:8000/user/${userID}`)
        .then(response => {
@@ -29,7 +29,7 @@ const OtherUserProf = () => {
         case 'posts': 
         axios.get(`http://localhost:8000/user/${userID}/posts`)
        .then(response => {
-        setPosts(response.data.usersPosts.map((p) =>  <Post postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
+        setPosts(response.data.usersPosts.map((p) =>  <Post postID={p._id} niche={p.niche} subNiche={p.subNiche} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
        })
        break;
   
@@ -37,7 +37,7 @@ const OtherUserProf = () => {
           axios.get(`http://localhost:8000/user/${userID}/likes`)
           .then(response => {
             console.log(response.data.usersLikes)
-           setPosts(response.data.usersLikes?.map((p) =>  <Post postID={p.likeOn._id} posterID={p.likeTo._id} username={p.likeTo.name} displayName={p.likeTo.displayName} bookmarks={p.likeOn.bookmarks} comments={p.likeOn.comments} likes={p.likeOn.likes} datePosted={p.likeOn.date} content={p.likeOn.content} sourced={p.likeOn.sourced}    /> ))
+           setPosts(response.data.usersLikes?.map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} postID={p.likeOn._id} posterID={p.likeTo._id} username={p.likeTo.name} displayName={p.likeTo.displayName} bookmarks={p.likeOn.bookmarks} comments={p.likeOn.comments} likes={p.likeOn.likes} datePosted={p.likeOn.date} content={p.likeOn.content} sourced={p.likeOn.sourced}    /> ))
           })
           break;
   

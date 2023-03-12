@@ -17,7 +17,7 @@ const SocialDash = () => {
     })
       axios.get(`http://localhost:8000/user/${currentUser.id}/posts`)
      .then(response => {
-      setPosts(response.data.usersPosts.reverse().map((p) =>  <Post pfp={currentUser.pfp} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
+      setPosts(response.data.usersPosts.reverse().map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={currentUser.pfp} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
      })
   }, [])
 
@@ -26,7 +26,7 @@ const SocialDash = () => {
       case 'posts': 
       axios.get(`http://localhost:8000/user/${currentUser.id}/posts`)
      .then(response => {
-      setPosts(response.data.usersPosts.reverse().map((p) =>  <Post pfp={currentUser.pfp} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
+      setPosts(response.data.usersPosts.reverse().map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={currentUser.pfp} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
      })
      break;
 
@@ -34,21 +34,21 @@ const SocialDash = () => {
         axios.get(`http://localhost:8000/user/${currentUser.id}/likes`)
         .then(response => {
           console.log(response.data.usersLikes)
-         setPosts(response.data.usersLikes.reverse()?.map((p) =>  <Post pfp={p.likeTo.pfp} image={p.image} postID={p.likeOn._id} posterID={p.likeTo._id} username={p.likeTo.name} displayName={p.likeTo.displayName} bookmarks={p.likeOn.bookmarks} comments={p.likeOn.comments} likes={p.likeOn.likes} datePosted={p.likeOn.date} content={p.likeOn.content} sourced={p.likeOn.sourced}    /> ))
+         setPosts(response.data.usersLikes.reverse()?.map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={p.likeTo.pfp} image={p.image} postID={p.likeOn._id} posterID={p.likeTo._id} username={p.likeTo.name} displayName={p.likeTo.displayName} bookmarks={p.likeOn.bookmarks} comments={p.likeOn.comments} likes={p.likeOn.likes} datePosted={p.likeOn.date} content={p.likeOn.content} sourced={p.likeOn.sourced}    /> ))
         })
         break;
 
       case 'comments':
         axios.get(`http://localhost:8000/user/${currentUser.id}/comments`)
         .then(response => {
-          setPosts(response.data.usersComments.reverse()?.map((p) =>  <Post pfp={p.commentTo.pfp} image={p.image} postID={p._id} posterID={p.commentFrom._id} username={p.commentFrom.name} displayName={p.commentFrom.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.postID.date} content={p.content} sourced={p.sourced}    /> ))
+          setPosts(response.data.usersComments.reverse()?.map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={p.commentTo.pfp} image={p.image} postID={p._id} posterID={p.commentFrom._id} username={p.commentFrom.name} displayName={p.commentFrom.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.postID.date} content={p.content} sourced={p.sourced}    /> ))
         })
         break;
 
       case 'bookmarks':
         axios.get(`http://localhost:8000/user/${currentUser.id}/bookmarks`)
         .then(response => {
-          setPosts(response.data.usersBookmarks.reverse()?.map((p) =>  <Post pfp={p.bookmarkTo.pfp} image={p.image} postID={p.post._id} posterID={p.bookmarkTo._id} username={p.bookmarkTo.name} displayName={p.bookmarkTo.displayName} bookmarks={p.post.bookmarks} comments={p.post.comments} likes={p.post.likes} datePosted={p.post.date} content={p.post.content} sourced={p.post.sourced}    /> ))
+          setPosts(response.data.usersBookmarks.reverse()?.map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={p.bookmarkTo.pfp} image={p.image} postID={p.post._id} posterID={p.bookmarkTo._id} username={p.bookmarkTo.name} displayName={p.bookmarkTo.displayName} bookmarks={p.post.bookmarks} comments={p.post.comments} likes={p.post.likes} datePosted={p.post.date} content={p.post.content} sourced={p.post.sourced}    /> ))
         })
         break;
   }
