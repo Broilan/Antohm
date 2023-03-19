@@ -3,5 +3,5 @@ module.exports = {
     post: require('./post'),
     chat: require('./chat'),
     upload: require('./upload'),
-
+    job: require('./job'),
 };

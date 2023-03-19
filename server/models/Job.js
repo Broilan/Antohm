@@ -2,21 +2,14 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const jobSchema = new Schema({
-    UserID: [{type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    jobType: String, //Applied, In review, interviews, rejected, accepted, misc  
-    CompanyName: String, 
-    CompanyLogo: String,
-    Position: String,
-    PositionType: String, //Full-time, part-time, internship, etc
-    PositionLevel: String, //Entry level, mid-level, senior
-    PositionLocation: String, //remote, at office
-    PriorityLevel: String, //Low, medium, high, extreme
-    Notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
-    image: String,
-    date: {
-        type: Date,
-        default: Date.now()
-    }
+    SavedBy: [{type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    company: String, 
+    companyLogo: String,
+    position: String,
+    aboutCompany: String,
+    jobType: String,
+    linkedInLinks: String, 
+    datePosted: String
 })
 
 const Job = mongoose.model('Job', jobSchema);

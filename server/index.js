@@ -60,6 +60,7 @@ app.get('/', (req, res) => {
   app.use("/post", routes.post);
   app.use("/chat", routes.chat);
   app.use("/upload", routes.upload);
+  app.use("/job", routes.job);
 
 
   // Server
