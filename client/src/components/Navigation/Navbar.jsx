@@ -14,7 +14,7 @@ import { AiOutlineBell, AiFillHome, AiOutlineDown } from 'react-icons/ai';
 import { TfiEmail } from 'react-icons/tfi';
 import { MdOutlinePerson } from 'react-icons/md';
 
-import logo from '/Users/Tanner/Desktop/ThriverFolder/Thriver/client/src/assets/Thrive.png'
+// import logo from '/Users/Tanner/Desktop/ThriverFolder/Thriver/client/src/assets/Thrive.png'
 
 
 const Navbar = () => {            
@@ -38,7 +38,7 @@ const Navbar = () => {
                 
                 <div className="flex gap-10 items-center justify-center w-screen h-[3rem] bg-white border-black border-[1px] p-6">
             <NavLink className=" bg-transparent w-1 scale-x-[50] cursor-pointer translate-x-[16rem] z-10 h-10" to="/"></NavLink> 
-            <img src={logo} className="fixed bottom-[10rem] scale-[.21] left-[-16rem] z-[0]" />  
+            {/* <img alt="nah" className="fixed bottom-[10rem] scale-[.21] left-[-16rem] z-[0]" />   */}
 
                 <div className=" w-[17rem]  h-8 cursor-pointer" >
 

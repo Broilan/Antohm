@@ -1,5 +1,5 @@
 import React from 'react'
-import "/Users/Tanner/Desktop/ThriverFolder/Thriver/client/src/styles/profile.css"
+// import "/Users/Tanner/Desktop/ThriverFolder/Thriver/client/src/styles/profile.css"
 import { useContext, useState } from 'react';
 import { DataContext } from '../../App';
 import { PageContext } from '../../pages/Profile';
