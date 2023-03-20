@@ -37,7 +37,7 @@ export default function TodoList(){
     <div>       
       <> <Modal component={modalType} /></>
 
-        <div className=' w-[25rem] h-[30rem] m-5 bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
+        <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
         <div className=' w-[100%] flex items-center bg-white rounded-tr-3xl rounded-tl-3xl opacity-80 border-b-[1px] border-black'>
         <h1 className='ml-auto font-bold text-[2rem] text-center'>Tasks</h1>
         <div className='flex gap-3 ml-auto mr-2 ' >

@@ -68,7 +68,7 @@ const Post = (props) => {
     <div>
       <div className='flex gap-2'>
     <h2 onClick={(e) => navigate(`/profile/${posterID}`)} className='font-bold'>{username? username: null}</h2>
-    {currentUser? currentUser.following.includes(posterID)? null: <div onClick={() => handleFollow(posterID)} className='cursor-pointer font-bold text-white p-1 rounded-xl bg-blue-400'>follow</div> :null }
+    {currentUser? currentUser.following.includes(posterID)? null: <div onClick={() => handleFollow(posterID)} className='cursor-pointer shadow-xl font-bold text-white p-1 rounded-xl bg-blue-400'>follow</div> :null }
     {niche? niche == "false"? null: <h2 className={`font-semibold ${niche=="Math"?'bg-blue-300':niche == 'Engineering'? 'bg-orange-300': niche=="Science"? "bg-purple-300":niche=="Data"? "bg-red-400": 'bg-yellow-200'} rounded-xl text-sm p-1 text-center shadow-xl`}>{niche}</h2> : null}
     {subNiche? subNiche == "false"? null: <h2 className='font-semibold bg-green-300 rounded-xl text-sm p-1 text-center shadow-xl'>{subNiche}</h2> : null}
       </div>

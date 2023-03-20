@@ -5,7 +5,7 @@ import NotifDd from "../NotifDd";
 import { DataContext } from "../../App";
 import { FaHome } from 'react-icons/fa';
 import { ImCool } from 'react-icons/im';
-import { BsFillSunFill } from 'react-icons/bs';
+import { BiLogOut } from 'react-icons/bi';
 
 
 import { MdOutlineCallMade, MdWorkOutline} from 'react-icons/md';
@@ -13,6 +13,7 @@ import { HiOutlineNewspaper } from 'react-icons/hi';
 import { AiOutlineBell, AiFillHome, AiOutlineDown } from 'react-icons/ai';
 import { TfiEmail } from 'react-icons/tfi';
 import { MdOutlinePerson } from 'react-icons/md';
+import { VscSettingsGear } from 'react-icons/vsc';
 
 import logo from '../../assets/Thrive.png'
 
@@ -97,6 +98,8 @@ const Navbar = () => {
                     <NavLink to="/profile" className=' text-black text-[20px] font-bold transition-color mt-3 '><MdOutlinePerson /></NavLink>
                     <div id="notif-btn" onClick={() => setNotifsOpen(true)} className='cursor-pointer text-black text-[20px] font-bold mt-3'><AiOutlineBell/></div>
                     <div onClick={openMessages} className='cursor-pointer text-black  text-[20px] font-bold mt-3'><TfiEmail/></div>
+                    <div className='cursor-pointer text-black  text-[20px] font-bold mt-3' ><VscSettingsGear/></div>
+                    <div onClick={handleLogout} className='cursor-pointer text-black  text-[20px] font-bold mt-3'><BiLogOut /></div>
                     </div>
                 </div>
                                                                                                                                        

@@ -1,6 +1,6 @@
 export { default as TodoList } from './TodoList';
 export { default as TodoListForm } from './TodoListForm';
-export { default as ProfileSideBar } from './Navigation/ProfileSidebar';
+export { default as ProfileNav } from './Navigation/ProfileNav';
 export { default as Navbar } from './Navigation/Navbar';
 export { default as Applications } from './Applications';
 export { default as Kanban } from "./Kanban";

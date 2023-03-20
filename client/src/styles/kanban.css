@@ -1,12 +1,10 @@
 .kanban-container {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5%;
-    background-color: #F2F2F2;
-    width: 70%;
-    height: 70vh;
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 60%;
+    height: 80vh;
     border-radius: 1rem;
-    box-shadow: 0px 0px 25px;
 }
 
 .kanban-wrapper {
@@ -17,23 +15,11 @@
     justify-content: center;
 }
 
-.kanban-title {
-    position: relative;
-    margin-left: 35%;
-}
-
-.kanban-wrapper h1 {
-   margin-left: 38%;
-   border-bottom: 1px solid black;
-   width: fit-content;
-}
-
 .kanban-inside-containers {
     height: 100%;
     width: 25%;    
     border-radius: 1rem;
     background-color: white;
-    box-shadow: 0px 0px 25px;
 }
 
 .kanban-listitem-draggable.dragging {

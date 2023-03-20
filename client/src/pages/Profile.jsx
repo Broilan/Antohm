@@ -1,24 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "../styles/profile.css"
 import QuantDash from "../components/QuantDash";
-import { ProfileSideBar } from "../components";
-import { DataContext } from "../App";
+import { ProfileNav, SocialDash } from "../components";
 
 
- export const PageContext = React.createContext()
 
 const Profile = () => {
-  const {currentUser} = useContext(DataContext)
-  const [dash, setDash] = useState(<QuantDash currentUser={currentUser}/>)
-
-
+  const [current, setCurrent] = useState(2)
   return (
-    <PageContext.Provider value={{dash, setDash, currentUser}}>
-    <div>
-    <ProfileSideBar />
-    {dash}
-    </div>
-    </PageContext.Provider>
+    <>
+    <ProfileNav setCurrent={setCurrent}/>
+    {current == 1? <SocialDash /> :<QuantDash /> }
+    </>
   );
 };
 

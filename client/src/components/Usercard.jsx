@@ -1,4 +1,5 @@
-import React, {useContext} from 'react'
+import React, {useContext, useRef, useEffect} from 'react'
+import axios from 'axios';
 import { AiFillGithub, AiFillLinkedin  } from 'react-icons/ai';
 import { RiTwitterFill } from 'react-icons/ri';
 import { FaClipboardList } from 'react-icons/fa';
@@ -6,6 +7,15 @@ import { DataContext } from '../App';
 
 const Usercard = () => {
   const {currentUser} = useContext(DataContext)
+  const followersRef = useRef(0)
+  const followingRef = useRef(0) 
+  useEffect(() => {
+  axios.get(`http://localhost:8000/user/${currentUser.id}`).then(response => {
+    followersRef.current = response.data.foundUser.followers.length
+    followingRef.current = response.data.foundUser.following.length
+  })
+  }, [])
+  
   return (
     <>
     <div className='relative bg-white rounded-2xl border-gray-300 scale-[1.2] border-[1px] w-[18rem] h-[26rem]'>
@@ -16,8 +26,8 @@ const Usercard = () => {
         <p className='text-sm px-5 text-center border-b-[1px] pb-2 border-b-gray-400'>essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with</p>
 
         <div className='flex gap-16 mt-2 border-b-[1px] pb-2 border-b-gray-400 w-[100%] justify-center'>
-            <div className='text-center font-bold'>0 <br /> followers</div>
-            <div className='text-center font-bold '>0 <br /> following</div>
+            <div className='text-center font-bold'>{followersRef.current} <br /> followers</div>
+            <div className='text-center font-bold '>{followingRef.current} <br /> following</div>
         </div>
 
         <div>

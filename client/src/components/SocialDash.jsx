@@ -72,7 +72,7 @@ const SocialDash = () => {
   return (
     <>
 
-      <div className='flex flex-col right-[5%] top-[10%] fixed gap-4' >
+      <div className='flex flex-col left-[15%] top-[10%] fixed gap-32' >
 
       <div >
           <Usercard />

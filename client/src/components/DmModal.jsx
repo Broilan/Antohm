@@ -72,7 +72,6 @@ const DmModal = (props) => {
       
       setDmArray(dm.messages)
       if(dm.from) { 
-        console.log(dm.to.pfp, dm.from.pfp) 
       dm.to._id == currentUser.id? setDmName(dm.from.name) : setDmName(dm.to.name) 
       dm.to._id == currentUser.id? setDmPfp(dm.from.pfp) : setDmPfp(dm.to.pfp)     
       dm.to._id == currentUser.id? dmRef.current = dm.from._id : dmRef.current = dm.to._id   
@@ -126,7 +125,7 @@ const DmModal = (props) => {
         <input onChange={(e) => searchUsers(e)} type="text" className='border-black border-2 w-48 mx-auto my-2 relative mt-[-1rem] rounded-md p-1 ' placeholder='Search users'/>
     {isTyping==false? allDms?.map((d) => 
         <div onClick={(e) => openDM(d)} className='flex truncate border-b-gray-500 border-b-[1px] hover:bg-gray-200'>
-          {d.to._id == currentUser.id?
+          {d.to?._id == currentUser.id?
     <img src={d.from.pfp} className='rounded-[50%] m-1 border-[1px] w-12 border-black'/>:
     <img src={d.to.pfp} className='rounded-[50%] m-1 border-[1px] w-12  border-black'/>}
     <div>

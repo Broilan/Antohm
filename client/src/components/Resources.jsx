@@ -19,17 +19,17 @@ const Resources = () => {
 
   return (
     <>
-    
-    <h1 className='text-2xl text-center font-bold mt-10'>My resources</h1>
+    <div className='bg-dimWhite w-[60%] h-[80vh] mx-auto rounded-3xl shadow-xl border-2 border-gray-400'>
+    <h1 className='text-[4rem] underline text-center font-bold '>My resources</h1>
 
-                <ul className='flex gap-10 w-screen items-center justify-center mt-4 text-xl'>
+                <ul className='flex gap-10 w-[100%] justify-center font-bold mt-4 text-xl'>
                 <li className='hover:underline'>All</li>
                 <li className='hover:underline'>Skill-upkeep</li>
                 <li className='hover:underline'>Job Search</li>
                 <li className='hover:underline'>Mental Health</li>
                 </ul>
                  
-                <div className='flex flex-wrap h-fit ml-[18rem] mt-8 gap-10'>
+                <div className='flex flex-wrap h-fit ml-2 mt-8 gap-10 w-[100%]'>
                 {resources?.map((r) =>
                 <div className='w-[30rem] h-[12rem] bg-dimWhite rounded-3xl border-black border-[1.5px]'>
                 <div className='ml-auto mr-[-1.5px] mt-[-0.1rem] rounded-tl-none rounded-br-none bg-tertiary border-black border-t-0 border-r-0 border-[1px] w-20 h-12 rounded-3xl p-1 text-center'> 
@@ -62,6 +62,7 @@ const Resources = () => {
                 </div>
                 </div>   
                   )}
+                </div>
                 </div>
                
     </>
