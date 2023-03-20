@@ -98,14 +98,14 @@ const getUsers = (req, res) => {
     User.findOne({_id: req.params.id})
     .then(foundUser => {
         res.json({foundUser: foundUser})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 const getAllUsers = (req, res) => {
     User.find({})
     .then(response => {
         res.json({allusers: response})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 //get all of users dms
@@ -114,7 +114,7 @@ const getUsersDms = (req, res) => {
     .populate('from').populate('to').populate('messages')
     .then(response => {
         res.json({dms: response})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 //get specific dms
@@ -125,7 +125,7 @@ const getSpecificDms = (req, res) => {
     ]}).populate('messages').populate('to').populate('from')
     .then(response => {
         res.json({dms: response})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 // getting a users notifs 
@@ -136,21 +136,21 @@ const getUsersNotifs = (req, res) => {
     .populate('postID')
     .then(foundNotifs => {
         res.json({notifs: foundNotifs})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 //getting a users posts
 const getAUsersPosts = (req, res) => {
     Post.find({UserID: req.params.id}).populate('UserID').then(response => {
         res.json({usersPosts: response})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 //getting a users likes
 const getAUsersLikes = (req, res) => {
     Like.find({likeBy: req.params.id}).populate('likeTo').populate('likeOn').then(response => {
         res.json({usersLikes: response})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 //getting a users comments
@@ -158,32 +158,32 @@ const getAUsersComments = (req, res) => {
     Comment.find({commentFrom: req.params.id}).populate("commentFrom").populate('commentTo').populate('postID'
     ).then(response => {
         res.json({usersComments: response})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 //getting a users bookmarks
 const getAUsersBookmarks = (req, res) => {
     Bookmark.find({bookmarkFrom: req.params.id}).populate('bookmarkTo').populate('bookmarkFrom').populate('post').then(response => {
         res.json({usersBookmarks: response})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 const getAUsersFollowers = (req, res) => {
     User.findById(req.params.id).populate('followers').then(response => {
         res.json({usersFollowers: response})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 const getAUsersFollowing = (req, res) => {
     User.findById(req.params.id).populate('following').then(response => {
         res.json({usersFollowing: response})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 const getAUsersFollowingNoPopulate = (req, res) => {
     User.findById(req.params.id).then(response => {
         res.json({usersFollowing: response})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 const getUserResources = (req, res) => {
@@ -193,7 +193,7 @@ const getUserResources = (req, res) => {
     .populate('resourceBy')
     .then(foundResources => {
         res.json({resources: foundResources})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 //Get Tasks
@@ -211,7 +211,7 @@ const taskComments = (req, res) => {
         Comment.find({postID: foundTask._id})
         .then(foundComments => {
             res.json({foundComments: foundComments})
-        })
+        }).catch(err => res.json({err:err}))
     })
 }
 
@@ -220,7 +220,7 @@ const userJobs = (req, res) => {
     Job.find({user: req.params.email})
     .then(jobsOfUser => {
         res.json({jobsOfUser: jobsOfUser})
-    })
+    }).catch(err => res.json({err:err}))
 }
 
 //Update personal user info
@@ -402,7 +402,7 @@ const deleteTask = (req, res) => {
     Task.findByIdAndRemove(req.params.id) 
         .then(deletedTask => {
             res.json({deletedTask: deletedTask})
-        })
+        }).catch(err => res.json({err:err}))
 }
 
 //Delete a task comment
@@ -410,7 +410,7 @@ const deleteTaskComment = (req, res) => {
     Comment.findByIdAndRemove(req.params.id) 
         .then(deletedComment => {
             res.json({deletedComment: deletedComment})
-        })
+        }).catch(err => res.json({err:err}))
 }
 
 
