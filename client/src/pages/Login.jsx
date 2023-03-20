@@ -34,6 +34,7 @@ const Login = () => {
         axios.post(`http://localhost:8000/user/login`, userData)
         .then(response => {
             const { token } = response.data;
+            console.log(response, "loggg")
             // save token to localStorage
             localStorage.setItem('jwtToken', token);
             // set token to headers

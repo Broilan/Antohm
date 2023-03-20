@@ -51,6 +51,20 @@ const SocialDash = () => {
           setPosts(response.data.usersBookmarks.reverse()?.map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={p.bookmarkTo.pfp} image={p.image} postID={p.post._id} posterID={p.bookmarkTo._id} username={p.bookmarkTo.name} displayName={p.bookmarkTo.displayName} bookmarks={p.post.bookmarks} comments={p.post.comments} likes={p.post.likes} datePosted={p.post.date} content={p.post.content} sourced={p.post.sourced}    /> ))
         })
         break;
+      case 'following':
+        axios.get(`http://localhost:8000/user/${currentUser.id}/following`)
+        .then(response => {
+          console.log(response.data.usersFollowing.following)
+          setPosts(response.data.usersFollowing.following.reverse()?.map((p) =>  <Post pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'following'} /> ))
+        })
+        break;
+      case 'followers':
+        axios.get(`http://localhost:8000/user/${currentUser.id}/followers`)
+        .then(response => {
+          console.log(response.data.usersFollowers.followers)
+          setPosts(response.data.usersFollowers.followers.reverse()?.map((p) =>  <Post pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'followers'} /> ))
+          })
+          break;
   }
 }
 

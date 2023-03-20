@@ -22,7 +22,6 @@ function App() {
 
   useEffect(() => {
     let token;
-
     if (!localStorage.getItem('jwtToken')) {
       setIsAuthenticated(false);
       console.log('====> Authenticated is now FALSE');
@@ -55,7 +54,7 @@ function App() {
   return (
     <BrowserRouter>      
     
-    <DataContext.Provider value={{ currentUser, handleLogout, nowCurrentUser,  isAuthenticated, setIsAuthenticated, open, setOpen, mOpen, setMOpen, modalType, setModalType}}>
+    <DataContext.Provider value={{ currentUser, setCurrentUser, handleLogout, nowCurrentUser, isAuthenticated, setIsAuthenticated, open, setOpen, mOpen, setMOpen, modalType, setModalType}}>
     <Navbar/>
           <Routes>
               <Route path='/' element={ <Home />} />

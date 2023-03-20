@@ -44,7 +44,7 @@ const navigate = useNavigate()
   return (
     <>
     
-    <div className='flex flex-col ml-[16%] top-[10%] fixed gap-4' >
+    <div className='flex flex-col ml-[16%] top-[10%] fixed gap-24' >
 
     <div >
         <Usercard />
