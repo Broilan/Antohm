@@ -34,10 +34,10 @@ console.log(notifsArray)
       <div className=''  >
         {notifsArray?.map((n) => 
     <div  className='flex truncate border-b-gray-500 border-b-[1px]  hover:bg-gray-200'>
-    <img src={n.from.pfp? n.from.pfp:null} className='rounded-[50%] m-1 border-[1px] w-5 h-8 p-5 border-black'/>
+    <img src={n.from.pfp? n.from.pfp:null} className='rounded-[50%] m-1 border-[1px] w-16 h-16 border-black'/>
     
     <div>
-    <div className='font-semibold text-sm mt-1'> <div className='cursor-pointer' onClick={(e) => navigate(`/profile/${n.from._id}`)}>@{n.from.displayName}</div>{n.likeCommentOrFollow=='Comment'? "commented on your post!" :n.content? n.content: null}</div>
+    <div className='font-semibold text-md mt-1'> <div className='cursor-pointer' onClick={(e) => navigate(`/profile/${n.from._id}`)}>@{n.from.displayName}</div>{n.likeCommentOrFollow=='Comment'? "commented on your post!" :n.content? n.content: null}</div>
     <div onClick={(e) => navigate(`/post/${n.postID._id}`)} className='truncate text-sm cursor-pointer'>{n.likeCommentOrFollow == "Comment"? n.content: n.postID?.content? n.postID.content: null}</div>
     </div>
     </div>

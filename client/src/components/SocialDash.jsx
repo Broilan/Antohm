@@ -11,59 +11,59 @@ const SocialDash = () => {
   const [userPfp, setUserPfp] = useState(currentUser.pfp)
   
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/${currentUser.id}`)
+    axios.get(`http://localhost:8000/user/${currentUser?.id}`)
     .then(response => {
       setUserPfp(response.data.foundUser.pfp)
-    })
-      axios.get(`http://localhost:8000/user/${currentUser.id}/posts`)
+    }).catch(err => console.log(err))
+      axios.get(`http://localhost:8000/user/${currentUser?.id}/posts`)
      .then(response => {
       setPosts(response.data.usersPosts.reverse().map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={currentUser.pfp} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
-     })
+     }).catch(err => console.log(err))
   }, [])
 
   function changeFeed(current) {
     switch (current) {
       case 'posts': 
-      axios.get(`http://localhost:8000/user/${currentUser.id}/posts`)
+      axios.get(`http://localhost:8000/user/${currentUser?.id}/posts`)
      .then(response => {
       setPosts(response.data.usersPosts.reverse().map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={currentUser.pfp} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
-     })
+     }).catch(err => console.log(err))
      break;
 
       case 'likes':
-        axios.get(`http://localhost:8000/user/${currentUser.id}/likes`)
+        axios.get(`http://localhost:8000/user/${currentUser?.id}/likes`)
         .then(response => {
           console.log(response.data.usersLikes)
          setPosts(response.data.usersLikes.reverse()?.map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={p.likeTo.pfp} image={p.image} postID={p.likeOn._id} posterID={p.likeTo._id} username={p.likeTo.name} displayName={p.likeTo.displayName} bookmarks={p.likeOn.bookmarks} comments={p.likeOn.comments} likes={p.likeOn.likes} datePosted={p.likeOn.date} content={p.likeOn.content} sourced={p.likeOn.sourced}    /> ))
-        })
+        }).catch(err => console.log(err))
         break;
 
       case 'comments':
-        axios.get(`http://localhost:8000/user/${currentUser.id}/comments`)
+        axios.get(`http://localhost:8000/user/${currentUser?.id}/comments`)
         .then(response => {
           setPosts(response.data.usersComments.reverse()?.map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={p.commentTo.pfp} image={p.image} postID={p._id} posterID={p.commentFrom._id} username={p.commentFrom.name} displayName={p.commentFrom.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.postID.date} content={p.content} sourced={p.sourced}    /> ))
-        })
+        }).catch(err => console.log(err))
         break;
 
       case 'bookmarks':
-        axios.get(`http://localhost:8000/user/${currentUser.id}/bookmarks`)
+        axios.get(`http://localhost:8000/user/${currentUser?.id}/bookmarks`)
         .then(response => {
           setPosts(response.data.usersBookmarks.reverse()?.map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={p.bookmarkTo.pfp} image={p.image} postID={p.post._id} posterID={p.bookmarkTo._id} username={p.bookmarkTo.name} displayName={p.bookmarkTo.displayName} bookmarks={p.post.bookmarks} comments={p.post.comments} likes={p.post.likes} datePosted={p.post.date} content={p.post.content} sourced={p.post.sourced}    /> ))
-        })
+        }).catch(err => console.log(err))
         break;
       case 'following':
-        axios.get(`http://localhost:8000/user/${currentUser.id}/following`)
+        axios.get(`http://localhost:8000/user/${currentUser?.id}/following`)
         .then(response => {
           console.log(response.data.usersFollowing.following)
           setPosts(response.data.usersFollowing.following.reverse()?.map((p) =>  <Post pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'following'} /> ))
-        })
+        }).catch(err => console.log(err))
         break;
       case 'followers':
-        axios.get(`http://localhost:8000/user/${currentUser.id}/followers`)
+        axios.get(`http://localhost:8000/user/${currentUser?.id}/followers`)
         .then(response => {
           console.log(response.data.usersFollowers.followers)
           setPosts(response.data.usersFollowers.followers.reverse()?.map((p) =>  <Post pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'followers'} /> ))
-          })
+          }).catch(err => console.log(err))
           break;
   }
 }

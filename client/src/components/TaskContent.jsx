@@ -1,9 +1,8 @@
 import React from 'react'
 import axios from 'axios';
 
-
 const TaskContent = (props) => {
-  const{added, taskName, task, id, importance} = props
+  const{added, taskName, task, id, importance, setOpen} = props
 
     
     const handleDelete = () => { 
@@ -18,7 +17,7 @@ const TaskContent = (props) => {
               </div>
           <div className="flex gap-6">
           <div className="bg-blue-400 rounded-lg p-2 m-1 text-white font-bold cursor-pointer" >Edit</div>
-          
+
                 {importance == "Low"?<div className=" text-white bg-gray-400 rounded-lg p-2 m-1 font-bold">{importance}</div>:
                 importance == 'Medium'?<div className=" text-white bg-blue-400 rounded-lg p-2 m-1 font-bold">{importance}</div>:
                 importance == "High"?<div className=" text-white bg-red-500 rounded-lg p-2 m-1 font-bold">{importance}</div>:

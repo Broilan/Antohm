@@ -14,7 +14,7 @@ const Resources = () => {
     .then(response => {
       console.log(response.data.resources)
       setResources(response.data.resources)
-    })
+    }).catch(err => console.log(err))
   }, [])
 
   return (
