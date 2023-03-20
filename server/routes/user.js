@@ -20,6 +20,8 @@ router.get('/:id/bookmarks', ctrls.user.getAUsersBookmarks);
 router.get('/taskcomments/:id', ctrls.user.taskComments);
 router.get('/jobs/:name', ctrls.user.userJobs);
 router.put('/postjob/:name', ctrls.user.postJob);
+router.put('/follow/:to/:from', ctrls.user.followAUser);
+router.put('/unfollow/:to/:from', ctrls.user.unfollowAUser);
 router.put('/:id/createtask', ctrls.user.postTask);
 router.put('/task/:id/update', ctrls.user.updateTaskIntent);
 router.put('/comment/task/:postID', ctrls.user.postTaskComment);

@@ -12,6 +12,12 @@ const configuration = new Configuration({
 const seiURL = "https://www.linkedin.com/jobs/search?trk=guest_homepage-basic_guest_nav_menu_jobs&position=1&pageNum=0"
 const queries =['Software engineer', "UX designer", "dev ops engineer"]
 
+const getJobs = (req, res) => {
+    Job.find().then(response => {
+        res.json({allJobs: response})
+    })
+}
+
 const postJobs = async (num) => {
     // initializing variable for recursion
     let cleanedJobArr = []
@@ -50,12 +56,13 @@ const jobData = await page.evaluate(() => {
         const arrOfJobs = []  
 
          class job {
-    constructor(company, position, companyLogo, linkedInLinks, datePosted) {
+    constructor(company, position, companyLogo, linkedInLinks, location, datePosted) {
        this.savedBy = [], 
        this.company = company,
        this.postion = position,
        this.companyLogo = companyLogo,
        this.linkedInLinks = linkedInLinks,
+       this.location = location
        this.datePosted = datePosted,
        this.jobType = 'unknown'
        this.aboutCompany = 'about'
@@ -70,8 +77,9 @@ const listItems = Array.from(document.querySelectorAll('li'))
             let position = li.querySelector('h3').innerText
             let companyLogo = li.querySelector("img").getAttribute('src')
             let company = li.querySelector("h4").innerText
+            let location = li.querySelector(".job-search-card__location").innerText
             let datePosted = li.querySelector("time").getAttribute('dateTime')
-                let jobClass = new job(company, position, companyLogo, linkedInLinks, datePosted)
+                let jobClass = new job(company, position, companyLogo, linkedInLinks, location, datePosted)
                  arrOfJobs.push(jobClass)
             }catch (err) {
             return err
@@ -103,13 +111,11 @@ const listItems = Array.from(document.querySelectorAll('li'))
     }
 }
     cleanJobArr()
+        await browser.close()
 
-    if(iteration == 2) {
-        return console.log("recursion complete")
-    } else {
+    if(iteration !== 2) {
         postJobs(iteration+1)
     }
-    await browser.close()
 }
 
 //change company about info with openAI
@@ -153,5 +159,6 @@ const completion = await openai.createChatCompletion({
 
 
 module.exports = {
+    getJobs,
     postJobs
 }

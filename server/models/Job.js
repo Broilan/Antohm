@@ -8,6 +8,7 @@ const jobSchema = new Schema({
     position: String,
     aboutCompany: String,
     jobType: String,
+    location: String,
     linkedInLinks: String, 
     datePosted: String
 })

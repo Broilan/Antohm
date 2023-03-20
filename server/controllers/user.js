@@ -348,6 +348,47 @@ const postJob = (req, res) => {
     })
 }
 
+const followAUser = (req, res) => {
+    User.findById(req.params.to).then(foundUser1 => {
+     User.findById(req.params.from).then(foundUser2 => {       
+        Notification.create({
+            from: req.params.from,
+            to: req.params.to,
+            likeCommentOrFollow: "follow",
+        }).then(response1 => {
+        User.findByIdAndUpdate(req.params.to, {
+            followers: [...foundUser1.followers, foundUser2._id],
+            notifications: [...foundUser1.notifications, response1._id]
+        }).then(response => { 
+        User.findByIdAndUpdate(req.params.from, {
+            following: [...foundUser2.following, foundUser1._id]
+        }).then(response => {
+            res.json({response: response})
+        })
+        })
+    })
+        })
+    })
+}
+
+const unfollowAUser = (req, res) => {
+    User.findById(req.params.to).then(foundUser1 => {
+     User.findById(req.params.from).then(foundUser2 => { 
+        let updatedUser1Followers = foundUser1.followers.filter((f) => f.toString() == foundUser2._id.toString()? false: true)      
+        let updatedUser2Following = foundUser2.following.filter((f) => f.toString() == foundUser1._id.toString()? false: true)    
+        User.findByIdAndUpdate(req.params.to, {
+            followers: updatedUser1Followers,
+        }).then(response => { 
+        User.findByIdAndUpdate(req.params.from, {
+            following: updatedUser2Following
+        }).then(response => {
+            res.json({response: "follows updated"})
+        })
+        })
+        })
+    })
+}
+
 //Delete a task
 const deleteTask = (req, res) => {
     Task.findByIdAndRemove(req.params.id) 
@@ -378,10 +419,12 @@ module.exports = {
     getAUsersBookmarks,
     getAUsersPosts,
     userSignup,
+    followAUser,
     getUserResources,
     userLogin,
     postTask,
     updateTaskIntent,
+    unfollowAUser,
     postTaskComment,
     deleteTask,
     deleteTaskComment,
