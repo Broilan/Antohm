@@ -70,7 +70,8 @@ const userSignup = (req, res) => {
                 email: foundUser.email,
                 displayName: foundUser.displayName,
                 name: foundUser.name,
-                pfp: foundUser.pfp
+                pfp: foundUser.pfp,
+                following: foundUser.following
             }
 
             jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
@@ -167,17 +168,23 @@ const getAUsersBookmarks = (req, res) => {
     })
 }
 
-// const getAUsersFollowers = (req, res) => {
-//     Follow.find({likeBy: req.params.id}).populate('UserID').then(response => {
-//         res.json({usersPosts: response})
-//     })
-// }
+const getAUsersFollowers = (req, res) => {
+    User.findById(req.params.id).populate('followers').then(response => {
+        res.json({usersFollowers: response})
+    })
+}
 
-// const getAUsersFollowing = (req, res) => {
-//     Follow.find({likeBy: req.params.id}).populate('UserID').then(response => {
-//         res.json({usersPosts: response})
-//     })
-// }
+const getAUsersFollowing = (req, res) => {
+    User.findById(req.params.id).populate('following').then(response => {
+        res.json({usersFollowing: response})
+    })
+}
+
+const getAUsersFollowingNoPopulate = (req, res) => {
+    User.findById(req.params.id).then(response => {
+        res.json({usersFollowing: response})
+    })
+}
 
 const getUserResources = (req, res) => {
     Resource.find({UserID: req.params.UserID})
@@ -354,7 +361,8 @@ const followAUser = (req, res) => {
         Notification.create({
             from: req.params.from,
             to: req.params.to,
-            likeCommentOrFollow: "follow",
+            likeCommentOrFollow: "Follow",
+            content: 'followed you!'
         }).then(response1 => {
         User.findByIdAndUpdate(req.params.to, {
             followers: [...foundUser1.followers, foundUser2._id],
@@ -411,6 +419,9 @@ const deleteTaskComment = (req, res) => {
 
 module.exports = {
     getAllUsers,
+    getAUsersFollowing,
+    getAUsersFollowingNoPopulate,
+    getAUsersFollowers,
     getUsersDms,
     getSpecificDms,
     getUsersNotifs,

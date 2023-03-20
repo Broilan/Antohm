@@ -28,7 +28,7 @@ cloudinary.config({
         post: req.params.post || null
       })
       .then(response => {
-        if(response.postType == "header") {
+        if(response.postType == "pfp") {
           User.findByIdAndUpdate(req.params.user, {
             pfp: response.photo
           }).then(response => { res.json({response:response}), console.log(response)})

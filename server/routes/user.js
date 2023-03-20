@@ -18,6 +18,9 @@ router.get('/:id/comments', ctrls.user.getAUsersComments);
 router.get('/:id/bookmarks', ctrls.user.getAUsersBookmarks);
 
 router.get('/taskcomments/:id', ctrls.user.taskComments);
+router.get('/:id/following', ctrls.user.getAUsersFollowing);
+router.get('/nopop/:id/following', ctrls.user.getAUsersFollowingNoPopulate);
+router.get('/:id/followers', ctrls.user.getAUsersFollowers);
 router.get('/jobs/:name', ctrls.user.userJobs);
 router.put('/postjob/:name', ctrls.user.postJob);
 router.put('/follow/:to/:from', ctrls.user.followAUser);
