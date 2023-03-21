@@ -164,28 +164,28 @@ const updateUserJobData = (req, res) => {
                         console.log(updatedApps)
                         User.findByIdAndUpdate(req.params.userID, {
                             applications: updatedApps
-                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                        }).then(response => console.log(response)).catch(err => res.json({error: err}))
                     break;
 
                     case "Offers":
                         let updatedOffers = usersOffers.filter((j) => j.toString() == jobID.toString()? false: true)
                         User.findByIdAndUpdate(req.params.userID, {
                             offers: updatedOffers
-                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                        }).then(response => console.log(response)).catch(err => res.json({error: err}))
                     break;
 
                     case "Interviews":
                         let updatedInterviews = usersInterviews.filter((j) => j.toString() == jobID.toString()? false: true)
                         User.findByIdAndUpdate(req.params.userID, {
                             interviews: updatedInterviews
-                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                        }).then(response => console.log(response)).catch(err => res.json({error: err}))
                     break;
 
                     case 'Responses':
                         let updatedResponses = usersResponses.filter((j) => j.toString() == jobID.toString()? false: true)
                         User.findByIdAndUpdate(req.params.userID, {
                             responses: updatedResponses
-                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                        }).then(response => console.log(response)).catch(err => res.json({error: err}))
                     break;
 
                 }
@@ -195,25 +195,25 @@ const updateUserJobData = (req, res) => {
                     case "Applications Sent":
                         User.findByIdAndUpdate(req.params.userID, {
                             applications: [...usersApplications, jobID]
-                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                        }).then(response => console.log(response)).catch(err => res.json({error: err}))
                     break;
 
                     case "Offers":
                         User.findByIdAndUpdate(req.params.userID, {
                             offers: [...usersOffers, jobID]
-                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                        }).then(response => console.log(response)).catch(err => res.json({error: err}))
                     break;
 
                     case "Interviews":
                         User.findByIdAndUpdate(req.params.userID, {
                             interviews: [...usersInterviews, jobID]
-                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                        }).then(response => console.log(response)).catch(err => res.json({error: err}))
                     break;
 
                     case 'Responses':
                         User.findByIdAndUpdate(req.params.userID, {
                             responses: [...usersResponses, jobID]
-                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                        }).then(response => console.log(response)).catch(err => res.json({error: err}))
                     break;
 
                 }
@@ -221,6 +221,7 @@ const updateUserJobData = (req, res) => {
 
         }
     }).catch(err => res.json({err:err}))
+    User.findById(req.params.userID).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
 }
 
 //getting a users likes
