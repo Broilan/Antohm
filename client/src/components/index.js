@@ -19,6 +19,7 @@ export { default as NotifDd } from './NotifDd';
 export { default as CommentForm } from './CommentForm';
 export { default as Comment } from './Comment';
 export { default as AboutGroup } from './AboutGroup';
+export { default as Modal } from './Modal';
 
 
 

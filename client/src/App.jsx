@@ -18,6 +18,7 @@ function App() {
 
   //modal stuff
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false)
   const [modalType, setModalType] = useState()
 
   useEffect(() => {
@@ -54,7 +55,7 @@ function App() {
   return (
     <BrowserRouter>      
     
-    <DataContext.Provider value={{ currentUser, setCurrentUser, handleLogout, nowCurrentUser, isAuthenticated, setIsAuthenticated, open, setOpen, mOpen, setMOpen, modalType, setModalType}}>
+    <DataContext.Provider value={{ currentUser, setCurrentUser, open2, setOpen2, handleLogout, nowCurrentUser, isAuthenticated, setIsAuthenticated, open, setOpen, mOpen, setMOpen, modalType, setModalType}}>
     <Navbar/>
           <Routes>
               <Route path='/' element={ <Home />} />

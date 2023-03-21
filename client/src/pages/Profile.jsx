@@ -6,7 +6,7 @@ import { ProfileNav, SocialDash } from "../components";
 
 
 const Profile = () => {
-  const [current, setCurrent] = useState(1)
+  const [current, setCurrent] = useState(2)
   return (
     <>
     <ProfileNav setCurrent={setCurrent}/>

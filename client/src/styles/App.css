@@ -15,6 +15,14 @@ body {
   display: none;
 }
 
+#dropdown-box::-webkit-scrollbar {
+  width: 4px;
+}
+
+#dropdown-box::-webkit-scrollbar-thumb {
+  background: gray;
+}
+
 /* #job-board-list {
   overflow: scroll;
 }

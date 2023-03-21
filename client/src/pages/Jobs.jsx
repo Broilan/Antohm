@@ -69,8 +69,8 @@ const {currentUser, isAuthenticated} = useContext(DataContext)
             <div className='bg-blue-400 w-[100%] h-24 outline-blue-500 rounded-tl-xl flex flex-col items-center'>
             <p className='text-white text-center mt-1 text-xl font-bold'>Search our api for one million + jobs. <br />  Updated <p className='underline text-2xl inline'>everyday.</p></p>
 
-           <div className='translate-y-8 flex gap-8'>           
-           <select onChange={(e)=> filterJobs(e.target.value, 'location')} className='bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
+           <div className='translate-y-8 z-10 flex gap-8'>           
+           <select onChange={(e)=> filterJobs(e.target.value, 'location')} className=' bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
             <option hidden selected>Location</option>
                 {states.map((s) =>  <option value={s}>{s}</option> )}
            </select>
@@ -136,7 +136,7 @@ const {currentUser, isAuthenticated} = useContext(DataContext)
 
                 <div className='text-xl'>
                     <h1 className='underline font-semibold text-3xl'>Location</h1>
-                    <h3 className='font-semibold text-xl'>{selected? selected.location: jobs[0]?.aboutCompany}</h3>
+                    <h3 className='font-semibold text-xl'>{selected? selected.location: jobs[0]?.location}</h3>
                 </div>           
                 </div>
             </div>
