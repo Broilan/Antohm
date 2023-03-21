@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import { DataContext } from '../App';
 import {Calendar, Kanban, Applications, Resources, Modal} from './';
 import TodoList from './TodoList';
@@ -10,30 +10,62 @@ import {BsKanban} from 'react-icons/bs'
 import {TfiCalendar} from 'react-icons/tfi'
 
 
+function Popup({open3, setOpen3}){
+
+    // setTimeout(() => {
+    //   setOpen3(false)
+    // }, 6500);
+  return(
+    <>
+
+    {open3? 
+    <div className='w-screen h-screen flex-col items-center justify-center absolute z-[100]'>
+    <div className= {`${open3[1] == 'error'? "bg-red-400" : "bg-green-400"} animate-shrink p-1 animation-delay-6000 delay-100 opacity-80 w-[30rem] h-[10rem] rounded-xl flex-col items-center justify-center`}>
+      {open3[1] == "added"? 
+      <p className='text-white font-bold text-3xl text-center'>Added Succesfully! <br /> Check the applications tab to view your updates. </p>
+      :open3[1] == 'removed'? 
+      <p className='text-black font-bold text-3xl text-center'>Removed Succesfully! <br /> Check the applications tab to view your updates. </p>
+      :open3[1] == "error"?
+      <p className='text-black font-bold text-3xl'>Error: Please try again.</p>
+      :null
+     }
+     
+     <button onClick={()=> setOpen3(false)} className='bg-white mt-2 font-bold mx-auto flex items-center justify-center rounded-lg w-20 h-8 hover:underline'>Close</button>
+    </div>
+    </div>
+    :null}
+    </>
+  )
+}
+
 function DataComponentModal(props) {
   const {currentUser} = useContext(DataContext)
+  const [open3, setOpen3] = useState([true, 'removed'])
   const [dropdown, setDropdown] = useState()
   const [selected, setSelected] = useState()
-  const {dataName, dataAmt, open2, setOpen2, jobs, setJobs }  = props
+  const {open2, setOpen2, jobs, setUsersData} = props
 
   const renderDropdown = (e) => {
    let jobFilter = jobs.filter((j) => j.company.includes(e.target.value))
    setDropdown(jobFilter)
   }
- 
+
 
   const removeCompany = () => {
-    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "remove", "type": open2[1]}).then(response => console.log(response))
+    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "remove", "type": open2[1]}).then(response => {
+      axios.get(`http://localhost:8000/user/${currentUser.id}`).then(response => setUsersData(response.data.foundUser), setOpen3([true, 'removed'])).catch(err => console.log(err), setOpen3[true, 'error'])
+    }).catch(err => console.log(err), setOpen3[true, 'error'])
   }
 
   const addCompany = () => {
-    console.log(open2[1])
-    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "add", "type": open2[1] }).then(response => console.log(response))
-
+    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "add", "type": open2[1] }).then(response => {
+      axios.get(`http://localhost:8000/user/${currentUser.id}`).then(response => setUsersData(response.data.foundUser), setOpen3([true, 'added'])).catch(err => console.log(err), setOpen3[true, 'error'])
+    }).catch(err => console.log(err), setOpen3[true, 'error'])
   }
   
   return (  
     <>
+    <Popup open3={open3} setOpen3={setOpen3}/>
     <div className='border-black border-[1px] p-2 w-fit h-fit scale-[2] bg-blue-300 shadow-[0_0_25px]'>
         <div className='flex justify-center'>
         <h1 className='font-semibold text-center text-[1.5rem] mb-8'>Update your {open2[1] == "Applications Sent"? "Applications": open2[1]}</h1>
@@ -86,22 +118,38 @@ function DataComponentModal(props) {
 
 function DataComponents(props) {
   const {open2, setOpen2} = useContext(DataContext)
-  const {dataName, dataAmt }  = props
+  const {dataName, usersData, setUsersData}  = props
+  const quantityRef = useRef(0)
   const [jobs, setJobs] = useState([])
   useEffect(() => {
     axios.get('http://localhost:8000/job/allJobs').then(response => {
         setJobs(response.data.allJobs.reverse())
     })
-}, [])
+            switch (dataName) {
+          case 'Applications Sent':
+            console.log(usersData)
+          quantityRef.current = usersData?.applications.length
+          break;
+          case 'Responses':
+          quantityRef.current = usersData?.responses.length
+          break;
+          case 'Offers':
+          quantityRef.current = usersData?.offers.length
+          break;
+          case 'Interviews':
+          quantityRef.current = usersData?.interviews.length
+          break;
+        }
+}, [usersData])
   return (  
     <>
-    <Modal component={<DataComponentModal dataName={dataName} dataAmt={dataAmt} open2={open2} setOpen2={setOpen2} jobs={jobs} setJobs={setJobs}/>}/> 
+    <Modal component={<DataComponentModal open2={open2} setOpen2={setOpen2} jobs={jobs} setUsersData={setUsersData}/>}/> 
     <div className='bg-dimWhite text-center rounded-2xl w-[25rem] h-[10rem] border-2 border-gray-400 shadow-xl'>
       <div className='flex justify-center'>
       <h1 className='underline text-2xl font-bold mx-auto'>{dataName}</h1>
       <div onClick={() => setOpen2([true, dataName])} className='font-bold text-2xl translate-x-[-10px] mt-2 h-6 w-6 cursor-pointer'><GrDocumentUpdate/></div>
       </div>
-      <p className='font-bold text-[5rem]'>0</p>
+      <p className='font-bold text-[5rem]'>{quantityRef.current}</p>
     </div>
     
     </>
@@ -113,7 +161,13 @@ function DataComponents(props) {
 export default function QuantDash(){ 
   const {currentUser} = useContext(DataContext)
   const [view, setView] = useState(3)
+  const [usersData, setUsersData] = useState()
   const dataNames = ["Applications Sent", "Responses", "Interviews", "Offers"]
+
+  useEffect(() => {
+    axios.get(`http://localhost:8000/user/${currentUser.id}`).then(response => setUsersData(response.data.foundUser)).catch(err => console.log(err))
+  }, [])
+  
   return (
     <>   
     <div className='flex flex-col gap-10 h-fit absolute ml-16 mt-4'>
@@ -121,7 +175,7 @@ export default function QuantDash(){
       <h1 className='underline text-2xl font-bold'>Tamagatchi</h1>
       <p className='font-bold text-[5rem]'>level</p>
     </div>
-    {dataNames.map((d) => <DataComponents dataName={d}/>)}
+    {dataNames.map((d) => <DataComponents setUsersData={setUsersData} dataName={d} usersData={usersData}/>)}
   </div>
 
   <TodoList currentUser={currentUser.id}/>

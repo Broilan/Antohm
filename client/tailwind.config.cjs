@@ -26,6 +26,17 @@ module.exports = {
       lg: "1200px",
       xl: "1700px",
     },
+    keyframes: {
+      shrink: {
+        "0%": {scale: "100%"},
+        "100%": {scale: "0%"}
+      }
+    },
+    animation: {
+      shrink: "shrink 0.5s ease-out normal"
+    }
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animation-delay"),
+  ],
 };

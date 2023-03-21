@@ -21,6 +21,7 @@
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.4.3",
     "socket.io-client": "^4.6.1",
+    "tailwindcss-animation-delay": "^1.0.7",
     "three": "^0.150.1"
   },
   "devDependencies": {
