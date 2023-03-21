@@ -146,6 +146,83 @@ const getAUsersPosts = (req, res) => {
     }).catch(err => res.json({err:err}))
 }
 
+//adding an application, app response, interview, or offer to a user
+const updateUserJobData = (req, res) => {
+    const removeOrAdd = req.body.removeOrAdd
+    const type = req.body.type
+    const jobID = req.params.jobID
+    User.findById(req.params.userID).then(user =>{
+        let usersApplications = user.applications
+        let usersOffers = user.offers
+        let usersInterviews = user.interviews
+        let usersResponses = user.responses
+        switch(removeOrAdd){
+            case"remove":
+                switch(type){
+                    case "Applications Sent":
+                        let updatedApps = usersApplications.filter((j) => j.toString() == jobID.toString()? false: true)
+                        console.log(updatedApps)
+                        User.findByIdAndUpdate(req.params.userID, {
+                            applications: updatedApps
+                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                    break;
+
+                    case "Offers":
+                        let updatedOffers = usersOffers.filter((j) => j.toString() == jobID.toString()? false: true)
+                        User.findByIdAndUpdate(req.params.userID, {
+                            offers: updatedOffers
+                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                    break;
+
+                    case "Interviews":
+                        let updatedInterviews = usersInterviews.filter((j) => j.toString() == jobID.toString()? false: true)
+                        User.findByIdAndUpdate(req.params.userID, {
+                            interviews: updatedInterviews
+                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                    break;
+
+                    case 'Responses':
+                        let updatedResponses = usersResponses.filter((j) => j.toString() == jobID.toString()? false: true)
+                        User.findByIdAndUpdate(req.params.userID, {
+                            responses: updatedResponses
+                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                    break;
+
+                }
+            break;
+            case "add":
+                switch(type){
+                    case "Applications Sent":
+                        User.findByIdAndUpdate(req.params.userID, {
+                            applications: [...usersApplications, jobID]
+                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                    break;
+
+                    case "Offers":
+                        User.findByIdAndUpdate(req.params.userID, {
+                            offers: [...usersOffers, jobID]
+                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                    break;
+
+                    case "Interviews":
+                        User.findByIdAndUpdate(req.params.userID, {
+                            interviews: [...usersInterviews, jobID]
+                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                    break;
+
+                    case 'Responses':
+                        User.findByIdAndUpdate(req.params.userID, {
+                            responses: [...usersResponses, jobID]
+                        }).then(response => res.json({updated: response})).catch(err => res.json({error: err}))
+                    break;
+
+                }
+            break;
+
+        }
+    }).catch(err => res.json({err:err}))
+}
+
 //getting a users likes
 const getAUsersLikes = (req, res) => {
     Like.find({likeBy: req.params.id}).populate('likeTo').populate('likeOn').then(response => {
@@ -419,6 +496,7 @@ const deleteTaskComment = (req, res) => {
 
 module.exports = {
     getAllUsers,
+    updateUserJobData,
     getAUsersFollowing,
     getAUsersFollowingNoPopulate,
     getAUsersFollowers,

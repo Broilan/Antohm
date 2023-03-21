@@ -28,6 +28,7 @@ router.put('/unfollow/:to/:from', ctrls.user.unfollowAUser);
 router.put('/:id/createtask', ctrls.user.postTask);
 router.put('/task/:id/update', ctrls.user.updateTaskIntent);
 router.put('/comment/task/:postID', ctrls.user.postTaskComment);
+router.put('/updatejobs/:userID/:jobID', ctrls.user.updateUserJobData);
 router.put('/:id/update', ctrls.user.updatePersonalInfo);
 router.delete('/:id/delete', ctrls.user.deleteUser);
 router.delete('/delete/task/:id', ctrls.user.deleteTask);
