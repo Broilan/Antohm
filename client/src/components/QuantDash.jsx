@@ -6,7 +6,7 @@ import axios from 'axios';
 import { BiNotepad, BiHelpCircle } from 'react-icons/bi';
 import { GrResources, GrDocumentUpdate } from 'react-icons/gr';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import {BsKanban} from 'react-icons/bs'
+import {BsKanban, BsArchive} from 'react-icons/bs'
 import {TfiCalendar} from 'react-icons/tfi'
 
 
@@ -193,6 +193,7 @@ function DataComponents(props) {
 export default function QuantDash(){ 
   const {currentUser} = useContext(DataContext)
   const [view, setView] = useState(4)
+  const [taskOrDate, setTaskOrDate] = useState(1)
   const [usersData, setUsersData] = useState()
   const dataNames = ["Applications Sent", "Responses", "Interviews", "Offers"]
 
@@ -209,19 +210,61 @@ export default function QuantDash(){
     </div>
     {dataNames.map((d) => <DataComponents setUsersData={setUsersData} dataName={d} usersData={usersData}/>)}
   </div>
+  {taskOrDate == 1?<TodoList setTaskOrDate={setTaskOrDate} currentUser={currentUser.id}/>: <SavedDates setTaskOrDate={setTaskOrDate}/> }
+  
 
-  <TodoList currentUser={currentUser.id}/>
-
-  <div className='w-screen flex-col items-center'>
-  <div className='flex justify-center gap-20 text-4xl bg-dimWhite w-[60%] rounded-3xl mx-auto border-2 border-gray-400 mt-4'>
-    <div className='flex flex-col items-center' onClick={()=> setView(1)}> <div><BsKanban/></div><div>Kanban</div> </div>
-    <div className='flex flex-col items-center' onClick={()=> setView(2)}><div><TfiCalendar/></div><div>Calendar</div></div>
-    <div className='flex flex-col items-center' onClick={()=> setView(3)}><div><GrResources/></div><div>Resources</div></div>
-    <div className='flex flex-col items-center' onClick={()=> setView(4)}><div><BiNotepad/></div><div>Applications</div></div>
+  <div className='w-screen flex-col items-center '>
+  <div className='flex justify-center gap-20  pt-1 font-bold text-4xl bg-dimWhite w-[60%] rounded-3xl mx-auto border-2 border-gray-400 mt-4'>
+    <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(1)}> <div><BsKanban/></div><div>Kanban</div> </div>
+    <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(2)}><div><TfiCalendar/></div><div>Calendar</div></div>
+    <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(3)}><div><GrResources/></div><div>Resources</div></div>
+    <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(4)}><div><BiNotepad/></div><div>Applications</div></div> 
+    <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(5)}><div><BsArchive /></div><div>Archives</div></div>  
   </div>
-  <div>{view == 1? <Kanban/>: view == 2?<Calendar/>: view == 3? <Resources/>: view == 4? <Applications/>:null }</div>
+  <div>{view == 1? <Kanban/>: view == 2?<Calendar/>: view == 3? <Resources/>: view == 4? <Applications/>:view==5?<Archives/>:null }</div>
   </div>
   
   </>
+  )
+}
+
+const Archives = () => {
+  const [currentView, setCurrentView] = useState(1)
+  return (
+    <>
+    <div className='bg-dimWhite w-[60%] h-[80vh] mx-auto rounded-3xl shadow-xl border-2 border-gray-400 overflow-y-scroll'>
+    <h1 className='text-[4rem] underline text-center font-bold '>Archives</h1>
+
+    <ul className='flex gap-10 w-[100%] justify-center font-bold mt-4 text-xl'>
+        <li onClick={() => setCurrentView(1)} className='hover:underline font-bold'>Jobs</li>
+        <li onClick={() => setCurrentView(2)} className='hover:underline font-bold'>Dates</li>
+        <li onClick={() => setCurrentView(3)} className='hover:underline font-bold'>Resources</li>
+        <li onClick={() => setCurrentView(4)} className='hover:underline font-bold'>Tasks</li>
+      </ul>
+      <div className='flex flex-row flex-wrap pl-5'>
+      </div>
+      </div>
+    </>
+  )
+}
+
+const SavedDates = ({setTaskOrDate}) => {
+  return(
+    <>
+  <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
+
+<div className='flex justify-center items-center border-black border-b-[1px]'>
+<div className= 'font-bold mt-4 text-[2rem] fixed '>Saved Dates</div>
+<div className='ml-auto text-[2rem]' onClick={() => setTaskOrDate(1)}><BiNotepad/></div>
+<div className='text-[3rem] mr-4'> + </div>
+</div>
+
+<div className='p-2 border-[1px] border-gray-400 hover:bg-gray-300 cursor-pointer'> 
+<h1 className='font-bold'>EventName</h1>
+<p>Event Content</p>
+<p>11/21/22</p>
+</div>
+</div>
+    </>
   )
 }

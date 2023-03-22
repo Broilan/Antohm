@@ -4,12 +4,12 @@ import axios from 'axios';
 import Modal from './Modal';
 import TodoListForm from './TodoListForm';
 import TaskContent from './TaskContent';
-import { BsArchive } from 'react-icons/bs';
+import { AiOutlineCalendar } from 'react-icons/ai';
 import { DataContext } from '../App';
 
 
 
-export default function TodoList(){ 
+export default function TodoList({setTaskOrDate}){ 
   const {open, setOpen, modalType, setModalType, currentUser} = useContext(DataContext)
   const [userTasks, setUserTasks] = useState()
 
@@ -37,13 +37,12 @@ export default function TodoList(){
       <> <Modal component={modalType}/></>
 
         <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
-        <div className=' w-[100%] flex items-center bg-white rounded-tr-3xl rounded-tl-3xl opacity-80 border-b-[1px] border-black'>
-        <h1 className='ml-auto font-bold text-[2rem] text-center'>Tasks</h1>
-        <div className='flex gap-3 ml-auto mr-2 ' >
-        <div  className='text-[2rem] mt-4'><BsArchive /></div>
-        <div onClick={() => postModal()} className='text-[3rem]'>+</div>
+        
+        <div className='flex gap-3 mx-auto items-center justify-center' >
+        <div className= 'font-bold mt-4 text-[2rem] fixed '>Tasks</div>
+        <div className='ml-auto text-[2rem] cursor-pointer' onClick={() => setTaskOrDate(2)}><AiOutlineCalendar /></div>
+        <div onClick={() => postModal()} className='text-[3rem] cursor-pointer'>+</div>
         </div>
-        </div> 
 
         <div>
           {userTasks?.map(({ taskName, comments, importance, isComplete, task, added, _id }) => (
