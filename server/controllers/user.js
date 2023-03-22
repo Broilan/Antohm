@@ -101,6 +101,13 @@ const getUsers = (req, res) => {
     }).catch(err => res.json({err:err}))
 }
 
+const getUserWithJobDataPopulated = (req, res) => {
+    User.findOne({_id: req.params.id}).populate('applications').populate('responses').populate('offers').populate('interviews')
+    .then(foundUser => {
+        res.json({foundUser: foundUser})
+    }).catch(err => res.json({err:err}))
+}
+
 const getAllUsers = (req, res) => {
     User.find({})
     .then(response => {
@@ -496,6 +503,7 @@ const deleteTaskComment = (req, res) => {
 
 
 module.exports = {
+    getUserWithJobDataPopulated,
     getAllUsers,
     updateUserJobData,
     getAUsersFollowing,

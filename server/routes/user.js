@@ -18,6 +18,7 @@ router.get('/:id/comments', ctrls.user.getAUsersComments);
 router.get('/:id/bookmarks', ctrls.user.getAUsersBookmarks);
 
 router.get('/taskcomments/:id', ctrls.user.taskComments);
+router.get('/jobspopulated/:id', ctrls.user.getUserWithJobDataPopulated);
 router.get('/:id/following', ctrls.user.getAUsersFollowing);
 router.get('/nopop/:id/following', ctrls.user.getAUsersFollowingNoPopulate);
 router.get('/:id/followers', ctrls.user.getAUsersFollowers);
