@@ -43,13 +43,36 @@ function DataComponentModal(props) {
   const [open3, setOpen3] = useState(false)
   const [dropdown, setDropdown] = useState()
   const [selected, setSelected] = useState()
-  const {open2, setOpen2, jobs, setUsersData} = props
+  const [selectedSort, setSelectedSort] = useState()
+  const {open2, setOpen2, jobs, usersData, setUsersData} = props
 
   const renderDropdown = (e) => {
-   let jobFilter = jobs.filter((j) => j.company.includes(e.target.value))
-   setDropdown(jobFilter)
-  }
+    if(selectedSort == 'userjobs'){
+        switch(open2[1]){
+          case 'Applications Sent':
+           let appsFilter = usersData.applications.filter((j) => j.company.includes(e.target.value))
+           setDropdown(appsFilter)
+          break;
+            case 'Offers':
+            let offersFilter = usersData.offers.filter((j) => j.company.includes(e.target.value))
+            setDropdown(offersFilter)
+          break;
+            case 'Responses':
+            let responsesFilter = usersData.responses.filter((j) => j.company.includes(e.target.value))  
+            setDropdown(responsesFilter)
+          break;
+            case 'Interviews':
+            let interviewsFilter = usersData.interviews.filter((j) => j.company.includes(e.target.value))
+            setDropdown(interviewsFilter)
+          break;
 
+        }
+    } else{
+         let jobFilter = jobs.filter((j) => j.company.includes(e.target.value))
+          setDropdown(jobFilter)
+    }
+
+  }
 
   const removeCompany = () => {
     axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "remove", "type": open2[1]}).then(response => {
@@ -74,10 +97,13 @@ function DataComponentModal(props) {
         </div>
       <div className='flex flex-col gap-3'>
         <div className='flex gap-4'>
-
       <div>
       <h4 className='font-bold'>Search</h4>
-         <input onChange={(e) =>renderDropdown(e)} className='border-black border-[1px] rounded-lg w-64 h-12 pl-2' type='text' placeholder='Search Companies'/>
+         <input  onChange={(e) =>renderDropdown(e)} className='border-black border-[1px] rounded-lg w-64 h-12 pl-2' type='text' placeholder='Search Companies'/>
+         <select onChange={(e) => {setSelectedSort(e.target.value)}} className='bg-transparent border-black border-2 ml-1'>
+        <option value="All">All</option>
+        <option value="userjobs">Your Jobs</option>
+      </select>
         {dropdown? <div className='bg-white border-black border-2 w-fit h-fit max-h-64 overflow-y-scroll ml-1' id='dropdown-box'>
          {dropdown?.map((j) => <div onClick={() => setSelected(j)} className='flex cursor-pointer hover:bg-gray-200 items-center gap-2 border-[0.5px] w-60 border-t-gray-300 p-1 border-b-gray-300'>
          <img src={j.companyLogo} className='border-black rounded-[50%] w-10 h-10 border-2' />
@@ -143,7 +169,7 @@ function DataComponents(props) {
 }, [usersData])
   return (  
     <>
-    <Modal component={<DataComponentModal open2={open2} setOpen2={setOpen2} jobs={jobs} setUsersData={setUsersData}/>}/> 
+    <Modal component={<DataComponentModal open2={open2} setOpen2={setOpen2} jobs={jobs} usersData={usersData} setUsersData={setUsersData}/>}/> 
     <div className='bg-dimWhite text-center rounded-2xl w-[25rem] h-[10rem] border-2 border-gray-400 shadow-xl'>
       <div className='flex justify-center'>
       <h1 className='underline text-2xl font-bold mx-auto'>{dataName}</h1>
@@ -165,7 +191,7 @@ export default function QuantDash(){
   const dataNames = ["Applications Sent", "Responses", "Interviews", "Offers"]
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/${currentUser.id}`).then(response => setUsersData(response.data.foundUser)).catch(err => console.log(err))
+    axios.get(`http://localhost:8000/user/jobspopulated/${currentUser.id}`).then(response => setUsersData(response.data.foundUser)).catch(err => console.log(err))
   }, [])
   
   return (
