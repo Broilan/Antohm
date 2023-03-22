@@ -12,9 +12,9 @@ import {TfiCalendar} from 'react-icons/tfi'
 
 function Popup({open3, setOpen3}){
 
-    // setTimeout(() => {
-    //   setOpen3(false)
-    // }, 6500);
+    setTimeout(() => {
+      setOpen3(false)
+    }, 6500);
   return(
     <>
 
@@ -22,11 +22,11 @@ function Popup({open3, setOpen3}){
     <div className='w-screen h-screen flex-col items-center justify-center absolute z-[100]'>
     <div className= {`${open3[1] == 'error'? "bg-red-400" : "bg-green-400"} animate-shrink p-1 animation-delay-6000 delay-100 opacity-80 w-[30rem] h-[10rem] rounded-xl flex-col items-center justify-center`}>
       {open3[1] == "added"? 
-      <p className='text-white font-bold text-3xl text-center'>Added Succesfully! <br /> Check the applications tab to view your updates. </p>
+      <p className='text-black font-bold text-3xl text-center'>Added Succesfully! <br /> Check the applications tab to view your updates. </p>
       :open3[1] == 'removed'? 
       <p className='text-black font-bold text-3xl text-center'>Removed Succesfully! <br /> Check the applications tab to view your updates. </p>
       :open3[1] == "error"?
-      <p className='text-black font-bold text-3xl'>Error: Please try again.</p>
+      <p className='text-black font-bold text-3xl text-center'>Error: Please try again.</p>
       :null
      }
      
@@ -40,7 +40,7 @@ function Popup({open3, setOpen3}){
 
 function DataComponentModal(props) {
   const {currentUser} = useContext(DataContext)
-  const [open3, setOpen3] = useState([true, 'removed'])
+  const [open3, setOpen3] = useState(false)
   const [dropdown, setDropdown] = useState()
   const [selected, setSelected] = useState()
   const {open2, setOpen2, jobs, setUsersData} = props
@@ -160,7 +160,7 @@ function DataComponents(props) {
 
 export default function QuantDash(){ 
   const {currentUser} = useContext(DataContext)
-  const [view, setView] = useState(3)
+  const [view, setView] = useState(4)
   const [usersData, setUsersData] = useState()
   const dataNames = ["Applications Sent", "Responses", "Interviews", "Offers"]
 
