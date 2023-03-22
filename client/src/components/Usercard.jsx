@@ -19,10 +19,12 @@ const Usercard = () => {
   return (
     <>
     <div className='relative bg-white rounded-2xl border-gray-300 scale-[1.2] border-[1px] w-[18rem] h-[26rem]'>
-    <div className='bg-gray-500 rounded-2xl h-16  rounded-br-none rounded-bl-none border-gray-400 border-b-black border-b-[1px] flex flex-col items-center'>
-        <img src={currentUser.pfp} alt="" className=' rounded-[50%] outline outline-1 w-16 mt-5 mb-3'/>
+    <img src={currentUser.header} className='w-[100%] object-cover rounded-2xl h-16  rounded-br-none rounded-bl-none border-gray-400 border-b-black border-b-[1px]'/>
+    <div className='flex flex-col items-center justify-center mt-[-3.5rem]'>
+        <img src={currentUser.pfp} className=' rounded-[50%] outline outline-1 w-16 mt-5 mb-3'/>
         <div className='font-bold'>{currentUser.name}</div>
         <div className='mb-3' >{currentUser.email}</div>
+        
         <p className='text-sm px-5 text-center border-b-[1px] pb-2 border-b-gray-400'>essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with</p>
 
         <div className='flex gap-16 mt-2 border-b-[1px] pb-2 border-b-gray-400 w-[100%] justify-center'>
@@ -59,11 +61,8 @@ const Usercard = () => {
             </div>
             
             </div>
-
         </div>
-
-    </div>
-
+      </div>
     </div>
     </>
   )

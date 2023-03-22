@@ -38,7 +38,7 @@ export default function Modal(props) {
       </div>
     </div>
     : null}
-          {open2? 
+          {open2==true? 
     <div className='z-10 h-screen w-screen absolute top-0' >
       <div className='flex justify-center items-center h-screen w-screen translate-x-[-4rem] translate-y-[-5rem] bg-transBlack'>
         
