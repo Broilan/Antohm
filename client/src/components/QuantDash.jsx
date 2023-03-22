@@ -88,8 +88,11 @@ function DataComponentModal(props) {
   
   return (  
     <>
+    {open2?
+    <>
     <Popup open3={open3} setOpen3={setOpen3}/>
-    <div className='border-black border-[1px] p-2 w-fit h-fit scale-[2] bg-blue-300 shadow-[0_0_25px]'>
+    <div className='w-screen h-screen bg-transBlack z-[100] absolute top-[-4.2rem] left-[-4rem] flex items-center justify-center'>
+    <div className='border-black border-[1px] p-2 w-fit h-fit scale-[2] bg-blue-300 shadow-2xl'>
         <div className='flex justify-center'>
         <h1 className='font-semibold text-center text-[1.5rem] mb-8'>Update your {open2[1] == "Applications Sent"? "Applications": open2[1]}</h1>
         <div className="cursor-pointer text-[1rem] mt-2 ml-4 mr-[-0.6rem] w-fit h-fit"><BiHelpCircle /></div>
@@ -138,6 +141,9 @@ function DataComponentModal(props) {
             </div> 
       </div>
     </div>
+    </div>
+    </>
+    :null}
     </>
   )
 }
@@ -169,7 +175,7 @@ function DataComponents(props) {
 }, [usersData])
   return (  
     <>
-    <Modal component={<DataComponentModal open2={open2} setOpen2={setOpen2} jobs={jobs} usersData={usersData} setUsersData={setUsersData}/>}/> 
+    <DataComponentModal open2={open2} setOpen2={setOpen2} jobs={jobs} usersData={usersData} setUsersData={setUsersData}/> 
     <div className='bg-dimWhite text-center rounded-2xl w-[25rem] h-[10rem] border-2 border-gray-400 shadow-xl'>
       <div className='flex justify-center'>
       <h1 className='underline text-2xl font-bold mx-auto'>{dataName}</h1>
