@@ -192,7 +192,7 @@ function DataComponents(props) {
 
 export default function QuantDash(){ 
   const {currentUser} = useContext(DataContext)
-  const [view, setView] = useState(4)
+  const [view, setView] = useState(2)
   const [taskOrDate, setTaskOrDate] = useState(1)
   const [usersData, setUsersData] = useState()
   const dataNames = ["Applications Sent", "Responses", "Interviews", "Offers"]
