@@ -6,7 +6,7 @@ import { BsFillTrashFill } from 'react-icons/bs';
 function Calendar(props) {
   const [name, setName] = useState("January")
   const [year, setYear] = useState(2023)
-  const [dateModalOpen, setDateModalOpen] = useState(1)
+  const [dateModalOpen, setDateModalOpen] = useState(false)
   const render = useRef(0)
 
 const monthsNames = ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"]
@@ -88,8 +88,21 @@ export default Calendar
 
 const DateModal = (props) => {
   const {setDateModalOpen, dateModalOpen} = props
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const [editting, setEditting] = useState(false)
+
+  const deleteNote = () => {
+
+  }
+ 
+  const editNote = () => {
+
+  }
+
   return (
     <>
+    {deleteOpen?<MakeSure deleteNote={deleteNote} setDeleteOpen={setDeleteOpen}/>:null}
+    {editting?<EdittingModal dateModalOpen={dateModalOpen} editting={editting} setEditting={setEditting}/>:null}
     {dateModalOpen?
     <div className='w-screen flex items-center justify-center h-screen absolute top-0 bg-transBlack'>
       <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl ${dateModalOpen[0] == 2? "h-[30%]":"h-[40%]"}`}>
@@ -116,25 +129,9 @@ const DateModal = (props) => {
               <div className='flex gap-3'>
                 
               <h1 className='font-bold'>Date name</h1>
-              <div className='ml-auto'><FiEdit /></div>
-              <div className='mr-2'><BsFillTrashFill /></div>
+              <div onClick={() => setEditting(true)} className='ml-auto'><FiEdit /></div>
+              <div onClick={() => setDeleteOpen(true)} className='mr-2'><BsFillTrashFill /></div>
               </div>
-              <p className='truncate'>date content jak;ldsf l;kajsdfk;lj a;sldkjf ;lkasjdfkl ja;slkdjf ;kld j</p>
-            </div>
-            <div className='border-black border-2 h-20 p-2 hover:bg-gray-200 cursor-pointer'>
-              <h1>Date name</h1>
-              <p className='truncate'>date content jak;ldsf l;kajsdfk;lj a;sldkjf ;lkasjdfkl ja;slkdjf ;kld j</p>
-            </div>
-            <div className='border-black border-2 h-20 p-2 hover:bg-gray-200 cursor-pointer'>
-              <h1>Date name</h1>
-              <p className='truncate'>date content jak;ldsf l;kajsdfk;lj a;sldkjf ;lkasjdfkl ja;slkdjf ;kld j</p>
-            </div>
-            <div className='border-black border-2 h-20 p-2 hover:bg-gray-200 cursor-pointer'>
-              <h1>Date name</h1>
-              <p className='truncate'>date content jak;ldsf l;kajsdfk;lj a;sldkjf ;lkasjdfkl ja;slkdjf ;kld j</p>
-            </div>
-            <div className='border-black border-2 h-20 p-2 hover:bg-gray-200 cursor-pointer'>
-              <h1>Date name</h1>
               <p className='truncate'>date content jak;ldsf l;kajsdfk;lj a;sldkjf ;lkasjdfkl ja;slkdjf ;kld j</p>
             </div>
           </div>
@@ -147,6 +144,79 @@ const DateModal = (props) => {
     :null}
     </>
   )
+}
 
+const EdittingModal = ({setEditting, editting, dateModalOpen}) => {
+  const [date, setDate] = useState()
+
+  useEffect(() => {
+      const formatted = dateModalOpen[3] + " " + dateModalOpen[1] + ", " + dateModalOpen[2]
+  const reformattedDate = new Intl.DateTimeFormat('zh-CN').format(new Date(formatted)).split("")
+  if(reformattedDate[4]  == '/' && reformattedDate[6]  == '/' ){
+    reformattedDate.splice(5, 0, '0')
+    if(reformattedDate[reformattedDate.length-2] == '/'){
+      reformattedDate.splice(-1, 0, '0')
+    }
+  }
+  reformattedDate.forEach((i, index) => {
+    if(i == '/'){
+      reformattedDate.splice(index, 1, '-')
+    }
+  })
+  setDate(reformattedDate.join(''))
+  }, [editting])
+
+
+
+  
+  
+  return (
+    <>
+    <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
+    <div className='flex-col text-center mb-52 bg-red-300 p-2 rounded-xl scale-[1.5]'>
+    <div className='flex flex-col justify-center'>
+
+    <div>
+      <div className='flex '>
+    <label htmlFor='date' className='font-bold text-xl ml-auto'>Date</label><br />    
+    <div onClick={() => setEditting(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
+      </div>
+    <input id='date' type="date" defaultValue={date?date:null}/>
+    </div>
+    
+    <div>
+    <label htmlFor='note' className='font-bold text-xl '>Notes</label><br />
+    <input id='note' type="text" />
+    </div>
+
+    </div>
+    <div className='flex justify-evenly'>
+    <button className='bg-red-400 p-1 font-bold rounded-lg'>Discard Changes</button>
+    <button className='bg-blue-300 p-1 font-bold rounded-lg'>Update</button>
+    </div>
+    </div>
+    </div>
+    </>
+  )
+}
+
+const MakeSure = ({setDeleteOpen}) => {
+  return (
+    <>
+    <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
+    <div className='flex-col text-center mb-52 bg-red-300 p-2 rounded-xl scale-[1.5]'>
+    <div className='flex justify-center'>
+    <h1 className='font-bold text-xl ml-auto'>Are you sure?</h1>
+    <div onClick={() => setDeleteOpen(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
+    </div>
+    <p className='font-bold'>If you delete this note, you can't recover it.</p>
+    <div className='flex justify-evenly'>
+    <button className='bg-blue-300 p-1 font-bold rounded-lg'>Archive</button>
+    <button className='bg-red-400 p-1 font-bold rounded-lg'>Delete</button>
+    </div>
+    </div>
+    </div>
+    </>
+  )
 }
 
