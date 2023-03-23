@@ -3,13 +3,18 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
 import { BsFillTrashFill } from 'react-icons/bs';
 
-function Calendar(props) {
-  const [name, setName] = useState("January")
-  const [year, setYear] = useState(2023)
-  const [dateModalOpen, setDateModalOpen] = useState(false)
-  const render = useRef(0)
+const monthsNames = ["January", "February", "March", "April", 'May', "June", "July", "August", "September", "October", "November", "December"]
 
-const monthsNames = ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"]
+function Calendar(props) {
+  const [name, setName] = useState(monthsNames[new Date().getMonth() + 1])
+  const [year, setYear] = useState(new Date().getFullYear())
+  const [day, setDay] = useState(new Date().getDate())
+  const [dateModalOpen, setDateModalOpen] = useState(false)
+  const todayRef = useRef(new Intl.DateTimeFormat().format(new Date()))
+  const render = useRef(new Date().getMonth() + 1)
+
+
+
 
 const months =[
   [1, 2 , 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
@@ -39,7 +44,7 @@ const months =[
 
 function previousMonth() {
   if (render.current == 0) {
-    render.current = 10
+    render.current = 11
     setName(monthsNames[render.current])
     setYear(year - 1)
   }else {
@@ -49,7 +54,7 @@ function previousMonth() {
 }
 
 function nextMonth() {
-  if (render.current == 10) {
+  if (render.current == 11) {
     render.current = 0
     setName(monthsNames[render.current])
     setYear(year + 1)
@@ -75,7 +80,7 @@ function nextMonth() {
       </div>
 
       <div className='flex flex-wrap w-[100%] justify-start ml-24 mb-6' >
-      {months[render.current]?.map((d) => <div onClick={()=> setDateModalOpen([2, d, year, name])} className='w-[12rem] hover:bg-gray-200 cursor-pointer font-bold text-xl h-[12rem] border-black border-[1px]'>{d}</div> )}
+      {months[render.current]?.map((d) => <div onClick={()=> setDateModalOpen([2, d, year, name])} className='w-[12rem] hover:bg-gray-200 cursor-pointer font-bold text-xl h-[12rem] border-black border-[1px]'>{d} {day? d==day && name == monthsNames[new Date().getMonth() + 1]? 'today':null:null}</div> )}
       </div>
 
     </div>
@@ -154,10 +159,10 @@ const EdittingModal = ({setEditting, editting, dateModalOpen}) => {
   const reformattedDate = new Intl.DateTimeFormat('zh-CN').format(new Date(formatted)).split("")
   if(reformattedDate[4]  == '/' && reformattedDate[6]  == '/' ){
     reformattedDate.splice(5, 0, '0')
-    if(reformattedDate[reformattedDate.length-2] == '/'){
+  }   
+   if(reformattedDate[reformattedDate.length-2] == '/'){
       reformattedDate.splice(-1, 0, '0')
     }
-  }
   reformattedDate.forEach((i, index) => {
     if(i == '/'){
       reformattedDate.splice(index, 1, '-')
@@ -165,10 +170,6 @@ const EdittingModal = ({setEditting, editting, dateModalOpen}) => {
   })
   setDate(reformattedDate.join(''))
   }, [editting])
-
-
-
-  
   
   return (
     <>
