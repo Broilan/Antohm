@@ -193,7 +193,7 @@ function DataComponents(props) {
 export default function QuantDash(){ 
   const {currentUser} = useContext(DataContext)
   const [view, setView] = useState(2)
-  const [taskOrDate, setTaskOrDate] = useState(1)
+  const [taskOrDate, setTaskOrDate] = useState(2)
   const [usersData, setUsersData] = useState()
   const dataNames = ["Applications Sent", "Responses", "Interviews", "Offers"]
 
@@ -227,6 +227,33 @@ export default function QuantDash(){
   </>
   )
 }
+ 
+const AddDateModal = ({dateModalOpen, setDateModalOpen}) => {
+  return (
+    <>
+    {dateModalOpen?
+      <>
+      <div className='w-screen flex items-center justify-center h-screen absolute top-0 bg-transBlack'>
+      <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[40%]"}`}>
+      <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>{dateModalOpen == 1? "Add a date": dateModalOpen[0] == 2? dateModalOpen[3] + " " + dateModalOpen[1] + ", " + dateModalOpen[2]:null}</h1>
+      <div onClick={()=> setDateModalOpen(false)} className='ml-auto mr-2 cursor-pointer'>x</div></div>
+      <div className='flex flex-col items-center gap-2 mt-4'>
+      <h1 className='font-bold text-2xl'>Select a date</h1>
+      <input type="date" className='border-black border-2 rounded-lg mb-8'/>
+      <h1 className='font-bold text-2xl'>Add a note for yourself</h1>
+      <input type="text" className='w-[70%] border-black border-2 rounded-lg h-48' />
+      </div>
+      <div className='flex font-bold text-2xl justify-center mt-5 mb-2'>
+        <button className='mx-auto bg-red-300 p-4 rounded-xl hover:bg-red-400'>Discard</button>
+        <button className='mx-auto bg-blue-300 hover:bg-blue-400 rounded-xl p-4'>Save Date</button>
+      </div>
+      </div>
+      </div>
+      </>
+      :null}
+      </>
+  )
+} 
 
 const Archives = () => {
   const [currentView, setCurrentView] = useState(1)
@@ -249,14 +276,16 @@ const Archives = () => {
 }
 
 const SavedDates = ({setTaskOrDate}) => {
+  const [dateModalOpen, setDateModalOpen] = useState(true)
   return(
     <>
+    <AddDateModal dateModalOpen={dateModalOpen} setDateModalOpen={setDateModalOpen}/>
   <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
 
 <div className='flex justify-center items-center border-black border-b-[1px]'>
 <div className= 'font-bold mt-4 text-[2rem] fixed '>Saved Dates</div>
 <div className='ml-auto text-[2rem]' onClick={() => setTaskOrDate(1)}><BiNotepad/></div>
-<div className='text-[3rem] mr-4'> + </div>
+<div onClick={() => setDateModalOpen(true)} className='text-[3rem] mr-4'> + </div>
 </div>
 
 <div className='p-2 border-[1px] border-gray-400 hover:bg-gray-300 cursor-pointer'> 
