@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+//date schema 
+const dateSchema = new Schema({
+    date: String,
+    notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Note'}]
+});
+
 const userSchema = new Schema({
     email: {type: String, required: true},
     displayName: {type: String, required: true},
@@ -17,7 +23,7 @@ const userSchema = new Schema({
     bookmarks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Bookmark'}],
     likes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Like'}],
     notifications: [{type: mongoose.Schema.Types.ObjectId, ref: 'Notification'}],
-    savedDates: [{type: mongoose.Schema.Types.ObjectId, ref: 'Calendar'}],
+    savedDates: [dateSchema],
     external_links: [{
         title: {type: String},
         url: {type: String}
@@ -32,6 +38,8 @@ const userSchema = new Schema({
     following: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     Dms: [{type: Schema.Types.ObjectId, ref: 'Dm'}],
 });
+
+
 
 const User = mongoose.model('User', userSchema);
 

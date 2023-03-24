@@ -35,4 +35,15 @@ router.delete('/:id/delete', ctrls.user.deleteUser);
 router.delete('/delete/task/:id', ctrls.user.deleteTask);
 router.delete('/delete/comment/:id', ctrls.user.deleteTaskComment);
 
+//date routes
+router.get('/dates/:id', ctrls.user.getUsersSavedDates);
+//create a date for a user 
+router.put('/date/:id', ctrls.user.createNewDate);
+//update a date for a user
+router.put('/date/:id/:dateId/:noteId', ctrls.user.updateDate);
+//delete a date for a user
+router.delete('/date/:id/:dateId/delete', ctrls.user.deleteDate);
+//add a note to a date for a user
+router.put('/adddatenote/:id/:dateId', ctrls.user.addNoteToDate);
+
 module.exports = router;

@@ -2,6 +2,7 @@ const User = require('../models/User')
 const Resource = require('../models/Resource')
 const Post = require('../models/Post')
 const Notification = require('../models/Notification')
+const Note = require('../models/Note')
 const Like = require('../models/Like')
 const Bookmark = require('../models/Bookmark')
 const Dm = require('../models/Dm')
@@ -28,6 +29,7 @@ const userSignup = (req, res) => {
                 email: req.body.email,
                 displayName: req.body.displayName,
                 pfp: req.body.pfp,
+                header: req.body.header,
                 password: req.body.password,
             });
 
@@ -71,6 +73,7 @@ const userSignup = (req, res) => {
                 displayName: foundUser.displayName,
                 name: foundUser.name,
                 pfp: foundUser.pfp,
+                header: foundUser.header,
                 following: foundUser.following
             }
 
@@ -107,6 +110,96 @@ const getUserWithJobDataPopulated = (req, res) => {
         res.json({foundUser: foundUser})
     }).catch(err => res.json({err:err}))
 }
+
+//GET a users saved dates
+const getUsersSavedDates = (req, res) => {
+    User.findOne({_id: req.params.id}).populate({path:'savedDates', populate: {path: 'notes', model: 'Note'}})
+    .then(foundUser => {
+        console.log(foundUser)
+        res.json({savedDates: foundUser.savedDates})
+    }).catch(err => res.json({err:err.message}))
+}
+
+//put route that allows users to create a new date
+const createNewDate = async (req, res) => {
+    if(req.body.notes != null) {
+        const newNote = new Note({
+            owner: req.params.id,
+            content: req.body.notes
+        })
+        await newNote.save()
+        .then(savedNote => {
+            req.body.notes = savedNote
+        }).catch(err => res.json({err:err}))  
+    } 
+    User.findOne({_id: req.params.id}).populate({path:'savedDates', populate: {path: 'notes', model: 'Note'}})
+    .then(foundUser => {
+        foundUser.savedDates.push(req.body)
+        foundUser.save()
+        .then(updatedUser => {
+            res.json({updatedUserDates: updatedUser.savedDates})
+        }).catch(err => res.json({err:err}))   
+    }).catch(err => res.json({err:err}))
+}
+
+//patch route that allows a user to update a date
+const updateDate = async (req, res) => {
+    User.findOne({_id: req.params.id}).populate('savedDates')
+    .then(async (foundUser) => {
+        if(req.body.notes != null) {
+            await Note.findOne({_id: req.params.noteId})
+            .then(async (foundNote) => {
+                foundNote.content = req.body.notes
+               await foundNote.save()
+                .then(updatedNote => {
+                   let notes = [...foundUser.savedDates.id(req.params.dateId).notes, updatedNote._id]
+                   let filteredNotes = notes.filter((note) => note === updatedNote._id ? false : true)
+                   let finalNotes = [...filteredNotes, updatedNote._id]
+                   req.body.notes = finalNotes
+                }).catch(err => res.json({err:err}))
+            }).catch(err => res.json({err:err}))
+        }
+        foundUser.savedDates.id(req.params.dateId).set(req.body)
+        foundUser.save()
+        .then(updatedUser => {
+            res.json({updatedUser: updatedUser.savedDates})
+        }).catch(err => res.json({err:err}))
+    }).catch(err => res.json({err:err}))
+}
+
+//add a new note to a date
+const addNoteToDate = async (req, res) => {
+    Note.create({
+        owner: req.params.id,
+        content: req.body.content
+    }).then(newNote => {
+        User.findOne({_id: req.params.id}).populate('savedDates')
+        .then(foundUser => {
+            foundUser.savedDates.id(req.params.dateId).notes.push(newNote._id)
+            foundUser.save()
+            .then(updatedUser => {
+                res.json({updatedUser: updatedUser})
+            }).catch(err => res.json({err1:err}))
+        }).catch(err => res.json({err2:err}))
+    })
+}
+
+
+
+//delete route that allows a user to delete a date
+const deleteDate = (req, res) => {
+    User.findOne({_id: req.params.id})
+    .then(foundUser => {
+        console.log(foundUser)
+        foundUser.savedDates.id(req.params.dateId).remove()
+        foundUser.save()
+        .then(updatedUser => {
+            res.json({updatedUser: updatedUser})
+        }).catch(err => res.json({err1:err}))
+    }).catch(err => res.json({err2:err}))
+}
+
+
 
 const getAllUsers = (req, res) => {
     User.find({})
@@ -509,6 +602,11 @@ module.exports = {
     getAUsersFollowing,
     getAUsersFollowingNoPopulate,
     getAUsersFollowers,
+    addNoteToDate,
+    getUsersSavedDates,
+    createNewDate,
+    updateDate,
+    deleteDate,
     getUsersDms,
     getSpecificDms,
     getUsersNotifs,

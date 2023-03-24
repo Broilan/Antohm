@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const taskSchema = new mongoose.Schema({
     taskName: {type: String},
     task: {type: String},
+    notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Note'}],
     isComplete: {type: Boolean, default: false},
     importance: {type: String},
     target_date: {type: Date},
