@@ -7,7 +7,6 @@ export { default as Kanban } from "./Kanban";
 export { default as QuantDash } from './QuantDash';
 export { default as SocialDash } from './SocialDash';
 export { default as Settings } from './Settings';
-export { default as Calendar } from "./Calendar";
 export { default as Resources } from './Resources';
 export { default as Post } from './Post';
 export { default as Usercard } from './Usercard';

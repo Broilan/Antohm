@@ -1,8 +1,7 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
 import { DataContext } from '../App';
-import {Calendar, Kanban, Applications, Resources, Modal} from './';
-import { FiEdit } from 'react-icons/fi';
-import { BsFillTrashFill } from 'react-icons/bs';
+import {Kanban, Applications, Resources, Modal} from './';
+import {Calendar, SavedDates} from './Calendar'
 import TodoList from './TodoList';
 import axios from 'axios';
 import { BiNotepad, BiHelpCircle } from 'react-icons/bi';
@@ -230,33 +229,7 @@ export default function QuantDash(){
   )
 }
  
-const AddDateModal = ({dateModalOpen, setDateModalOpen}) => {
 
-  return (
-    <>
-    {dateModalOpen?
-      <>
-      <div className='w-screen flex items-center justify-center h-screen absolute top-0 bg-transBlack'>
-      <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[40%]"}`}>
-      <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>{dateModalOpen == 1? "Add a date": dateModalOpen[0] == 2? dateModalOpen[3] + " " + dateModalOpen[1] + ", " + dateModalOpen[2]:null}</h1>
-      <div onClick={()=> setDateModalOpen(false)} className='ml-auto mr-2 cursor-pointer'>x</div></div>
-      <div className='flex flex-col items-center gap-2 mt-4'>
-      <h1 className='font-bold text-2xl'>Select a date</h1>
-      <input type="date" className='border-black border-2 rounded-lg mb-8'/>
-      <h1 className='font-bold text-2xl'>Add a note for yourself</h1>
-      <input type="text" className='w-[70%] border-black border-2 rounded-lg h-48' />
-      </div>
-      <div className='flex font-bold text-2xl justify-center mt-5 mb-2'>
-        <button className='mx-auto bg-red-300 p-4 rounded-xl hover:bg-red-400'>Discard</button>
-        <button className='mx-auto bg-blue-300 hover:bg-blue-400 rounded-xl p-4'>Save Date</button>
-      </div>
-      </div>
-      </div>
-      </>
-      :null}
-      </>
-  )
-} 
 
 const Archives = () => {
   const [currentView, setCurrentView] = useState(1)
@@ -276,74 +249,4 @@ const Archives = () => {
       </div>
     </>
   )
-}
-
-const SavedDates = ({setTaskOrDate}) => {
-  const [dateModalOpen, setDateModalOpen] = useState(false)
-  const [thisDateModal, setThisDateModal] = useState(false)
-  const {currentUser} = useContext(DataContext)
-  const [savedDates, setSavedDates] = useState([])
-  useEffect(() => {
-    axios.get(`http://localhost:8000/user/dates/${currentUser.id}`).then((res) => {
-      setSavedDates(res.data.savedDates)
-    })
-  }, [])
-
-  return(
-    <>
-    <AddDateModal dateModalOpen={dateModalOpen}/>
-    {thisDateModal?
-    <ClickedDateModal setThisDateModal={setThisDateModal} thisDateModal={thisDateModal}/>
-      :null}
-  <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
-
-<div className='flex justify-center items-center border-black border-b-[1px]'>
-<div className= 'font-bold mt-4 text-[2rem] fixed '>Saved Dates</div>
-<div className='ml-auto text-[2rem]' onClick={() => setTaskOrDate(1)}><BiNotepad/></div>
-<div onClick={() => setDateModalOpen(true)} className='text-[3rem] mr-4'> + </div>
-</div>
-
-{savedDates?.map((date) => 
-<>  
-<div onClick={()=> setThisDateModal([true, date])} className='p-2 border-[1px] border-gray-400 hover:bg-gray-300 cursor-pointer'> 
-<h1 className='font-bold'>{date?.date}</h1>
-<p>{date?.notes.length == 0? null: date.notes[0].content}</p>
-</div>
-</>  
-)}
-
-</div>
-    </>
-  )
-}
-
-const ClickedDateModal = ({setThisDateModal, thisDateModal}) => {
-  console.log(thisDateModal)
-  return(
-    
-  <>
-  <div className='w-screen flex items-center justify-center h-screen absolute top-0 bg-transBlack'>
-  <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[40%]`}>
-    <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>{thisDateModal?thisDateModal[1].date :null}</h1>
-    <div onClick={()=> setThisDateModal(false)} className='ml-auto mr-2 cursor-pointer'>x</div></div>
-    <h1 className='font-bold text-2xl pl-2 mt-2'>Stuff saved for this date:</h1>
-    <div className='bg-white flex flex-col w-[90%] mt-4 h-52 mx-auto border-black border-2 overflow-y-scroll'>
-      {thisDateModal?thisDateModal[1].notes.map((note) =>
-            <div className='border-black border-2 h-20 p-2 hover:bg-gray-200 cursor-pointer'>
-        <div className='flex gap-3'>
-          
-        <h1 className='font-bold'>Date name</h1>
-        <div className='ml-auto'><FiEdit /></div>
-        <div className='mr-2'><BsFillTrashFill /></div>
-        </div>
-        <p className='truncate'>{note.content}</p>
-      </div>
-      ) :null}
-
-    </div>
-    <div className='flex justify-center'><button className='font-bold text-black mt-2  border-blue-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Add a note</button></div>
-  </div>
-  </div>
-</>
-)
 }
