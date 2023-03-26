@@ -143,29 +143,42 @@ const createNewDate = async (req, res) => {
 }
 
 //patch route that allows a user to update a date
-const updateDate = async (req, res) => {
-    User.findOne({_id: req.params.id}).populate('savedDates')
-    .then(async (foundUser) => {
-        if(req.body.notes != null) {
-            await Note.findOne({_id: req.params.noteId})
-            .then(async (foundNote) => {
-                foundNote.content = req.body.notes
-               await foundNote.save()
-                .then(updatedNote => {
-                   let notes = [...foundUser.savedDates.id(req.params.dateId).notes, updatedNote._id]
-                   let filteredNotes = notes.filter((note) => note === updatedNote._id ? false : true)
-                   let finalNotes = [...filteredNotes, updatedNote._id]
-                   req.body.notes = finalNotes
-                }).catch(err => res.json({err:err}))
-            }).catch(err => res.json({err:err}))
-        }
-        foundUser.savedDates.id(req.params.dateId).set(req.body)
-        foundUser.save()
-        .then(updatedUser => {
-            res.json({updatedUser: updatedUser.savedDates})
+// const updateDate = async (req, res) => {
+//     User.findOne({_id: req.params.id}).populate('savedDates')
+//     .then(async (foundUser) => {
+//         if(req.body.notes != null) {
+//             await Note.findOne({_id: req.params.noteId})
+//             .then(async (foundNote) => {
+//                 foundNote.content = req.body.notes
+//                await foundNote.save()
+//                 .then(updatedNote => {
+//                    let notes = [...foundUser.savedDates.id(req.params.dateId).notes, updatedNote._id]
+//                    let filteredNotes = notes.filter((note) => note === updatedNote._id ? false : true)
+//                    let finalNotes = [...filteredNotes, updatedNote._id]
+//                    req.body.notes = finalNotes
+//                 }).catch(err => res.json({err:err}))
+//             }).catch(err => res.json({err:err}))
+//         }
+//         foundUser.savedDates.id(req.params.dateId).set(req.body)
+//         foundUser.save()
+//         .then(updatedUser => {
+//             res.json({updatedUser: updatedUser.savedDates})
+//         }).catch(err => res.json({err:err}))
+//     }).catch(err => res.json({err:err}))
+// }
+
+//put route that allows a user to update a note on a date
+const updateNote = async (req, res) => {
+    Note.findOne({_id: req.params.noteId})
+    .then(foundNote => {
+        foundNote.content = req.body.content
+        foundNote.save()
+        .then(updatedNote => {
+            res.json({updatedNote: updatedNote})
         }).catch(err => res.json({err:err}))
     }).catch(err => res.json({err:err}))
 }
+
 
 //add a new note to a date
 const addNoteToDate = async (req, res) => {
@@ -184,7 +197,25 @@ const addNoteToDate = async (req, res) => {
     })
 }
 
-
+//delete a note from a date
+const deleteNoteFromDate = async (req, res) => {
+    Note.findOne({_id: req.params.noteId})
+    .then(foundNote => {
+        foundNote.remove()
+        .then(deletedNote => {
+            User.findOne({_id: req.params.id}).populate('savedDates')
+            .then(foundUser => {
+                let notes = [...foundUser.savedDates.id(req.params.dateId).notes]
+                let filteredNotes = notes.filter((note) => note === deletedNote._id ? false : true)
+                foundUser.savedDates.id(req.params.dateId).notes = filteredNotes
+                foundUser.save()
+                .then(updatedUser => {
+                    res.json({updatedUser: updatedUser})
+                }).catch(err => res.json({err1:err}))
+            }).catch(err => res.json({err2:err}))
+        }).catch(err => res.json({err3:err}))
+    }).catch(err => res.json({err4:err}))
+}
 
 //delete route that allows a user to delete a date
 const deleteDate = (req, res) => {
@@ -604,8 +635,9 @@ module.exports = {
     getAUsersFollowers,
     addNoteToDate,
     getUsersSavedDates,
+    deleteNoteFromDate,
     createNewDate,
-    updateDate,
+    updateNote,
     deleteDate,
     getUsersDms,
     getSpecificDms,
