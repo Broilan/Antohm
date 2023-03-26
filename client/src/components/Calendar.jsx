@@ -81,21 +81,17 @@ function nextMonth() {
 }
 
 async function checkDate(date) {
-  let dateAsString = date.toString()
-  let dateAsArr = Array.from(dateAsString)
-  if(dateAsString[1] == '/'){
-  dateAsArr.splice(0, 0, '0')
-  dateAsString = dateAsArr
-  }
-  if(dateAsString[2] == '/' && dateAsString[4] == '/'){
-    dateAsString.splice(3, 0, '0')
-  }
-  dateAsString = dateAsString.join('')
+  date = date.toLocaleDateString('zh-ch', {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  })
+ let dateString = date.toString().replace('/', '-').replace('/', '-')
   function checkit() {
     return new Promise((resolve, reject) => {
       savedDates.forEach((item) => {
-        if (item.date == dateAsString) {
-          resolve(setDateModalOpen([2, item, dateAsString]))
+        if (item.date == dateString) {
+          resolve(setDateModalOpen([2, item, dateString]))
         }
       })
       reject(false)
@@ -104,33 +100,27 @@ async function checkDate(date) {
   try{
     await checkit()
   } catch (err) {
-    setAddDateModal(dateAsString)
+    setAddDateModal(dateString)
   }
-
 }
+
 function checkDate2(date){
   let dateLength;
-  let dateAsString = date.toString()
-  let dateAsArr = Array.from(dateAsString)
-  if(dateAsString[1] == '/'){
-  dateAsArr.splice(0, 0, '0')
-  dateAsString = dateAsArr
-  }
-  if(dateAsString[2] == '/' && dateAsString[4] == '/'){
-    dateAsString.splice(3, 0, '0')
-  }
-  dateAsString = dateAsString.join('')
-   savedDates?.forEach((item) => {
-        if (item.date == dateAsString) {
-          return dateLength = item.notes.length
-        }
-      })
-      if(dateLength >= 1){
-      return dateLength + ' note(s) for this date'
-    } else{
-      return null
+  date = date.toLocaleDateString('zh-ch', {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  })
+ let dateString = date.toString().replace('/', '-').replace('/', '-')
+  savedDates.forEach((item) => {
+    if (item.date == dateString) {
+      dateLength = item.notes.length
     }
+  })
+  if (dateLength >= 1) {
+  return dateLength + ' item(s)'
   }
+}
 
   return (
     <>
@@ -153,8 +143,8 @@ function checkDate2(date){
         
       {months[render.current]?.map((d) => 
       <>
-      <div onClick={()=> checkDate(new Intl.DateTimeFormat('en-us').format(new Date(Array.from(`${name} ${d} ${year}`).join(''))))} className='w-[12rem] hover:bg-gray-200 cursor-pointer font-bold text-xl h-[12rem] border-black border-[1px]'>{d} {day? d==day && name == monthsNames[new Date().getMonth() + 1]? 'today':null:null}
-       <div>{checkDate2(new Intl.DateTimeFormat('en-us').format(new Date((`${name} ${d} ${year}`))))}</div>
+      <div onClick={()=> checkDate(new Date(`${name} ${d} ${year}`))} className='w-[12rem] hover:bg-gray-200 cursor-pointer font-bold text-xl h-[12rem] border-black border-[1px]'>{d} {day? d==day && name == monthsNames[new Date().getMonth() + 1]? 'today':null:null}
+       <div>{checkDate2(new Date(`${name} ${d} ${year}`))}</div>
       </div>
       </>
       )}
@@ -237,23 +227,35 @@ const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreY
 }
 
 const AddDateModal = ({addDateModal, setAddDateModal}) => {
-  const [date, setDate] = useState()
+  const {currentUser} = useContext(DataContext)
+  const [saved, setSaved] = useState([])
+  const dateRef = useRef()
+  const contentRef = useRef()
+  useEffect(() => {
+  axios.get(`http://localhost:8000/user/dates/${currentUser.id}`).then((res) => {
+    setSaved(res.data.savedDates)
+  })
+  dateRef.current = addDateModal
+  }, [])
 
-  useEffect(() => {    
-    if(addDateModal != true && addDateModal != false){
-      let reformattedDate = new Intl.DateTimeFormat('zh-CN').format(new Date(addDateModal)).split('')
-      if(reformattedDate[4] == '/' && reformattedDate[6] == '/'){
-      reformattedDate.splice(5,0,'0')   
-      }
-      if(reformattedDate[7] == '/' && reformattedDate[9] == undefined){
-        reformattedDate.splice(8,0,'0')
-      }
-     reformattedDate = reformattedDate.join('').replace('/','-').replace('/','-')
-      setDate(reformattedDate)
+  function addDate(e){
+    let executed = false
+    try{
+  saved.forEach((date) => {
+    if(date.date == addDateModal){
+     axios.put(`http://localhost:8000/user/adddatenote/${currentUser.id}/${date._id}`, {"content": contentRef.current}).then(response=> console.log(response, "1"))
+     executed = true
+    throw new Error("stop")
+    }
+  }) 
+  } catch (error) {
+    console.log(error)
   }
-}, [addDateModal])
 
-
+  if(!executed){
+    axios.put(`http://localhost:8000/user/date/${currentUser.id}`, {"date": `${dateRef?.current? dateRef.current: addDateModal}`, "notes": contentRef.current}).then(response=> console.log(response, "2"))
+  }
+  }
 
   return (
     <>
@@ -265,13 +267,13 @@ const AddDateModal = ({addDateModal, setAddDateModal}) => {
       <div onClick={()=> setAddDateModal(false)}  className='ml-auto mr-2 cursor-pointer'>x</div></div>
       <div className='flex flex-col items-center gap-2 mt-4'>
       <h1 className='font-bold text-2xl'>Select a date</h1>
-      <input type="date" defaultValue={date? date:null} className='border-black border-2 rounded-lg mb-8'/>
+      <input type="date" defaultValue={addDateModal?addDateModal:null} onChange={(e) => dateRef.current = e.target.value } className='border-black border-2 rounded-lg mb-8'/>
       <h1 className='font-bold text-2xl'>Add a note for yourself</h1>
-      <input type="text" className='w-[70%] border-black border-2 rounded-lg h-48' />
+      <input type="text" onChange={(e) => contentRef.current = e.target.value } className='w-[70%] border-black border-2 rounded-lg h-48' />
       </div>
       <div className='flex font-bold text-2xl justify-center mt-5 mb-2'>
         <button onClick={()=> setAddDateModal(false)} className='mx-auto bg-red-300 p-4 rounded-xl hover:bg-red-400'>Discard</button>
-        <button className='mx-auto bg-blue-300 hover:bg-blue-400 rounded-xl p-4'>Save Date</button>
+        <button onClick={addDate} className='mx-auto bg-blue-300 hover:bg-blue-400 rounded-xl p-4'>Save Date</button>
       </div>
       </div>
       </div>
@@ -287,23 +289,6 @@ const AddDateModal = ({addDateModal, setAddDateModal}) => {
 
 const EdittingModal = ({setEditting, editting,}) => {
   const [date, setDate] = useState()
-
-  // useEffect(() => {
-  //     const formatted = dateModalOpen[3] + " " + dateModalOpen[1] + ", " + dateModalOpen[2]
-  // const reformattedDate = new Intl.DateTimeFormat('zh-CN').format(new Date(formatted)).split("")
-  // if(reformattedDate[4]  == '/' && reformattedDate[6]  == '/' ){
-  //   reformattedDate.splice(5, 0, '0')
-  // }   
-  //  if(reformattedDate[reformattedDate.length-2] == '/'){
-  //     reformattedDate.splice(-1, 0, '0')
-  //   }
-  // reformattedDate.forEach((i, index) => {
-  //   if(i == '/'){
-  //     reformattedDate.splice(index, 1, '-')
-  //   }
-  // })
-  // setDate(reformattedDate.join(''))
-  // }, [editting])
   
   return (
     <>
