@@ -142,31 +142,6 @@ const createNewDate = async (req, res) => {
     }).catch(err => res.json({err:err}))
 }
 
-//patch route that allows a user to update a date
-// const updateDate = async (req, res) => {
-//     User.findOne({_id: req.params.id}).populate('savedDates')
-//     .then(async (foundUser) => {
-//         if(req.body.notes != null) {
-//             await Note.findOne({_id: req.params.noteId})
-//             .then(async (foundNote) => {
-//                 foundNote.content = req.body.notes
-//                await foundNote.save()
-//                 .then(updatedNote => {
-//                    let notes = [...foundUser.savedDates.id(req.params.dateId).notes, updatedNote._id]
-//                    let filteredNotes = notes.filter((note) => note === updatedNote._id ? false : true)
-//                    let finalNotes = [...filteredNotes, updatedNote._id]
-//                    req.body.notes = finalNotes
-//                 }).catch(err => res.json({err:err}))
-//             }).catch(err => res.json({err:err}))
-//         }
-//         foundUser.savedDates.id(req.params.dateId).set(req.body)
-//         foundUser.save()
-//         .then(updatedUser => {
-//             res.json({updatedUser: updatedUser.savedDates})
-//         }).catch(err => res.json({err:err}))
-//     }).catch(err => res.json({err:err}))
-// }
-
 //put route that allows a user to update a note on a date
 const updateNote = async (req, res) => {
     Note.findOne({_id: req.params.noteId})
@@ -230,7 +205,26 @@ const deleteDate = (req, res) => {
     }).catch(err => res.json({err2:err}))
 }
 
-
+//move a given date, application, or task to the users associated archive
+const archiveItem = (req, res) => {
+    User.findOne({_id: req.params.id})
+    .then(foundUser => {
+        if(req.body.item = 'date') {
+        foundUser.archivedDates.push(foundUser.savedDates.id(req.params.itemId))
+        foundUser.savedDates.id(req.params.itemId).remove()
+        } else if (req.body.item = 'application') {
+            foundUser.archivedJobs.push(foundUser.jobs.id(req.params.itemId))
+            foundUser.jobs.id(req.params.itemId).remove()
+        } else if (req.body.item = 'task') {
+            foundUser.archivedTasks.push(foundUser.tasks.id(req.params.itemId))
+            foundUser.tasks.id(req.params.itemId).remove()
+        }
+        foundUser.save()
+        .then(updatedUser => {
+            res.json({updatedUser: updatedUser})
+        }).catch(err => res.json({err1:err}))
+    }).catch(err => res.json({err2:err}))
+}
 
 const getAllUsers = (req, res) => {
     User.find({})
@@ -627,6 +621,7 @@ const deleteTaskComment = (req, res) => {
 
 
 module.exports = {
+    archiveItem,
     getUserWithJobDataPopulated,
     getAllUsers,
     updateUserJobData,

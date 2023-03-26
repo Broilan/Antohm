@@ -47,4 +47,7 @@ router.delete('/date/:id/:dateId/delete', ctrls.user.deleteDate);
 router.put('/adddatenote/:id/:dateId', ctrls.user.addNoteToDate);
 //delete a note from a date for a user
 router.delete('/deletedatenote/:id/:dateId/:noteId', ctrls.user.deleteNoteFromDate);
+
+//archive routes
+router.put('/archive/:id/:itemId', ctrls.user.archiveItem);
 module.exports = router;
