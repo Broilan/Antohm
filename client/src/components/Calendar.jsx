@@ -8,26 +8,6 @@ import { BsFillTrashFill } from 'react-icons/bs';
 
 const monthsNames = ["January", "February", "March", "April", 'May', "June", "July", "August", "September", "October", "November", "December"]
 
-export function Calendar(props) {
-  const { currentUser } = useContext(DataContext)
-  const [name, setName] = useState(monthsNames[new Date().getMonth() + 1])
-  const [year, setYear] = useState(new Date().getFullYear())
-  const [day, setDay] = useState(new Date().getDate())
-  const [editting, setEditting] = useState(false)
-  const [areYouSure, setAreYouSure] = useState(false)
-  const [dateModalOpen, setDateModalOpen] = useState(false)
-  const [addDateModal, setAddDateModal] = useState(false)
-  const [savedDates, setSavedDates] = useState([])
-  const render = useRef(new Date().getMonth() + 1)
-
-  
-  useEffect(() => {
-    axios.get(`http://localhost:8000/user/dates/${currentUser.id}`).then((res) => {
-      console.log(res.data.savedDates)
-      setSavedDates(res.data.savedDates)
-    })
-  }, [])
-
 const months =[
   [1, 2 , 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
 
@@ -53,6 +33,29 @@ const months =[
 
   [1, 2 , 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
 ]
+
+export function Calendar() {
+  const { currentUser } = useContext(DataContext)
+  const [name, setName] = useState(monthsNames[new Date().getMonth() + 1])
+  const [year, setYear] = useState(new Date().getFullYear())
+  const [day, setDay] = useState(new Date().getDate())
+  const [dateItems, setDateItems] = useState()
+  const [editting, setEditting] = useState(false)
+  const [areYouSure, setAreYouSure] = useState(false)
+  const [dateModalOpen, setDateModalOpen] = useState(false)
+  const [addDateModal, setAddDateModal] = useState(false)
+  const [savedDates, setSavedDates] = useState([])
+  const render = useRef(new Date().getMonth() + 1)
+
+  
+  
+  useEffect(() => {
+    axios.get(`http://localhost:8000/user/dates/${currentUser.id}`).then((res) => {
+      setSavedDates(res.data.savedDates)
+    })
+  }, [])
+
+
 
 function previousMonth() {
   if (render.current == 0) {
@@ -88,7 +91,6 @@ async function checkDate(date) {
     dateAsString.splice(3, 0, '0')
   }
   dateAsString = dateAsString.join('')
-
   function checkit() {
     return new Promise((resolve, reject) => {
       savedDates.forEach((item) => {
@@ -102,16 +104,38 @@ async function checkDate(date) {
   try{
     await checkit()
   } catch (err) {
-    setAddDateModal(true)
+    setAddDateModal(dateAsString)
   }
 
 }
-
+function checkDate2(date){
+  let dateLength;
+  let dateAsString = date.toString()
+  let dateAsArr = Array.from(dateAsString)
+  if(dateAsString[1] == '/'){
+  dateAsArr.splice(0, 0, '0')
+  dateAsString = dateAsArr
+  }
+  if(dateAsString[2] == '/' && dateAsString[4] == '/'){
+    dateAsString.splice(3, 0, '0')
+  }
+  dateAsString = dateAsString.join('')
+   savedDates?.forEach((item) => {
+        if (item.date == dateAsString) {
+          return dateLength = item.notes.length
+        }
+      })
+      if(dateLength >= 1){
+      return dateLength + ' note(s) for this date'
+    } else{
+      return null
+    }
+  }
 
   return (
     <>
     <AddDateModal addDateModal={addDateModal} setAddDateModal={setAddDateModal} />
-    <ClickedDateModal setDateModalOpen={setDateModalOpen} setAreYouSure={setAreYouSure} dateModalOpen={dateModalOpen} setEditting={setEditting}/>
+    <ClickedDateModal setDateModalOpen={setDateModalOpen} addDateModal={addDateModal} setAddDateModal={setAddDateModal} setAreYouSure={setAreYouSure} dateModalOpen={dateModalOpen} setEditting={setEditting}/>
     <EdittingModal editting={editting} setEditting={setEditting}  />
     <MakeSure setAreYouSure={setAreYouSure} areYouSure={areYouSure}/>
     <div className='mx-auto w-[60%] h-fit p-2 rounded-3xl shadow-2xl border-gray-500 border-2 bg-dimWhite'>
@@ -126,7 +150,14 @@ async function checkDate(date) {
       </div>
 
       <div className='flex flex-wrap w-[100%] justify-start ml-24 mb-6' >
-      {months[render.current]?.map((d) => <div onClick={()=> checkDate(new Intl.DateTimeFormat('en-us').format(new Date(Array.from(`${name} ${d} ${year}`).join(''))))} className='w-[12rem] hover:bg-gray-200 cursor-pointer font-bold text-xl h-[12rem] border-black border-[1px]'>{d} {day? d==day && name == monthsNames[new Date().getMonth() + 1]? 'today':null:null}</div> )}
+        
+      {months[render.current]?.map((d) => 
+      <>
+      <div onClick={()=> checkDate(new Intl.DateTimeFormat('en-us').format(new Date(Array.from(`${name} ${d} ${year}`).join(''))))} className='w-[12rem] hover:bg-gray-200 cursor-pointer font-bold text-xl h-[12rem] border-black border-[1px]'>{d} {day? d==day && name == monthsNames[new Date().getMonth() + 1]? 'today':null:null}
+       <div>{checkDate2(new Intl.DateTimeFormat('en-us').format(new Date((`${name} ${d} ${year}`))))}</div>
+      </div>
+      </>
+      )}
       </div>
 
     </div>
@@ -175,7 +206,7 @@ export const SavedDates = ({setTaskOrDate}) => {
   )
 }
 
-const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreYouSure}) => {
+const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreYouSure, addDateModal, setAddDateModal}) => {
   return(
   <>
   {dateModalOpen?
@@ -197,7 +228,7 @@ const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreY
       </div>
       )}
     </div>
-    <div className='flex justify-center'><button className='font-bold text-black mt-2  border-blue-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Add a note</button></div>
+    <div className='flex justify-center'><button onClick={() => setAddDateModal(dateModalOpen[2])} className='font-bold text-black mt-2  border-blue-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Add a note</button></div>
   </div>
   </div>
   :null}
@@ -206,18 +237,35 @@ const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreY
 }
 
 const AddDateModal = ({addDateModal, setAddDateModal}) => {
+  const [date, setDate] = useState()
+
+  useEffect(() => {    
+    if(addDateModal != true && addDateModal != false){
+      let reformattedDate = new Intl.DateTimeFormat('zh-CN').format(new Date(addDateModal)).split('')
+      if(reformattedDate[4] == '/' && reformattedDate[6] == '/'){
+      reformattedDate.splice(5,0,'0')   
+      }
+      if(reformattedDate[7] == '/' && reformattedDate[9] == undefined){
+        reformattedDate.splice(8,0,'0')
+      }
+     reformattedDate = reformattedDate.join('').replace('/','-').replace('/','-')
+      setDate(reformattedDate)
+  }
+}, [addDateModal])
+
+
 
   return (
     <>
     {addDateModal?
       <>
-      <div className='w-screen flex items-center justify-center h-screen absolute top-0 bg-transBlack'>
+      <div className='w-screen flex items-center justify-center h-screen absolute z-10 top-0 bg-transBlack'>
       <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[40%]"}`}>
       <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>Add a date</h1>
-      <div onClick={()=> setAddDateModal(false)} className='ml-auto mr-2 cursor-pointer'>x</div></div>
+      <div onClick={()=> setAddDateModal(false)}  className='ml-auto mr-2 cursor-pointer'>x</div></div>
       <div className='flex flex-col items-center gap-2 mt-4'>
       <h1 className='font-bold text-2xl'>Select a date</h1>
-      <input type="date" className='border-black border-2 rounded-lg mb-8'/>
+      <input type="date" defaultValue={date? date:null} className='border-black border-2 rounded-lg mb-8'/>
       <h1 className='font-bold text-2xl'>Add a note for yourself</h1>
       <input type="text" className='w-[70%] border-black border-2 rounded-lg h-48' />
       </div>
