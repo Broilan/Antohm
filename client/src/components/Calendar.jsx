@@ -202,24 +202,26 @@ const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreY
   <>
   {dateModalOpen?
   <div className='w-screen flex items-center justify-center h-screen absolute top-0 bg-transBlack'>
-  <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[40%]`}>
+  <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[30%]`}>
     <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>{dateModalOpen[2]}</h1>
     <div onClick={()=> setDateModalOpen(false)} className='ml-auto mr-2 cursor-pointer'>x</div></div>
     <h1 className='font-bold text-2xl pl-2 mt-2'>Stuff saved for this date:</h1>
     <div className='bg-white flex flex-col w-[90%] mt-4 h-52 mx-auto border-black border-2 overflow-y-scroll'>
       {dateModalOpen[1].notes.map((note) =>
-            <div className='border-black border-2 h-20 p-2 hover:bg-gray-200 cursor-pointer'>
+            <div className='border-black border-2 h-fit p-2 hover:bg-gray-200 cursor-pointer'>
         <div className='flex gap-3'>
           
-        <h1 className='font-bold'>Date name</h1>
         <div onClick={() => setEditting({'dateId': dateModalOpen[1]._id, "noteId":note._id})} className='ml-auto'><FiEdit /></div>
         <div onClick={() => setAreYouSure({'dateId': dateModalOpen[1]._id, "noteId":note._id})} className='mr-2'><BsFillTrashFill /></div>
         </div>
-        <p className='truncate'>{note.content}</p>
+        <p>{note.content}</p>
       </div>
       )}
     </div>
-    <div className='flex justify-center'><button onClick={() => setAddDateModal(dateModalOpen[2])} className='font-bold text-black mt-2  border-blue-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Add a note</button></div>
+    <div className='flex justify-center gap-4'>
+    <button onClick={() => setAreYouSure({'dateId': dateModalOpen[1]._id})} className='font-bold text-black mt-2  border-red-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Unsave date</button>
+    <button onClick={() => setAddDateModal(dateModalOpen[2])} className='font-bold text-black mt-2  border-blue-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Add a note</button>
+    </div>
   </div>
   </div>
   :null}
@@ -288,11 +290,10 @@ const AddDateModal = ({addDateModal, setAddDateModal}) => {
 
 
 
-const EdittingModal = ({setEditting, editting,}) => {
+const EdittingModal = ({setEditting, editting}) => {
   const {currentUser} = useContext(DataContext)
   const [date, setDate] = useState()
   const newNoteRef = useRef()
-  console.log(editting)
 
   const handleUpdate = () => {
     axios.put(`http://localhost:8000/user/date/${currentUser.id}/${editting.noteId}`, {"content": newNoteRef.current}).then((res) => {
@@ -326,10 +327,29 @@ const EdittingModal = ({setEditting, editting,}) => {
 
 const MakeSure = ({setAreYouSure, areYouSure}) => {    
   const {currentUser} = useContext(DataContext)
-
+  console.log(areYouSure)
   function deleteNote(){
-    axios.delete(`http://localhost:8000/user/deletedatenote/${currentUser.id}/${areYouSure.dateId}/${areYouSure.noteId}`).then(response=> console.log(response, "3"))
+    axios.delete(`http://localhost:8000/user/deletedatenote/${currentUser.id}/${areYouSure.dateId}/${areYouSure.noteId}`).then(response=> console.log(response))
     }
+  function deleteDate() {
+    axios.delete(`http://localhost:8000/user/date/${currentUser.id}/${areYouSure.dateId}/delete`).then(response=> console.log(response))
+  }
+
+  function checkWhich() {
+    if(areYouSure.noteId){
+      deleteNote()
+      setAreYouSure(false)
+    } else {
+      deleteDate()
+      setAreYouSure(false)
+    }
+  }
+
+  function Archive() {
+    axios.put(`http://localhost:8000/user/archive/${currentUser.id}/${areYouSure.dateId}`, {
+      "item": "date"
+    }).then(response=> console.log(response))
+  }
   return (
 
     <>
@@ -340,10 +360,10 @@ const MakeSure = ({setAreYouSure, areYouSure}) => {
     <h1 className='font-bold text-xl ml-auto'>Are you sure?</h1>
     <div onClick={() => setAreYouSure(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
     </div>
-    <p className='font-bold'>If you delete this note, you can't recover it.</p>
+    <p className='font-bold'>If you delete this {areYouSure.noteId? "note" : "date"}, you can't recover it.</p>
     <div className='flex justify-evenly'>
-    <button className='bg-blue-300 p-1 font-bold rounded-lg'>Archive</button>
-    <button onClick={deleteNote} className='bg-red-400 p-1 font-bold rounded-lg'>Delete</button>
+    {areYouSure.noteId? null :<button onClick={Archive} className='bg-blue-300 p-1 font-bold rounded-lg'>Archive</button>}
+    <button onClick={checkWhich} className='bg-red-400 p-1 font-bold rounded-lg'>Delete</button>
     </div>
     </div>
     </div>
