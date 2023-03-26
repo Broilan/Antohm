@@ -89,7 +89,7 @@ async function checkDate(date) {
  let dateString = date.toString().replace('/', '-').replace('/', '-')
   function checkit() {
     return new Promise((resolve, reject) => {
-      savedDates.forEach((item) => {
+      savedDates?.forEach((item) => {
         if (item.date == dateString) {
           resolve(setDateModalOpen([2, item, dateString]))
         }
@@ -112,7 +112,7 @@ function checkDate2(date){
     day: "2-digit"
   })
  let dateString = date.toString().replace('/', '-').replace('/', '-')
-  savedDates.forEach((item) => {
+  savedDates?.forEach((item) => {
     if (item.date == dateString) {
       dateLength = item.notes.length
     }
@@ -143,8 +143,9 @@ function checkDate2(date){
         
       {months[render.current]?.map((d) => 
       <>
-      <div onClick={()=> checkDate(new Date(`${name} ${d} ${year}`))} className='w-[12rem] hover:bg-gray-200 cursor-pointer font-bold text-xl h-[12rem] border-black border-[1px]'>{d} {day? d==day && name == monthsNames[new Date().getMonth() + 1]? 'today':null:null}
-       <div>{checkDate2(new Date(`${name} ${d} ${year}`))}</div>
+      <div onClick={()=> checkDate(new Date(`${name} ${d} ${year}`))} className='w-[12rem] hover:bg-gray-200 cursor-pointer font-bold text-xl h-[12rem] border-black border-[1px]'> <p className='bg-blue-300 text-2xl pl-1'>{d}</p> 
+      <p className='bg-green-300'>{day? d==day && name == monthsNames[new Date().getMonth() + 1]? 'today':null:null}</p> 
+       <div className='bg-red-300 pl-1 text-black'>{checkDate2(new Date(`${name} ${d} ${year}`))}</div>
       </div>
       </>
       )}
@@ -211,8 +212,8 @@ const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreY
         <div className='flex gap-3'>
           
         <h1 className='font-bold'>Date name</h1>
-        <div onClick={() => setEditting(true)} className='ml-auto'><FiEdit /></div>
-        <div onClick={() => setAreYouSure(true)} className='mr-2'><BsFillTrashFill /></div>
+        <div onClick={() => setEditting({'dateId': dateModalOpen[1]._id, "noteId":note._id})} className='ml-auto'><FiEdit /></div>
+        <div onClick={() => setAreYouSure({'dateId': dateModalOpen[1]._id, "noteId":note._id})} className='mr-2'><BsFillTrashFill /></div>
         </div>
         <p className='truncate'>{note.content}</p>
       </div>
@@ -288,32 +289,33 @@ const AddDateModal = ({addDateModal, setAddDateModal}) => {
 
 
 const EdittingModal = ({setEditting, editting,}) => {
+  const {currentUser} = useContext(DataContext)
   const [date, setDate] = useState()
-  
+  const newNoteRef = useRef()
+  console.log(editting)
+
+  const handleUpdate = () => {
+    axios.put(`http://localhost:8000/user/date/${currentUser.id}/${editting.noteId}`, {"content": newNoteRef.current}).then((res) => {
+      console.log(res)
+    })
+  }
+
   return (
     <>
     {editting?
     <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
     <div className='flex-col text-center mb-52 bg-red-300 p-2 rounded-xl scale-[1.5]'>
     <div className='flex flex-col justify-center'>
-
-    <div>
-      <div className='flex '>
-    <label htmlFor='date' className='font-bold text-xl ml-auto'>Date</label><br />    
-    <div onClick={() => setEditting(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
-      </div>
-    <input id='date' type="date" defaultValue={date?date:null}/>
-    </div>
     
     <div>
-    <label htmlFor='note' className='font-bold text-xl '>Notes</label><br />
-    <input id='note' type="text" />
+    <label htmlFor='note' className='font-bold text-xl '>Edit note</label><br />
+    <input id='note' type="text" onChange={(e) => newNoteRef.current = e.target.value} />
     </div>
 
     </div>
     <div className='flex justify-evenly'>
-    <button className='bg-red-400 p-1 font-bold rounded-lg'>Discard Changes</button>
-    <button className='bg-blue-300 p-1 font-bold rounded-lg'>Update</button>
+    <button onClick={() => setEditting(false)} className='bg-red-400 p-1 font-bold rounded-lg'>Discard Changes</button>
+    <button onClick={() => handleUpdate(false)} className='bg-blue-300 p-1 font-bold rounded-lg'>Update</button>
     </div>
     </div>
     </div>
@@ -322,8 +324,14 @@ const EdittingModal = ({setEditting, editting,}) => {
   )
 }
 
-const MakeSure = ({setAreYouSure, areYouSure}) => {
+const MakeSure = ({setAreYouSure, areYouSure}) => {    
+  const {currentUser} = useContext(DataContext)
+
+  function deleteNote(){
+    axios.delete(`http://localhost:8000/user/deletedatenote/${currentUser.id}/${areYouSure.dateId}/${areYouSure.noteId}`).then(response=> console.log(response, "3"))
+    }
   return (
+
     <>
     {areYouSure?
     <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
@@ -335,7 +343,7 @@ const MakeSure = ({setAreYouSure, areYouSure}) => {
     <p className='font-bold'>If you delete this note, you can't recover it.</p>
     <div className='flex justify-evenly'>
     <button className='bg-blue-300 p-1 font-bold rounded-lg'>Archive</button>
-    <button className='bg-red-400 p-1 font-bold rounded-lg'>Delete</button>
+    <button onClick={deleteNote} className='bg-red-400 p-1 font-bold rounded-lg'>Delete</button>
     </div>
     </div>
     </div>
