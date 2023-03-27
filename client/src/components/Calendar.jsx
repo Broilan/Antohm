@@ -36,16 +36,17 @@ const months =[
 
 export function Calendar() {
   const { currentUser } = useContext(DataContext)
-  const [name, setName] = useState(monthsNames[new Date().getMonth() + 1])
+  const [name, setName] = useState(monthsNames[new Date().getMonth()])
+  const [success, setSuccess] = useState(false)
   const [year, setYear] = useState(new Date().getFullYear())
   const [day, setDay] = useState(new Date().getDate())
-  const [dateItems, setDateItems] = useState()
+  const [error, setError] = useState(false)
   const [editting, setEditting] = useState(false)
   const [areYouSure, setAreYouSure] = useState(false)
   const [dateModalOpen, setDateModalOpen] = useState(false)
   const [addDateModal, setAddDateModal] = useState(false)
   const [savedDates, setSavedDates] = useState([])
-  const render = useRef(new Date().getMonth() + 1)
+  const render = useRef(new Date().getMonth())
 
   
   
@@ -53,7 +54,7 @@ export function Calendar() {
     axios.get(`http://localhost:8000/user/dates/${currentUser.id}`).then((res) => {
       setSavedDates(res.data.savedDates)
     })
-  }, [])
+  }, [success])
 
 
 
@@ -124,10 +125,12 @@ function checkDate2(date){
 
   return (
     <>
-    <AddDateModal addDateModal={addDateModal} setAddDateModal={setAddDateModal} />
+    <AddDateModal addDateModal={addDateModal} setAddDateModal={setAddDateModal} setSuccess={setSuccess} setError={setError} />
     <ClickedDateModal setDateModalOpen={setDateModalOpen} addDateModal={addDateModal} setAddDateModal={setAddDateModal} setAreYouSure={setAreYouSure} dateModalOpen={dateModalOpen} setEditting={setEditting}/>
-    <EdittingModal editting={editting} setEditting={setEditting}  />
-    <MakeSure setAreYouSure={setAreYouSure} areYouSure={areYouSure}/>
+    <EdittingModal editting={editting} setEditting={setEditting} setSuccess={setSuccess} setError={setError}  />
+    <MakeSure setAreYouSure={setAreYouSure} areYouSure={areYouSure} setSuccess={setSuccess} setError={setError}/>
+    <SuccessModal success={success} setSuccess={setSuccess} />
+    <ErrorModal error={error} setError={setError} />
     <div className='mx-auto w-[60%] h-fit p-2 rounded-3xl shadow-2xl border-gray-500 border-2 bg-dimWhite'>
       <div className='flex items-center gap-4'>
       <div className='font-bold text-3xl mr-auto'>{year}</div>
@@ -144,7 +147,7 @@ function checkDate2(date){
       {months[render.current]?.map((d) => 
       <>
       <div onClick={()=> checkDate(new Date(`${name} ${d} ${year}`))} className='w-[12rem] hover:bg-gray-200 cursor-pointer font-bold text-xl h-[12rem] border-black border-[1px]'> <p className='bg-blue-300 text-2xl pl-1'>{d}</p> 
-      <p className='bg-green-300'>{day? d==day && name == monthsNames[new Date().getMonth() + 1]? 'today':null:null}</p> 
+      <p className='bg-green-300'>{day? d==day && name == monthsNames[new Date().getMonth()]? 'today':null:null}</p> 
        <div className='bg-red-300 pl-1 text-black'>{checkDate2(new Date(`${name} ${d} ${year}`))}</div>
       </div>
       </>
@@ -159,7 +162,9 @@ function checkDate2(date){
 export const SavedDates = ({setTaskOrDate}) => {
   const [dateModalOpen, setDateModalOpen] = useState(false)
   const [addDateModal, setAddDateModal] = useState(false)
+  const [error, setError] = useState(false)
   const [areYouSure, setAreYouSure] = useState(false)
+  const [success, setSuccess] = useState(false)
   const [editting, setEditting] = useState(false)
   const {currentUser} = useContext(DataContext)
   const [savedDates, setSavedDates] = useState([])
@@ -171,10 +176,11 @@ export const SavedDates = ({setTaskOrDate}) => {
 
   return(
     <>
-    <ClickedDateModal setDateModalOpen={setDateModalOpen} dateModalOpen={dateModalOpen} setAreYouSure={setAreYouSure} setEditting={setEditting}/>
-    <AddDateModal addDateModal={addDateModal} setAddDateModal={setAddDateModal} />
-    <EdittingModal editting={editting} setEditting={setEditting} />
-    <MakeSure setAreYouSure={setAreYouSure} areYouSure={areYouSure} />
+    <ClickedDateModal setDateModalOpen={setDateModalOpen} dateModalOpen={dateModalOpen} addDateModal={addDateModal} setAddDateModal={setAddDateModal} setAreYouSure={setAreYouSure} setEditting={setEditting}/>
+    <AddDateModal addDateModal={addDateModal} setAddDateModal={setAddDateModal} setSuccess={setSuccess} setError={setError} />
+    <EdittingModal editting={editting} setEditting={setEditting} setSuccess={setSuccess} setError={setError} />
+    <MakeSure setAreYouSure={setAreYouSure} areYouSure={areYouSure} setSuccess={setSuccess} setError={setError} />
+    <SuccessModal success={success} setSuccess={setSuccess}  />
   <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
 
 <div className='flex justify-center items-center border-black border-b-[1px]'>
@@ -185,7 +191,7 @@ export const SavedDates = ({setTaskOrDate}) => {
 
 {savedDates?.map((date) => 
 <>  
-<div onClick={() => setDateModalOpen([2, date])} className='p-2 border-[1px] border-gray-400 hover:bg-gray-300 cursor-pointer'> 
+<div onClick={() => setDateModalOpen([2, date, date.date])} className='p-2 border-[1px] border-gray-400 hover:bg-gray-300 cursor-pointer'> 
 <h1 className='font-bold'>{date?.date}</h1>
 <p>{date?.notes.length == 0? null: date.notes[0].content}</p>
 </div>
@@ -197,7 +203,8 @@ export const SavedDates = ({setTaskOrDate}) => {
   )
 }
 
-const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreYouSure, addDateModal, setAddDateModal}) => {
+const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreYouSure, setAddDateModal}) => {
+  console.log(dateModalOpen)
   return(
   <>
   {dateModalOpen?
@@ -229,7 +236,7 @@ const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreY
 )
 }
 
-const AddDateModal = ({addDateModal, setAddDateModal}) => {
+const AddDateModal = ({addDateModal, setAddDateModal, setSuccess, setError}) => {
   const {currentUser} = useContext(DataContext)
   const [saved, setSaved] = useState([])
   const dateRef = useRef()
@@ -245,9 +252,10 @@ const AddDateModal = ({addDateModal, setAddDateModal}) => {
     let executed = false
     try{
   saved.forEach((date) => {
-    if(date.date == addDateModal){
-     axios.put(`http://localhost:8000/user/adddatenote/${currentUser.id}/${date._id}`, {"content": contentRef.current}).then(response=> console.log(response, "1"))
+    if(date.date == addDateModal || date.date == dateRef.current){
+     axios.put(`http://localhost:8000/user/adddatenote/${currentUser.id}/${date._id}`, {"content": contentRef.current}).then(()=>setSuccess(true)).catch(() => setError(true))
      executed = true
+    setAddDateModal(false)
     throw new Error("stop")
     }
   }) 
@@ -256,10 +264,11 @@ const AddDateModal = ({addDateModal, setAddDateModal}) => {
   }
 
   if(!executed){
-    axios.put(`http://localhost:8000/user/date/${currentUser.id}`, {"date": `${dateRef?.current? dateRef.current: addDateModal}`, "notes": contentRef.current}).then(response=> console.log(response, "2"))
+    axios.put(`http://localhost:8000/user/date/${currentUser.id}`, 
+    {"date": `${dateRef?.current? dateRef.current: addDateModal}`, "notes": contentRef.current}).then(()=>setSuccess(true)).catch(() => setError(true))
+    setAddDateModal(false)
   }
   }
-
   return (
     <>
     {addDateModal?
@@ -269,8 +278,15 @@ const AddDateModal = ({addDateModal, setAddDateModal}) => {
       <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>Add a date</h1>
       <div onClick={()=> setAddDateModal(false)}  className='ml-auto mr-2 cursor-pointer'>x</div></div>
       <div className='flex flex-col items-center gap-2 mt-4'>
+      
+      {addDateModal != true? 
+      <input type="date" defaultValue={addDateModal} onChange={(e) => dateRef.current = e.target.value } className='border-black border-2 rounded-lg mb-8' readOnly/>
+        :
+      <>
       <h1 className='font-bold text-2xl'>Select a date</h1>
-      <input type="date" defaultValue={addDateModal?addDateModal:null} onChange={(e) => dateRef.current = e.target.value } className='border-black border-2 rounded-lg mb-8'/>
+      <input type="date" onChange={(e) => dateRef.current = e.target.value } className='border-black border-2 rounded-lg mb-8'/>
+      </>
+      }
       <h1 className='font-bold text-2xl'>Add a note for yourself</h1>
       <input type="text" onChange={(e) => contentRef.current = e.target.value } className='w-[70%] border-black border-2 rounded-lg h-48' />
       </div>
@@ -290,14 +306,14 @@ const AddDateModal = ({addDateModal, setAddDateModal}) => {
 
 
 
-const EdittingModal = ({setEditting, editting}) => {
+const EdittingModal = ({setEditting, editting, setSuccess, setError}) => {
   const {currentUser} = useContext(DataContext)
   const [date, setDate] = useState()
   const newNoteRef = useRef()
 
   const handleUpdate = () => {
     axios.put(`http://localhost:8000/user/date/${currentUser.id}/${editting.noteId}`, {"content": newNoteRef.current}).then((res) => {
-      console.log(res)
+      setSuccess(true)
     })
   }
 
@@ -316,7 +332,7 @@ const EdittingModal = ({setEditting, editting}) => {
     </div>
     <div className='flex justify-evenly'>
     <button onClick={() => setEditting(false)} className='bg-red-400 p-1 font-bold rounded-lg'>Discard Changes</button>
-    <button onClick={() => handleUpdate(false)} className='bg-blue-300 p-1 font-bold rounded-lg'>Update</button>
+    <button onClick={handleUpdate} className='bg-blue-300 p-1 font-bold rounded-lg'>Update</button>
     </div>
     </div>
     </div>
@@ -325,14 +341,13 @@ const EdittingModal = ({setEditting, editting}) => {
   )
 }
 
-const MakeSure = ({setAreYouSure, areYouSure}) => {    
+const MakeSure = ({setAreYouSure, areYouSure, setSuccess, setError }) => {    
   const {currentUser} = useContext(DataContext)
-  console.log(areYouSure)
   function deleteNote(){
-    axios.delete(`http://localhost:8000/user/deletedatenote/${currentUser.id}/${areYouSure.dateId}/${areYouSure.noteId}`).then(response=> console.log(response))
+    axios.delete(`http://localhost:8000/user/deletedatenote/${currentUser.id}/${areYouSure.dateId}/${areYouSure.noteId}`).then(()=> setSuccess(true)).catch(() => setError(true))
     }
   function deleteDate() {
-    axios.delete(`http://localhost:8000/user/date/${currentUser.id}/${areYouSure.dateId}/delete`).then(response=> console.log(response))
+    axios.delete(`http://localhost:8000/user/date/${currentUser.id}/${areYouSure.dateId}/delete`).then(()=> setSuccess(true)).catch(() => setError(true))
   }
 
   function checkWhich() {
@@ -348,7 +363,7 @@ const MakeSure = ({setAreYouSure, areYouSure}) => {
   function Archive() {
     axios.put(`http://localhost:8000/user/archive/${currentUser.id}/${areYouSure.dateId}`, {
       "item": "date"
-    }).then(response=> console.log(response))
+    }).then(()=> setSuccess(true)).catch(() => setError(true))
   }
   return (
 
@@ -371,4 +386,56 @@ const MakeSure = ({setAreYouSure, areYouSure}) => {
     </>
   )
 }
+
+//success modal
+const SuccessModal = ({setSuccess, success}) => {
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSuccess(false)
+    }, 3000)
+  }, [success])
+
+  return (
+    <>
+    {success?
+    <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
+    <div className='flex-col text-center mb-52 bg-green-300 p-2 rounded-xl scale-[1.5]'>
+    <div className='flex justify-center'>
+    <h1 className='font-bold text-xl ml-auto'>Success!</h1>
+    <div onClick={() => setSuccess(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
+    </div>
+    <p className='font-bold'>Your changes have been saved.</p>
+    </div>
+    </div>
+    :null}
+    </>
+  )
+}
+
+//error modal
+const ErrorModal = ({setError, error}) => {
+    useEffect(() => {
+      setTimeout(() => {
+        setError(false)
+      }, 3000)
+    }, [error])
+  
+    return (
+      <>
+      {error?
+      <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
+      <div className='flex-col text-center mb-52 bg-red-300 p-2 rounded-xl scale-[1.5]'>
+      <div className='flex justify-center'>
+      <h1 className='font-bold text-xl ml-auto'>Error!</h1>
+      <div onClick={() => setError(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
+      </div>
+      <p className='font-bold'>Something went wrong.</p>
+      </div>
+      </div>
+      :null}
+      </>
+    )
+  }
+
 
