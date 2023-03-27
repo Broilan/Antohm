@@ -204,7 +204,6 @@ export const SavedDates = ({setTaskOrDate}) => {
 }
 
 const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreYouSure, setAddDateModal}) => {
-  console.log(dateModalOpen)
   return(
   <>
   {dateModalOpen?
