@@ -239,6 +239,7 @@ const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreY
 const AddDateModal = ({addDateModal, setAddDateModal, setSuccess, setError}) => {
   const {currentUser} = useContext(DataContext)
   const [saved, setSaved] = useState([])
+  const [fillOutForm, setFillOutForm] = useState(false)
   const dateRef = useRef()
   const contentRef = useRef()
   useEffect(() => {
@@ -247,9 +248,16 @@ const AddDateModal = ({addDateModal, setAddDateModal, setSuccess, setError}) => 
   })
   dateRef.current = addDateModal
   }, [])
-
   function addDate(e){
     let executed = false
+    if(addDateModal != true) {
+      dateRef.current = addDateModal
+      console.log(dateRef.current)
+    }  
+    //if note or date aren't filled out, return
+    if(!dateRef.current || !contentRef.current){
+      setFillOutForm(true)
+    } else {
     try{
   saved.forEach((date) => {
     if(date.date == addDateModal || date.date == dateRef.current){
@@ -262,17 +270,18 @@ const AddDateModal = ({addDateModal, setAddDateModal, setSuccess, setError}) => 
   } catch (error) {
     console.log(error)
   }
-
   if(!executed){
     axios.put(`http://localhost:8000/user/date/${currentUser.id}`, 
     {"date": `${dateRef?.current? dateRef.current: addDateModal}`, "notes": contentRef.current}).then(()=>setSuccess(true)).catch(() => setError(true))
     setAddDateModal(false)
   }
+}
   }
   return (
     <>
     {addDateModal?
       <>
+      <FillOutForm setFillOutForm={setFillOutForm} fillOutForm={fillOutForm} />
       <div className='w-screen flex items-center justify-center h-screen absolute z-10 top-0 bg-transBlack'>
       <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[40%]"}`}>
       <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>Add a date</h1>
@@ -431,6 +440,32 @@ const ErrorModal = ({setError, error}) => {
       <div onClick={() => setError(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
       </div>
       <p className='font-bold'>Something went wrong.</p>
+      </div>
+      </div>
+      :null}
+      </>
+    )
+  }
+
+//Modal for telling a user they need to fill out the form 
+const FillOutForm = ({setFillOutForm, fillOutForm}) => {
+  
+    useEffect(() => {
+      setTimeout(() => {
+        setFillOutForm(false)
+      }, 3000)
+    }, [fillOutForm])
+  
+    return (
+      <>
+      {fillOutForm?
+      <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
+      <div className='flex-col text-center mb-52 bg-red-300 p-2 rounded-xl scale-[1.5]'>
+      <div className='flex justify-center'>
+      <h1 className='font-bold text-xl ml-auto'>Error!</h1>
+      <div onClick={() => setFillOutForm(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
+      </div>
+      <p className='font-bold'>Please fill out the form before submitting.</p>
       </div>
       </div>
       :null}
