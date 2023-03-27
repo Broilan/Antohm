@@ -433,11 +433,9 @@ const updatePersonalInfo = (req, res) => {
             email: req.body.email,
         })
         .then(updatedUser => {
-            console.log('Updated User =>>', updatedUser);
             res.json({updatedUser: updatedUser})
         })
         .catch(error => { 
-            console.log('error', error) 
             res.json({ message: 'email already exists!' })
         });
     }
@@ -463,30 +461,25 @@ const postTask = (req, res) => {
         task: req.body.task,
         importance: req.body.importance,
         isComplete: false,
-        comments: [],
+        notes: [],
+        status: "To Do",
         owner: req.params.id
     })
     .then(createdTask => {
-        console.log("new task", createdTask)
         User.findOne({_id: req.params.id})
 .then(user => {
-    console.log("found user", user)
     const currentTasks = user.tasks
-    console.log(user)
     currentTasks.push(createdTask._id)
     User.findOneAndUpdate({_id: req.params.id}, {
         tasks: currentTasks
     })
     .then(response => {
-        console.log("new task", response)
         res.json({tasks: response.tasks})
     }).catch(error => { 
-        console.log('error', error) 
         res.json({ message: error })
     });    
     })
     }).catch(error => { 
-    console.log('error', error) 
     res.json({ message: error })
 });   
 }
@@ -495,17 +488,15 @@ const postTask = (req, res) => {
 const updateTaskIntent = (req, res) => {
        Task.findByIdAndUpdate(req.params.id, {
             task: req.body.newTask, 
-            updated: Date.now(),
-            isComplete: req.body.isComplete
+            status: req.body.status
         })
         .then(response => {
-            console.log("task updated", response)
             res.json({updatedTask: response})
         }).catch(error => { 
-            console.log('error', error) 
             res.json({ message: error })
         });    
     }
+
 
 //Put a comment on a task
 const postTaskComment = (req, res) => {
@@ -515,7 +506,6 @@ const postTaskComment = (req, res) => {
         comments: ['no comments yet'],
         postID: req.params.postID
     }).then(createdComment => {
-        console.log("new comment", createdComment)
         Task.findById( req.params.postID)
         .then(foundTask => {
             const taskComments = foundTask.comments
@@ -526,11 +516,9 @@ const postTaskComment = (req, res) => {
             res.json({taskWithNewComment: response})
         })
         }).catch(error => { 
-            console.log('error', error) 
             res.json({ message: error })
         });  
     }).catch(error => { 
-        console.log('error', error) 
         res.json({ message: error })
     });  
 } 

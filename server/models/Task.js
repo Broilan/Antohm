@@ -6,10 +6,8 @@ const taskSchema = new mongoose.Schema({
     taskName: {type: String},
     task: {type: String},
     notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Note'}],
-    isComplete: {type: Boolean, default: false},
+    status: {type: String},
     importance: {type: String},
-    target_date: {type: Date},
-    comments: [{type:  mongoose.Schema.Types.ObjectId, ref: "Comment"}],
     owner: {type: Schema.Types.ObjectId, ref: "User"}
 }, {timestamps: true}); //adds .createdAt and .updatedAt and sets them automatically as needed
 
