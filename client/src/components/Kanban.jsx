@@ -24,9 +24,9 @@ const Kanban = () => {
 
   }, [success])
 
-  function dragStart(task, e, data){
+  function dragStart(){
     if(originalPosition.current){
-      console.log(originalPosition)
+      return
     } else {
       originalPosition.current = itemRef.current.getBoundingClientRect()
     }
@@ -38,15 +38,27 @@ const Kanban = () => {
     let container1Rect = container1Ref.current.getBoundingClientRect()
     let container2Rect = container2Ref.current.getBoundingClientRect()
     let container3Rect = container3Ref.current.getBoundingClientRect()
-    if(itemX >= container2Rect.left && itemX <= container2Rect.right && itemY >= container2Rect.top && itemY <= container2Rect.bottom && Math.abs(data.lastX) >= 200) {
+    if(itemX >= container2Rect.left && itemX <= container2Rect.right && itemY >= container2Rect.top && itemY <= container2Rect.bottom && Math.abs(data.lastX) >= 225) {
       //container 2
-      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'In Progress'}).then(() => setSuccess(true)).catch(err => {throw err})
-    } else if(itemX >= container3Rect.left && itemX <= container3Rect.right && itemY >= container3Rect.top && itemY <= container3Rect.bottom && Math.abs(data.lastX) >= 200) {
+      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'In Progress'}).then(() => {
+        setSuccess(true)
+        setTaskModal(false)
+      }).catch(() => setError(true))
+      setTaskModal(false)
+    } else if(itemX >= container3Rect.left && itemX <= container3Rect.right && itemY >= container3Rect.top && itemY <= container3Rect.bottom && Math.abs(data.lastX) >= 225) {
       //container 3
-      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'Finished'}).then(() => setSuccess(true)).catch(err => {throw err})
-    } else if(itemX >= container1Rect.left && itemX <= container1Rect.right && itemY >= container1Rect.top && itemY <= container1Rect.bottom && Math.abs(data.lastX) >= 200) {
+      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'Finished'}).then(() => {
+        setSuccess(true)
+        setTaskModal(false)
+      }).catch(() => setError(true))
+      setTaskModal(false)
+    } else if(itemX >= container1Rect.left && itemX <= container1Rect.right && itemY >= container1Rect.top && itemY <= container1Rect.bottom && Math.abs(data.lastX) >= 225) {
       //container 1
-      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'To Do'}).then(() => setSuccess(true)).catch(err => {throw err})
+      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'To Do'}).then(() => {
+        setSuccess(true)
+        setTaskModal(false)
+      }).catch(() => setError(true))
+      
     } else{
       itemRef.current.style = `translate(${originalPosition.current.x}px, ${originalPosition.current.y}px)`
     }
@@ -93,7 +105,7 @@ const Kanban = () => {
           {userTasks?.map(task => 
             <>
             {task.status == 'In Progress' ?
-          <Draggable onStart={(e,data) => dragStart(task, e, data)}  onStop={(e,data) => drag(task, e, data)} >
+          <Draggable onStart={(e,data) => dragStart(task, e, data)}  onStop={(e,data) => drag(task, e, data)}>
           <div onClick={() => setTaskModal(task)} ref={itemRef} className='listitem mt-3 cursor-pointer h-20 border-[1px] border-gray-500 hover:bg-gray-300' >
                 <div className='pl-4 font-bold text-xl'>{task.taskName}</div>
                 <div className='flex'>
