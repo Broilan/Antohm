@@ -1,7 +1,7 @@
-import React, { useContext, useState, useRef } from 'react'
+import React, { useContext, useState, useRef, useEffect, createRef } from 'react'
 import axios from 'axios'
 import { DataContext } from '../App'
-import { useEffect } from 'react';
+import Draggable, {DraggableCore} from "react-draggable";
 import { FiEdit } from 'react-icons/fi';
 import { BsFillTrashFill } from 'react-icons/bs';
 
@@ -13,50 +13,44 @@ const Kanban = () => {
   const [taskModal, setTaskModal] = useState(false)
   const [addNoteModal, setAddNoteModal] = useState(false)
   const [makeSureModal, setMakeSureModal] = useState(false)
+  const originalPosition = useRef()
+  const itemRef = useRef()
+  const container1Ref = useRef()
+  const container2Ref = useRef()
+  const container3Ref = useRef()
+
   useEffect(() => {
     axios.get(`http://localhost:8000/user/tasks/${currentUser.id}`).then(response => setUserTasks(response.data.userTasks.tasks)).catch(err => {throw err}) 
-    
 
-
-    // const draggables = document.querySelectorAll('.kanban-listitem-draggable')
-    // const containers = document.querySelectorAll('.kanban-inside-containers')
-    // draggables.forEach(draggable => {
-    //   draggable.addEventListener('dragstart', () => {
-    //     draggable.classList.add('dragging')
-    //     console.log("dragginx")
-    //   })
-    //   draggable.addEventListener('dragend', () => {
-    //     draggable.classList.remove('dragging')
-    //   })
-    // })
-
-    // containers.forEach(container => {
-    //   container.addEventListener('dragover', e => {
-    //     e.preventDefault()
-    //     const afterElement = getDragAfterElement(container, e.clientY)
-    //     const draggable = document.querySelector('.dragging')
-    //     if(draggable == null){
-    //       container.appendChild(draggable)
-    //     } else {
-    //       container.insertBefore(draggable, afterElement)
-    //     }
-    //   })
-    // })
-
-    // function getDragAfterElement(container, y) {
-    //  const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
-
-    //  return draggableElements.reduce((closest, child) => {
-    //   const box = child.getBoundingClientRect()
-    //   const offset = y - box.top - box.height / 2
-    //   if(offset < 0 && offset > closest.offset) {
-    //     return { offset: offset, element: child}
-    //   } else {
-    //       return closest
-    //     }
-    //  }, {offset: Number.NEGATIVE_INFINITY}).element
-    // } 
   }, [success])
+
+  function dragStart(task, e, data){
+    if(originalPosition.current){
+      console.log(originalPosition)
+    } else {
+      originalPosition.current = itemRef.current.getBoundingClientRect()
+    }
+  }
+
+  function drag(task, e, data) {
+    let itemX = e.clientX
+    let itemY = e.clientY
+    let container1Rect = container1Ref.current.getBoundingClientRect()
+    let container2Rect = container2Ref.current.getBoundingClientRect()
+    let container3Rect = container3Ref.current.getBoundingClientRect()
+    if(itemX >= container2Rect.left && itemX <= container2Rect.right && itemY >= container2Rect.top && itemY <= container2Rect.bottom && Math.abs(data.lastX) >= 200) {
+      //container 2
+      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'In Progress'}).then(() => setSuccess(true)).catch(err => {throw err})
+    } else if(itemX >= container3Rect.left && itemX <= container3Rect.right && itemY >= container3Rect.top && itemY <= container3Rect.bottom && Math.abs(data.lastX) >= 200) {
+      //container 3
+      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'Finished'}).then(() => setSuccess(true)).catch(err => {throw err})
+    } else if(itemX >= container1Rect.left && itemX <= container1Rect.right && itemY >= container1Rect.top && itemY <= container1Rect.bottom && Math.abs(data.lastX) >= 200) {
+      //container 1
+      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'To Do'}).then(() => setSuccess(true)).catch(err => {throw err})
+    } else{
+      itemRef.current.style = `translate(${originalPosition.current.x}px, ${originalPosition.current.y}px)`
+    }
+  }
 
   return (
     <>
@@ -73,64 +67,64 @@ const Kanban = () => {
       </div>
 
       <div className='flex h-[75%] gap-32 items-center justify-center'>
-        <div className='h-[100%] w-[25%] rounded-xl bg-white shadow-2xl border-2 border-gray-400'>
+        <div ref={container1Ref} className='h-[100%] w-[25%] rounded-xl bg-white shadow-2xl border-2 border-gray-400'>
             <h1 className='font-bold underline text-3xl text-center'>Todo</h1>
 
-         <div className='kanban-todo-list'>
           {userTasks?.map(task => 
             <>
           {task.status == 'To Do' ?
-          <div onClick={() => setTaskModal(task)} className='mt-3 cursor-pointer h-20 border-[1px] border-gray-500 hover:bg-gray-300'>
-          <div className='pl-4 font-bold text-xl' draggable="true">{task.taskName}</div>
+          <Draggable onStart={(e,data) => dragStart(task, e, data)} onStop={(e,data) => drag(task, e, data)}>
+          <div onClick={() => setTaskModal(task)} ref={itemRef} className='mt-3 cursor-pointer h-20 border-[1px] border-gray-500 hover:bg-gray-300'>
+          <div  className='pl-4 font-bold text-xl' >{task.taskName}</div>
                 <div className='flex'>
-                <div className='pl-4'>{task.task}</div>
+                <div className='pl-4' >{task.task}</div>
                 <div className='ml-auto mr-2 bg-gray-400 rounded-xl text-white font-bold p-1'>{task.importance}</div>
                 </div>
               </div>
+          </Draggable>
               : null}
             </>
           )} 
-         </div>
         </div>
 
-        <div className='h-[100%] w-[25%] rounded-xl bg-white shadow-2xl border-2 border-gray-400'>
+        <div ref={container2Ref} className='h-[100%] w-[25%] rounded-xl bg-white shadow-2xl border-2 border-gray-400 container'>
             <h1 className='font-bold underline text-3xl text-center'>In progress</h1>
 
-         <div className='kanban-todo-list'>
           {userTasks?.map(task => 
             <>
             {task.status == 'In Progress' ?
-          <div onClick={() => setTaskModal(task)} className='mt-3 cursor-pointer h-20 border-[1px] border-gray-500 hover:bg-gray-300'>
-                <div className='pl-4 font-bold text-xl' draggable="true">{task.taskName}</div>
+          <Draggable onStart={(e,data) => dragStart(task, e, data)}  onStop={(e,data) => drag(task, e, data)} >
+          <div onClick={() => setTaskModal(task)} ref={itemRef} className='listitem mt-3 cursor-pointer h-20 border-[1px] border-gray-500 hover:bg-gray-300' >
+                <div className='pl-4 font-bold text-xl'>{task.taskName}</div>
                 <div className='flex'>
                 <div className='pl-4'>{task.task}</div>
                 <div className='ml-auto mr-2 bg-gray-400 rounded-xl text-white font-bold p-1'>{task.importance}</div>
                 </div>
               </div>
+                 </Draggable>
               : null}
             </>
           )} 
-         </div>
         </div>
 
-        <div className='h-[100%] w-[25%] rounded-xl bg-white shadow-2xl border-2 border-gray-400'>
+        <div ref={container3Ref} className='h-[100%] w-[25%] rounded-xl bg-white shadow-2xl border-2 border-gray-400 container'>
             <h1 className='font-bold underline text-3xl text-center'>Finished</h1>
 
-         <div className='kanban-todo-list'>
           {userTasks?.map(task => 
             <>
           {task.status == 'Finished' ?
-          <div onClick={() => setTaskModal(task)} className='mt-3 cursor-pointer h-20 border-[1px] border-gray-500 hover:bg-gray-300'>
-          <div className='pl-4 font-bold text-xl' draggable="true">{task.taskName}</div>
+          <Draggable onStart={(e,data) => dragStart(task, e, data)}  onStop={(e,data) => drag(task, e, data)}>
+          <div onClick={() => setTaskModal(task)} ref={itemRef} className='listitem mt-3 cursor-pointer h-20 border-[1px] border-gray-500 hover:bg-gray-300'>
+          <div className='pl-4 font-bold text-xl'>{task.taskName}</div>
                 <div className='flex'>
                 <div className='pl-4'>{task.task}</div>
                 <div className='ml-auto mr-2 bg-gray-400 rounded-xl text-white font-bold p-1'>{task.importance}</div>
                 </div>
               </div>
+              </Draggable>
               : null}
             </>
           )} 
-         </div>
         </div>
         </div>
 
