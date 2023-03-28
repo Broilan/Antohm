@@ -45,7 +45,7 @@ export default function TodoList({setTaskOrDate}){
         </div>
 
         <div>
-          {userTasks?.map(({ taskName, comments, importance, isComplete, task, added, _id }) => (
+          {userTasks?.map(({ taskName, comments, importance, task, notes, status, added, _id }) => (
               <div  onClick={(e) => taskModal(added, task, _id, taskName, importance, comments, isComplete )}>
 
                 <div className='flex h-20 cursor-pointer hover:bg-gray-300 hover:opacity-90 border-b-gray-300 border-[1px]'>
@@ -60,7 +60,7 @@ export default function TodoList({setTaskOrDate}){
                 importance == "High"?<div className="text-sm text-white bg-red-500 rounded-lg w-fit p-1 ml-auto mr-1 my-auto font-semibold h-fit">{importance}</div>:
                 importance == "Extreme"?<div className="text-sm text-white bg-red-800 rounded-lg w-fit p-1 ml-auto mr-1 my-auto font-semibold h-fit">{importance}</div>:
                 null}
-
+                <div className="text-sm text-white bg-gray-400 rounded-lg w-fit p-1 mr-1 my-auto font-semibold h-fit">{status}</div>
                   </div> 
 
               </div>

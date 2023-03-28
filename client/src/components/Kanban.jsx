@@ -7,8 +7,11 @@ import { BsFillTrashFill } from 'react-icons/bs';
 
 const Kanban = () => {
   const {currentUser} = useContext(DataContext)
+  const [error, setError] = useState(false)
+  const [success, setSuccess] = useState(false)
   const [userTasks, setUserTasks] = useState()
   const [taskModal, setTaskModal] = useState(false)
+  const [addNoteModal, setAddNoteModal] = useState(false)
   const [makeSureModal, setMakeSureModal] = useState(false)
   useEffect(() => {
     axios.get(`http://localhost:8000/user/tasks/${currentUser.id}`).then(response => setUserTasks(response.data.userTasks.tasks)).catch(err => {throw err}) 
@@ -53,17 +56,20 @@ const Kanban = () => {
     //     }
     //  }, {offset: Number.NEGATIVE_INFINITY}).element
     // } 
-  }, [])
+  }, [success])
 
   return (
     <>
-    <TaskItemModal setTaskModal={setTaskModal} taskModal={taskModal} makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal}/>
-    <MakeSure makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal} />
+    <TaskItemModal setTaskModal={setTaskModal} taskModal={taskModal} makeSureModal={makeSureModal} setAddNoteModal={setAddNoteModal} setMakeSureModal={setMakeSureModal} setSuccess={setSuccess} setError={setError}/>
+    <MakeSure makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal} setTaskModal={setTaskModal} setSuccess={setSuccess} setError={setError}/>
+    <SuccessModal success={success} setSuccess={setSuccess} />
+    <ErrorModal error={error} setError={setError} />
+    <AddNote addNoteModal={addNoteModal} setAddNoteModal={setAddNoteModal} setSuccess={setSuccess} />
     <div className='mx-auto bg-dimWhite w-[60%] h-[80vh] rounded-xl border-gray-400 border-2 shadow-2xl'>
       <h1 className='font-bold text-center pt-4 text-3xl'>Welcome To your Kanban</h1>
 
       <div className='flex text-4xl mr-4 gap-4 mt-[-2rem] mb-6'>
-      <div className='text-[5rem] ml-auto'> + </div>
+      <div onClick={() => setAddNoteModal(true)} className='text-[5rem] ml-auto'> + </div>
       </div>
 
       <div className='flex h-[75%] gap-32 items-center justify-center'>
@@ -135,12 +141,16 @@ const Kanban = () => {
 
 export default Kanban
 
-const TaskItemModal = ({taskModal, setTaskModal, makeSureModal, setMakeSureModal}) => {
+const TaskItemModal = ({taskModal, setTaskModal, setAddNoteModal, setMakeSureModal, setSuccess, setError}) => {
   const {currentUser} = useContext(DataContext)
-  const [addNoteModal, setAddNoteModal] = useState(false)
+  function Archive() {
+    axios.put(`http://localhost:8000/user/archive/${currentUser.id}/${taskModal._id}`, {
+      "item": "task"
+    }).then(()=> setSuccess(true)).catch(()=> setError(true))
+  }
+
   return (
     <>
-    <AddNote addNoteModal={addNoteModal} setAddNoteModal={setAddNoteModal} />
     {taskModal?
   <div className='w-screen flex items-center justify-center h-screen absolute top-0 bg-transBlack'>
   <div className='flex-col justify-center border-black border-2 items-center bg-white w-[30%] rounded-xl shadow-2xl h-fit'>
@@ -174,7 +184,8 @@ const TaskItemModal = ({taskModal, setTaskModal, makeSureModal, setMakeSureModal
 
     </div>
     <div className='flex justify-center gap-4 mb-1'>
-    <button className='font-bold text-black mt-2  border-red-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Unsave date</button>
+    <button onClick={() => setMakeSureModal(taskModal._id)} className='font-bold text-black mt-2  border-red-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Delete task</button>
+    <button onClick={Archive} className='font-bold text-black mt-2  border-red-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Archive Task</button>
     <button onClick={()=> setAddNoteModal(taskModal)} className='font-bold text-black mt-2  border-blue-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Add a note</button>
     </div>
   </div>
@@ -184,13 +195,15 @@ const TaskItemModal = ({taskModal, setTaskModal, makeSureModal, setMakeSureModal
   )
 }
 
-const AddNote = ({addNoteModal, setAddNoteModal}) => {
+const AddNote = ({addNoteModal, setAddNoteModal, setSuccess, setError}) => {
   const {currentUser} = useContext(DataContext)
   const noteRef = useRef()
   const handleNewNote = () => {
-    axios.put(`http://localhost:8000/user/tasknote/${currentUser.id}/${addNoteModal._id}`, {"note": noteRef.current}).then(response => console.log(response)) 
+    axios.put(`http://localhost:8000/user/tasknote/${currentUser.id}/${addNoteModal._id}`, {"note": noteRef.current}).then(()=> {
+      setSuccess(true)
+      setAddNoteModal(false)    
+    }).catch(()=> setError(true))
   }
-  console.log(addNoteModal)
 
   return (
     <>
@@ -217,19 +230,31 @@ const AddNote = ({addNoteModal, setAddNoteModal}) => {
   )
 } 
 
-const MakeSure = ({setMakeSureModal, makeSureModal, setSuccess, setError }) => {    
+const MakeSure = ({setMakeSureModal, setTaskModal, makeSureModal, setSuccess, setError}) => {    
   const {currentUser} = useContext(DataContext)
-  console.log(makeSureModal)
   function deleteNote(){
-     axios.delete(`http://localhost:8000/user/deletenote/${currentUser._id}/${makeSureModal.taskId}/${makeSureModal.noteId}`).then(response=> console.log(response) ).catch((errir) => console.log(errir))
+     axios.delete(`http://localhost:8000/user/deletenote/${currentUser._id}/${makeSureModal.taskId}/${makeSureModal.noteId}`).then(()=> {
+      setSuccess(true)
+      setMakeSureModal(false)
+    }).catch(()=> setError(true))
     }
-    // router.delete('/deletenote/:userID/:taskID/:noteID', ctrls.user.deleteNoteFromTask);
 
-  function Archive() {
-    axios.put(`http://localhost:8000/user/archive/${currentUser.id}/${makeSureModal.taskId}`, {
-      "item": "task"
-    }).then(response=> console.log(response) ).catch((errir) => console.log(errir))
+  function deleteTask(){
+    axios.delete(`http://localhost:8000/user/deletetask/${currentUser._id}/${makeSureModal}`).then(()=> {
+      setSuccess(true)
+      setMakeSureModal(false)
+      setTaskModal(false)
+    }).catch(()=> setError(true))
   }
+
+  const check = () => {
+    if(makeSureModal.noteId){
+      deleteNote()
+    }else{
+      deleteTask()
+    }
+  }
+
   return (
 
     <>
@@ -242,9 +267,60 @@ const MakeSure = ({setMakeSureModal, makeSureModal, setSuccess, setError }) => {
     </div>
     <p className='font-bold'>If you delete this note, you can't recover it.</p>
     <div className='flex justify-evenly'>
-    <button onClick={Archive} className='bg-blue-300 p-1 font-bold rounded-lg'>Archive</button>
-    <button onClick={deleteNote} className='bg-red-400 p-1 font-bold rounded-lg'>Delete</button>
+    <button onClick={() => setMakeSureModal(false)} className='bg-blue-300 p-1 font-bold rounded-lg'>Nevermind</button>
+    <button onClick={check} className='bg-red-400 p-1 font-bold rounded-lg'>Delete</button>
     </div>
+    </div>
+    </div>
+    :null}
+    </>
+  )
+}
+
+//success modal
+const SuccessModal = ({setSuccess, success}) => {
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSuccess(false)
+    }, 3000)
+  }, [success])
+
+  return (
+    <>
+    {success?
+    <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
+    <div className='flex-col text-center mb-52 bg-green-300 p-2 rounded-xl scale-[1.5]'>
+    <div className='flex justify-center'>
+    <h1 className='font-bold text-xl ml-auto'>Success!</h1>
+    <div onClick={() => setSuccess(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
+    </div>
+    <p className='font-bold'>Your changes have been saved.</p>
+    </div>
+    </div>
+    :null}
+    </>
+  )
+}
+
+//error modal
+const ErrorModal = ({setError, error}) => {
+  useEffect(() => {
+    setTimeout(() => {
+      setError(false)
+    }, 3000)
+  }, [error])
+
+  return (
+    <>
+    {error?
+    <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
+    <div className='flex-col text-center mb-52 bg-red-300 p-2 rounded-xl scale-[1.5]'>
+    <div className='flex justify-center'>
+    <h1 className='font-bold text-xl ml-auto'>Error!</h1>
+    <div onClick={() => setError(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
+    </div>
+    <p className='font-bold'>Something went wrong.</p>
     </div>
     </div>
     :null}
