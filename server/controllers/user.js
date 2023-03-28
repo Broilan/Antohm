@@ -209,15 +209,17 @@ const deleteDate = (req, res) => {
 const archiveItem = (req, res) => {
     User.findOne({_id: req.params.id})
     .then(foundUser => {
-        if(req.body.item = 'date') {
+        if(req.body.item == 'date') {
         foundUser.archivedDates.push(foundUser.savedDates.id(req.params.itemId))
         foundUser.savedDates.id(req.params.itemId).remove()
-        } else if (req.body.item = 'application') {
+        } else if (req.body.item == 'application') {
             foundUser.archivedJobs.push(foundUser.jobs.id(req.params.itemId))
             foundUser.jobs.id(req.params.itemId).remove()
-        } else if (req.body.item = 'task') {
-            foundUser.archivedTasks.push(foundUser.tasks.id(req.params.itemId))
-            foundUser.tasks.id(req.params.itemId).remove()
+        } else if (req.body.item == 'task') {
+            let taskid = foundUser.tasks.find(task => task._id == req.params.itemId)
+            let taskidindex = foundUser.tasks.indexOf(taskid)
+            foundUser.archivedTasks.push(taskid)
+            foundUser.tasks.splice(taskidindex, 1)
         }
         foundUser.save()
         .then(updatedUser => {
@@ -225,7 +227,7 @@ const archiveItem = (req, res) => {
         }).catch(err => res.json({err1:err}))
     }).catch(err => res.json({err2:err}))
 }
-
+////////////////////////////////////////////
 const getAllUsers = (req, res) => {
     User.find({})
     .then(response => {
@@ -399,9 +401,9 @@ const getUserResources = (req, res) => {
     }).catch(err => res.json({err:err}))
 }
 
-//Get Tasks
+//Get Tasks///////////////
 const getTasks = (req, res) => {
-    Task.find({owner: req.params.id})
+    User.findById(req.params.id).populate({path:'tasks', populate: {path: 'notes', model: 'Note'}})
     .then(userTasks => {
         res.json({userTasks: userTasks})
     }).catch(err => {res.json({error: err})})
@@ -498,30 +500,39 @@ const updateTaskIntent = (req, res) => {
     }
 
 
-//Put a comment on a task
-const postTaskComment = (req, res) => {
-    Comment.create({
-        createdBy: req.body.name,
-        content: req.body.content,
-        comments: ['no comments yet'],
-        postID: req.params.postID
-    }).then(createdComment => {
-        Task.findById( req.params.postID)
+//Put a note on a task
+const putNoteOnTask = (req, res) => {
+    Note.create({
+        owner: req.params.id,
+        content: req.body.note,
+    }).then(createdNote => {
+        Task.findById(req.params.taskID).populate('notes')
+        .then(foundTask => { 
+            foundTask.notes.push(createdNote._id)
+            foundTask.save()
+            .then(response => {
+                res.json({updatedTask: response})
+            }).catch(error => res.json({ message1: error }));
+        }).catch(error => res.json({message2: error}))    
+    }).catch(error => res.json({message3: error}))
+}
+
+//Delete a note from a task
+const deleteNoteFromTask = (req, res) => {
+    Note.findByIdAndDelete(req.params.noteID)
+    .then(() => {
+        Task.findById(req.params.taskID).populate('notes')
         .then(foundTask => {
-            const taskComments = foundTask.comments
-            taskComments.push(createdComment._id)
-            Task.findByIdAndUpdate(req.params.postID, {
-            comments: taskComments
-        }).then(response =>{
-            res.json({taskWithNewComment: response})
-        })
-        }).catch(error => { 
-            res.json({ message: error })
-        });  
-    }).catch(error => { 
-        res.json({ message: error })
-    });  
-} 
+            const notes = foundTask.notes
+            const newNotes = notes.filter(note => note._id != req.params.noteID)
+            foundTask.notes = newNotes
+            foundTask.save()
+            .then(response => {
+                res.json({updatedTask: response})
+            }).catch(error => res.json({ message1: error }));
+        }).catch(error => res.json({message2: error}))
+    }).catch(error => res.json({message3: error}))
+}
 
 //add jobs of concern to user profile
 const postJob = (req, res) => {
@@ -622,6 +633,7 @@ module.exports = {
     createNewDate,
     updateNote,
     deleteDate,
+    deleteNoteFromTask,
     getUsersDms,
     getSpecificDms,
     getUsersNotifs,
@@ -636,7 +648,7 @@ module.exports = {
     postTask,
     updateTaskIntent,
     unfollowAUser,
-    postTaskComment,
+    putNoteOnTask,
     deleteTask,
     deleteTaskComment,
     updatePersonalInfo,
