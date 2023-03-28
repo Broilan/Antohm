@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import axios from 'axios'
 import { DataContext } from '../App'
 import { useEffect } from 'react';
@@ -9,8 +9,9 @@ const Kanban = () => {
   const {currentUser} = useContext(DataContext)
   const [userTasks, setUserTasks] = useState()
   const [taskModal, setTaskModal] = useState(false)
+  const [makeSureModal, setMakeSureModal] = useState(false)
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/tasks/${currentUser.id}`).then(response => setUserTasks(response.data.userTasks)).catch(err => {throw err}) 
+    axios.get(`http://localhost:8000/user/tasks/${currentUser.id}`).then(response => setUserTasks(response.data.userTasks.tasks)).catch(err => {throw err}) 
     
 
 
@@ -56,7 +57,8 @@ const Kanban = () => {
 
   return (
     <>
-    <TaskItemModal setTaskModal={setTaskModal} taskModal={taskModal} />
+    <TaskItemModal setTaskModal={setTaskModal} taskModal={taskModal} makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal}/>
+    <MakeSure makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal} />
     <div className='mx-auto bg-dimWhite w-[60%] h-[80vh] rounded-xl border-gray-400 border-2 shadow-2xl'>
       <h1 className='font-bold text-center pt-4 text-3xl'>Welcome To your Kanban</h1>
 
@@ -133,11 +135,12 @@ const Kanban = () => {
 
 export default Kanban
 
-const TaskItemModal = ({taskModal, setTaskModal}) => {
+const TaskItemModal = ({taskModal, setTaskModal, makeSureModal, setMakeSureModal}) => {
   const {currentUser} = useContext(DataContext)
-  console.log(taskModal)
+  const [addNoteModal, setAddNoteModal] = useState(false)
   return (
     <>
+    <AddNote addNoteModal={addNoteModal} setAddNoteModal={setAddNoteModal} />
     {taskModal?
   <div className='w-screen flex items-center justify-center h-screen absolute top-0 bg-transBlack'>
   <div className='flex-col justify-center border-black border-2 items-center bg-white w-[30%] rounded-xl shadow-2xl h-fit'>
@@ -158,21 +161,21 @@ const TaskItemModal = ({taskModal, setTaskModal}) => {
 
     <h1 className='font-bold text-2xl pl-2 mt-2'>Subtasks:</h1>
     <div className='bg-white flex flex-col w-[90%] mt-4 h-52 mx-auto border-black border-2 overflow-y-scroll'>
-      {/* {dateModalOpen[1].notes.map((note) => */}
+      {taskModal.notes.map((note) =>
             <div className='border-black border-2 h-fit p-2 hover:bg-gray-200 cursor-pointer'>
         <div className='flex gap-3'>
           
         <div className='ml-auto'><FiEdit /></div>
-        <div className='mr-2'><BsFillTrashFill /></div>
+        <div onClick={() => setMakeSureModal({"noteId": note._id, "taskId": taskModal._id})}className='mr-2'><BsFillTrashFill /></div>
         </div>
-        <p>cccc</p>
+        <p>{note.content}</p>
       </div>
-      {/* // )} */}
+      )}
 
     </div>
     <div className='flex justify-center gap-4 mb-1'>
     <button className='font-bold text-black mt-2  border-red-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Unsave date</button>
-    <button className='font-bold text-black mt-2  border-blue-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Add a note</button>
+    <button onClick={()=> setAddNoteModal(taskModal)} className='font-bold text-black mt-2  border-blue-300 border-4 hover:bg-gray-200 rounded-xl p-4 text-2xl'>Add a note</button>
     </div>
   </div>
   </div>
@@ -181,3 +184,70 @@ const TaskItemModal = ({taskModal, setTaskModal}) => {
   )
 }
 
+const AddNote = ({addNoteModal, setAddNoteModal}) => {
+  const {currentUser} = useContext(DataContext)
+  const noteRef = useRef()
+  const handleNewNote = () => {
+    axios.put(`http://localhost:8000/user/tasknote/${currentUser.id}/${addNoteModal._id}`, {"note": noteRef.current}).then(response => console.log(response)) 
+  }
+  console.log(addNoteModal)
+
+  return (
+    <>
+    {addNoteModal?
+      <>
+      <div className='w-screen flex items-center justify-center h-screen absolute z-10 top-0 bg-transBlack'>
+      <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[40%]"}`}>
+      <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>Add a note</h1>
+      <div onClick={()=> setAddNoteModal(false)}  className='ml-auto mr-2 cursor-pointer'>x</div></div>
+      <div className='flex flex-col items-center gap-2 mt-4'>
+
+      <h1 className='font-bold text-2xl'>Note:</h1>
+      <input type="text" onChange={(e) => noteRef.current = e.target.value } className='w-[70%] border-black border-2 rounded-lg h-48' />
+      </div>
+      <div className='flex font-bold text-2xl justify-center mt-5 mb-2'>
+        <button onClick={()=> setAddNoteModal(false)} className='mx-auto bg-red-300 p-4 rounded-xl hover:bg-red-400'>Discard</button>
+        <button onClick={handleNewNote} className='mx-auto bg-blue-300 hover:bg-blue-400 rounded-xl p-4'>Save Note</button>
+      </div>
+      </div>
+      </div>
+      </>
+      :null}
+      </>
+  )
+} 
+
+const MakeSure = ({setMakeSureModal, makeSureModal, setSuccess, setError }) => {    
+  const {currentUser} = useContext(DataContext)
+  console.log(makeSureModal)
+  function deleteNote(){
+     axios.delete(`http://localhost:8000/user/deletenote/${currentUser._id}/${makeSureModal.taskId}/${makeSureModal.noteId}`).then(response=> console.log(response) ).catch((errir) => console.log(errir))
+    }
+    // router.delete('/deletenote/:userID/:taskID/:noteID', ctrls.user.deleteNoteFromTask);
+
+  function Archive() {
+    axios.put(`http://localhost:8000/user/archive/${currentUser.id}/${makeSureModal.taskId}`, {
+      "item": "task"
+    }).then(response=> console.log(response) ).catch((errir) => console.log(errir))
+  }
+  return (
+
+    <>
+    {makeSureModal?
+    <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
+    <div className='flex-col text-center mb-52 bg-red-300 p-2 rounded-xl scale-[1.5]'>
+    <div className='flex justify-center'>
+    <h1 className='font-bold text-xl ml-auto'>Are you sure?</h1>
+    <div onClick={() => setMakeSureModal(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
+    </div>
+    <p className='font-bold'>If you delete this note, you can't recover it.</p>
+    <div className='flex justify-evenly'>
+    <button onClick={Archive} className='bg-blue-300 p-1 font-bold rounded-lg'>Archive</button>
+    <button onClick={deleteNote} className='bg-red-400 p-1 font-bold rounded-lg'>Delete</button>
+    </div>
+    </div>
+    </div>
+    :null}
+    </>
+  )
+}
