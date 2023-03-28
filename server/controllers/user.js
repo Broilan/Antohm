@@ -599,13 +599,34 @@ const unfollowAUser = (req, res) => {
     })
 }
 
-//Delete a task
-const deleteTask = (req, res) => {
-    Task.findByIdAndRemove(req.params.id) 
-        .then(deletedTask => {
-            res.json({deletedTask: deletedTask})
-        }).catch(err => res.json({err:err}))
+//update a task status
+const updateTaskStatus = (req, res) => {
+    Task.findByIdAndUpdate(req.params.taskId, {
+        status: req.body.status
+    })
+    .then(response => {
+        res.json({updatedTask: response})
+    }).catch(error => {
+        res.json({message: error})
+    })
 }
+
+//delete a task from the database and remove its id from the user's tasks array
+const deleteTask = (req, res) => {
+    Task.findByIdAndRemove(req.params.taskID)
+    .then(() => {
+        User.findById(req.params.userID)
+        .then(foundUser => {
+            const newTasks = foundUser.tasks.filter(task => task._id != req.params.id)
+            foundUser.tasks = newTasks
+            foundUser.save()
+            .then(response => {
+                res.json({updatedUser: response})
+            }).catch(error => res.json({ message1: error }));
+        }).catch(error => res.json({message2: error}))
+    }).catch(error => res.json({message3: error}))
+}
+
 
 //Delete a task comment
 const deleteTaskComment = (req, res) => {
@@ -643,6 +664,7 @@ module.exports = {
     getAUsersPosts,
     userSignup,
     followAUser,
+    updateTaskStatus,
     getUserResources,
     userLogin,
     postTask,

@@ -32,10 +32,12 @@ router.put('/tasknote/:userID/:taskID', ctrls.user.putNoteOnTask);
 router.put('/updatejobs/:userID/:jobID', ctrls.user.updateUserJobData);
 router.put('/:id/update', ctrls.user.updatePersonalInfo);
 router.delete('/:id/delete', ctrls.user.deleteUser);
-router.delete('/delete/task/:id', ctrls.user.deleteTask);
+router.delete('/deletetask/:userID/:taskID', ctrls.user.deleteTask);
 router.delete('/delete/comment/:id', ctrls.user.deleteTaskComment);
 //delete route for task notes
 router.delete('/deletenote/:userID/:taskID/:noteID', ctrls.user.deleteNoteFromTask);
+//route for updating a task status
+router.put('/task/status/:taskId', ctrls.user.updateTaskStatus);
 
 //date routes
 router.get('/dates/:id', ctrls.user.getUsersSavedDates);
