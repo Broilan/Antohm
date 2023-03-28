@@ -3,8 +3,6 @@ import "../styles/profile.css"
 import QuantDash from "../components/QuantDash";
 import { ProfileNav, SocialDash } from "../components";
 
-
-
 const Profile = () => {
   const [current, setCurrent] = useState(2)
   return (

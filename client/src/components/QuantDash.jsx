@@ -1,8 +1,8 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
 import { DataContext } from '../App';
-import {Kanban, Applications, Resources, Modal} from './';
+import {Applications, Resources} from './';
+import {Kanban, TodoList} from './Kanban';
 import {Calendar, SavedDates} from './Calendar'
-import TodoList from './TodoList';
 import axios from 'axios';
 import { BiNotepad, BiHelpCircle } from 'react-icons/bi';
 import { GrResources, GrDocumentUpdate } from 'react-icons/gr';
