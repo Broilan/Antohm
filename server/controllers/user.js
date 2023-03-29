@@ -98,7 +98,7 @@ const userSignup = (req, res) => {
 
 //GET Users
 const getUsers = (req, res) => {
-    User.findOne({_id: req.params.id})
+    User.findOne({_id: req.params.id}).populate({path:'archivedDates', populate: {path: 'notes', model: 'Note'}})
     .then(foundUser => {
         res.json({foundUser: foundUser})
     }).catch(err => res.json({err:err}))
@@ -227,7 +227,15 @@ const archiveItem = (req, res) => {
         }).catch(err => res.json({err1:err}))
     }).catch(err => res.json({err2:err}))
 }
-////////////////////////////////////////////
+
+//get a users archives
+const getArchives = (req, res) => {
+    User.findOne({_id: req.params.id}).populate('archivedDates').populate('archivedTasks')
+    .then(foundUser => {
+        res.json({archives: foundUser})
+    }).catch(err => res.json({err:err}))
+}
+
 const getAllUsers = (req, res) => {
     User.find({})
     .then(response => {
@@ -403,7 +411,7 @@ const getUserResources = (req, res) => {
 
 //Get Tasks
 const getTasks = (req, res) => {
-    User.findById(req.params.id).populate({path:'tasks', populate: {path: 'notes', model: 'Note'}})
+    User.findById(req.params.id).populate({path:'tasks', populate: {path: 'notes', model: 'Note'}}).populate({path:'archivedTasks', populate: {path: 'notes', model: 'Note'}})
     .then(userTasks => {
         res.json({userTasks: userTasks})
     }).catch(err => {res.json({error: err})})
@@ -677,6 +685,7 @@ module.exports = {
     getUserResources,
     userLogin,
     postTask,
+    getArchives,
     updateTaskIntent,
     unfollowAUser,
     putNoteOnTask,

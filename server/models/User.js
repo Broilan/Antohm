@@ -29,7 +29,6 @@ const userSchema = new Schema({
         url: {type: String}
     }],
     archivedDates:[dateSchema],
-    archivedJobs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Job'}],
     archivedTasks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Task'}],
     header: String,
     pfp: String,

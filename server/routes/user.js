@@ -39,6 +39,8 @@ router.delete('/delete/comment/:id', ctrls.user.deleteTaskComment);
 router.delete('/deletenote/:userID/:taskID/:noteID', ctrls.user.deleteNoteFromTask);
 //route for updating a task status
 router.put('/task/status/:taskId', ctrls.user.updateTaskStatus);
+//getting a users archives
+router.get('/archives/:id', ctrls.user.getArchives);
 
 //date routes
 router.get('/dates/:id', ctrls.user.getUsersSavedDates);
