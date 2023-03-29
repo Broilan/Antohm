@@ -15,7 +15,7 @@ function Popup({open3, setOpen3}){
 
     setTimeout(() => {
       setOpen3(false)
-    }, 6500);
+    }, 4000);
   return(
     <>
 
@@ -76,15 +76,23 @@ function DataComponentModal(props) {
   }
 
   const removeCompany = () => {
-    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "remove", "type": open2[1]}).then(() => {
-      axios.get(`http://localhost:8000/user/${currentUser.id}`).then(response => setUsersData(response.data.foundUser), setOpen3([true, 'removed'])).catch(err => console.log(err), setOpen3[true, 'error'])
-    }).catch(err => console.log(err), setOpen3[true, 'error'])
+    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {
+      'removeOrAdd': "remove", "type": open2[1]})
+      .then(() => {
+      axios.get(`http://localhost:8000/user/${currentUser.id}`)
+      .then(response => setUsersData(response.data.foundUser), setOpen3([true, 'removed']))
+      .catch(() =>setOpen3[true, 'error'])
+    }).catch(() => setOpen3[true, 'error'])
   }
 
   const addCompany = () => {
-    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "add", "type": open2[1] }).then(() => {
-      axios.get(`http://localhost:8000/user/${currentUser.id}`).then(response => setUsersData(response.data.foundUser), setOpen3([true, 'added'])).catch(err => console.log(err), setOpen3[true, 'error'])
-    }).catch(err => console.log(err), setOpen3[true, 'error'])
+    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {
+      'removeOrAdd': "add", "type": open2[1]})
+      .then(() => {
+      axios.get(`http://localhost:8000/user/${currentUser.id}`)
+      .then(response => setUsersData(response.data.foundUser), setOpen3([true, 'added']))
+      .catch(() => setOpen3[true, 'error'])
+    }).catch(() => setOpen3[true, 'error'])
   }
   
   return (  
@@ -93,7 +101,7 @@ function DataComponentModal(props) {
     <>
     <Popup open3={open3} setOpen3={setOpen3}/>
     <div className='w-screen h-screen bg-transBlack z-[100] absolute top-[-4.2rem] left-[-4rem] flex items-center justify-center'>
-    <div className='border-black border-[1px] p-2 w-fit h-fit scale-[2] bg-blue-300 shadow-2xl'>
+    <div className='border-black border-[1px] p-2 w-fit h-fit scale-[2] bg-white shadow-2xl'>
         <div className='flex justify-center'>
         <h1 className='font-semibold text-center text-[1.5rem] mb-8'>Update your {open2[1] == "Applications Sent"? "Applications": open2[1]}</h1>
         <div className="cursor-pointer text-[1rem] mt-2 ml-4 mr-[-0.6rem] w-fit h-fit"><BiHelpCircle /></div>
@@ -160,6 +168,7 @@ function DataComponents(props) {
     })
             switch (dataName) {
           case 'Applications Sent':
+            console.log('bruh', usersData?.applications.length)
           quantityRef.current = usersData?.applications.length
           break;
           case 'Responses':
@@ -192,13 +201,14 @@ function DataComponents(props) {
 
 export default function QuantDash(){ 
   const {currentUser} = useContext(DataContext)
-  const [view, setView] = useState(3)
+  const [view, setView] = useState(4)
   const [taskOrDate, setTaskOrDate] = useState(1)
   const [usersData, setUsersData] = useState()
   const dataNames = ["Applications Sent", "Responses", "Interviews", "Offers"]
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/jobspopulated/${currentUser.id}`).then(response => setUsersData(response.data.foundUser)).catch(err => console.log(err))
+    axios.get(`http://localhost:8000/user/jobspopulated/${currentUser.id}`)
+    .then(response => setUsersData(response.data.foundUser)).catch(err => console.log(err))
   }, [])
   
   return (

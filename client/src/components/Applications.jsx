@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { MdTimer } from 'react-icons/md';
-import { FaExclamationTriangle } from 'react-icons/fa';
 import { BiLinkExternal } from 'react-icons/bi';
 import axios from 'axios';
 import { DataContext } from '../App';
@@ -10,22 +8,26 @@ const Applications = () => {
   const [currentView, setCurrentView] = useState()
   const [applied, setApplied] = useState([])
   const [responses, setResponses] = useState([])
+  const [success, setSuccess] = useState(false)
   const [offers, setOffers] = useState([])
   const [interviews, setInterviews] = useState([])
 
   useEffect(() => {
     axios.get(`http://localhost:8000/user/jobspopulated/${currentUser.id}`).then(response => {
-      console.log(response)
       setApplied(response.data.foundUser.applications)
       setResponses(response.data.foundUser.responses)
       setOffers(response.data.foundUser.offers)
       setInterviews(response.data.foundUser.interviews)
+      if(success) {
+        success[1] == 'Applications Sent' ? setCurrentView(response.data.foundUser.applications) : success[1] == 'Responses' ? setCurrentView(response.data.foundUser.responses) : success[1] == 'Interviews' ? setCurrentView(response.data.foundUser.interviews) : setCurrentView(response.data.foundUser.offers)
+      }
     })
-  }, [])
+  }, [success])
   
 
   return (
     <>
+    <SuccessModal success={success} setSuccess={setSuccess}/>
     <div className='bg-dimWhite w-[60%] h-[80vh] mx-auto rounded-3xl shadow-xl border-2 border-gray-400 overflow-y-scroll'>
     <h1 className='text-[4rem] underline text-center font-bold '>Job Tracking</h1>
 
@@ -37,10 +39,10 @@ const Applications = () => {
       </ul>
       <div className='flex flex-row flex-wrap pl-5'>
       {currentView?currentView.map((i)=> 
-        <Views linkedInLinks={i.linkedInLinks} company={i.company} jobType={i.jobType} companyLogo={i.companyLogo} />
+        <Views linkedInLinks={i.linkedInLinks} id={i._id} setSuccess={setSuccess} currentView={currentView == responses? "Responses" : currentView == interviews? "Interviews": "Offers"} company={i.company} jobType={i.jobType} companyLogo={i.companyLogo} />
       ):
       applied?.map((i)=> 
-        <Views linkedInLinks={i.linkedInLinks} company={i.company} jobType={i.jobType} companyLogo={i.companyLogo} />
+        <Views linkedInLinks={i.linkedInLinks} id={i._id} setSuccess={setSuccess} currentView={"Applications Sent"} company={i.company} jobType={i.jobType} companyLogo={i.companyLogo} />
       )}
       </div>
       </div>
@@ -51,7 +53,16 @@ const Applications = () => {
 export default Applications
 
 function Views(props){
-  const {linkedInLinks, company, jobType, companyLogo} = props
+  const {linkedInLinks, company, jobType, id, currentView, setSuccess, companyLogo} = props
+  const {currentUser} = useContext(DataContext)
+
+  const removeCompany = () => {
+    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${id}`, {
+      'removeOrAdd': "remove", "type": currentView})
+      .then(() => {
+        setSuccess([true, currentView])
+      })
+  }
 return(
   <div className='w-[30rem] h-[20rem] ml-2 mt-20 border-black border-[1px] rounded-3xl bg-dimWhite'>
   <div className='relative flex flex-col items-center justify-center border-b-[1px] border-l-[1px] border-black bg-tertiary w-24 h-16 top-[-1px] right-[-1px] rounded-bl-lg ml-auto'>  
@@ -78,20 +89,36 @@ return(
 
    <div className='flex gap-3 w-[90%] h-[40%] relative bottom-[0%] items-end justify-end'>
 
-    <div className= 'flex bg-white text-center border-black rounded-[10px] border-[1px] w-24 h-fit p-1'>
-    <div className='mt-1 mr-1'><FaExclamationTriangle/></div>
-    <div> Priority</div>
-    </div>
-
     <div className= 'text-center w-24 h-fit p-1'>+ Add note</div>
-
-    <div className='flex'>
-    <div className='mt-2'><MdTimer/></div>
-    <div className= 'text-center  w-24 h-fit p-1'> Elapsed T</div>
-    </div>
-
+    <div className='text-center w-24 h-fit p-1 bg-red-300 rounded-xl font-bold cursor-pointer' onClick={removeCompany}>Remove</div>
    </div>
   
   </div>
 )
+}
+
+//success modal
+const SuccessModal = ({setSuccess, success}) => {
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSuccess(false)
+    }, 3000)
+  }, [success])
+
+  return (
+    <>
+    {success?
+    <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
+    <div className='flex-col text-center mb-52 bg-green-300 p-2 rounded-xl scale-[1.5]'>
+    <div className='flex justify-center'>
+    <h1 className='font-bold text-xl ml-auto'>Success!</h1>
+    <div onClick={() => setSuccess(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
+    </div>
+    <p className='font-bold'>Your changes have been saved.</p>
+    </div>
+    </div>
+    :null}
+    </>
+  )
 }
