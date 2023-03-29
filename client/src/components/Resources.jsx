@@ -9,12 +9,15 @@ const Resources = () => {
   const {currentUser} = useContext(DataContext)
   const [error, setError] = useState(false)
   const [makeSureModal, setMakeSureModal] = useState(false)
+  const [current, setCurrent] = useState([])
+  const [currentStyle, setCurrentStyle] = useState('All')
   const [success, setSuccess] = useState(false)
   const [resources, setResources] = useState()
 
   useEffect(() => {
     axios.get(`http://localhost:8000/user/resources/${currentUser.id}`)
     .then(response => {
+      setCurrent(response.data.resources)
       setResources(response.data.resources)
     }).catch(err => console.log(err))
   }, [success])
@@ -24,6 +27,12 @@ const Resources = () => {
     axios.put(`http://localhost:8000/user/updateresourcetype/${resourceId}`, {"type": newType})
     .then(() => setSuccess(true))
     .catch(() => setError(true))
+  }
+
+  function filterResources(type) {
+    let filtered = resources.filter((r) => r.resourceType === type)
+    setCurrent(filtered)
+    setCurrentStyle(type)
   }
 
   return (
@@ -36,13 +45,13 @@ const Resources = () => {
     <h1 className='text-[4rem] underline text-center font-bold '>My resources</h1>
 
                 <ul className='flex gap-10 w-[100%] justify-center font-bold mt-4 text-xl'>
-                <li className='hover:underline'>All</li>
-                <li className='hover:underline'>Skill-upkeep</li>
-                <li className='hover:underline'>Job Search</li>
+                <li onClick={() => setCurrent(resources)} className={`hover:underline cursor-pointer ${current==resources? 'underline': null} `}>All</li>
+                <li onClick={() => filterResources('Skill-Upkeep')} className={`hover:underline cursor-pointer ${currentStyle=='Skill-Upkeep' && current != resources? 'underline': null} `}>Skill-Upkeep</li>
+                <li onClick={() => filterResources('Job Search')} className={`hover:underline cursor-pointer ${currentStyle=='Job Search' && current != resources? 'underline': null} `}>Job Search</li>
                 </ul>
                  
                 <div className='flex flex-wrap h-fit ml-2 mt-8 gap-10 w-[100%]'>
-                {resources?.map((r) =>
+                {current?.map((r) =>
                 <div className='w-[30rem] h-[12rem] bg-dimWhite rounded-3xl border-black border-[1.5px]'>
                 <div className='ml-auto mr-[-1.5px] mt-[-0.1rem] rounded-tl-none rounded-br-none bg-tertiary border-black border-t-0 border-r-0 border-[1px] w-20 h-12 rounded-3xl p-1 text-center'> 
                 <Link to={r.linkTo} className='bg-black text-white font-bold rounded-3xl h-10 p-2 flex gap-1'>
