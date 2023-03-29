@@ -125,7 +125,7 @@ function checkDate2(date){
 
   return (
     <>
-    <AddDateModal addDateModal={addDateModal} setAddDateModal={setAddDateModal} setSuccess={setSuccess} setError={setError} />
+    <AddDateModal addDateModal={addDateModal} setAddDateModal={setAddDateModal} savedDates={savedDates} setSavedDates={setSavedDates} setSuccess={setSuccess} setError={setError} />
     <ClickedDateModal setDateModalOpen={setDateModalOpen} addDateModal={addDateModal} setAddDateModal={setAddDateModal} setAreYouSure={setAreYouSure} dateModalOpen={dateModalOpen} setEditting={setEditting}/>
     <EdittingModal editting={editting} setEditting={setEditting} setSuccess={setSuccess} setError={setError}  />
     <MakeSure setAreYouSure={setAreYouSure} areYouSure={areYouSure} setSuccess={setSuccess} setError={setError}/>
@@ -235,18 +235,12 @@ const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreY
 )
 }
 
-const AddDateModal = ({addDateModal, setAddDateModal, setSuccess, setError}) => {
+const AddDateModal = ({addDateModal, setSavedDates, savedDates, setAddDateModal, setSuccess, setError}) => {
   const {currentUser} = useContext(DataContext)
-  const [saved, setSaved] = useState([])
   const [fillOutForm, setFillOutForm] = useState(false)
   const dateRef = useRef()
   const contentRef = useRef()
-  useEffect(() => {
-  axios.get(`http://localhost:8000/user/dates/${currentUser.id}`).then((res) => {
-    setSaved(res.data.savedDates)
-  })
-  dateRef.current = addDateModal
-  }, [])
+
   function addDate(e){
     let executed = false
     if(addDateModal != true) {
@@ -258,10 +252,12 @@ const AddDateModal = ({addDateModal, setAddDateModal, setSuccess, setError}) => 
       setFillOutForm(true)
     } else {
     try{
-  saved.forEach((date) => {
+  savedDates.forEach(async (date) => {
     if(date.date == addDateModal || date.date == dateRef.current){
-     axios.put(`http://localhost:8000/user/adddatenote/${currentUser.id}/${date._id}`, {"content": contentRef.current}).then(()=>setSuccess(true)).catch(() => setError(true))
-     executed = true
+      executed = true
+     await axios.put(`http://localhost:8000/user/adddatenote/${currentUser.id}/${date._id}`, {"content": contentRef.current}).then((res)=>{
+      setSuccess(true)
+    }).catch(() => setError(true))
     setAddDateModal(false)
     throw new Error("stop")
     }
@@ -271,11 +267,15 @@ const AddDateModal = ({addDateModal, setAddDateModal, setSuccess, setError}) => 
   }
   if(!executed){
     axios.put(`http://localhost:8000/user/date/${currentUser.id}`, 
-    {"date": `${dateRef?.current? dateRef.current: addDateModal}`, "notes": contentRef.current}).then(()=>setSuccess(true)).catch(() => setError(true))
+    {"date": `${dateRef?.current? dateRef.current: addDateModal}`, "notes": contentRef.current}).then((res)=>{
+      setSuccess(true)
+      setSavedDates(res.data.updatedUserDates)
+    }).catch(() => setError(true))
     setAddDateModal(false)
   }
 }
-  }
+  } 
+
   return (
     <>
     {addDateModal?

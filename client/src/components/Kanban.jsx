@@ -36,6 +36,7 @@ export const Kanban = () => {
     let itemX = e.clientX
     let itemY = e.clientY
     let container1Rect = container1Ref.current.getBoundingClientRect()
+    console.log(container1Rect)
     let container2Rect = container2Ref.current.getBoundingClientRect()
     let container3Rect = container3Ref.current.getBoundingClientRect()
     if(itemX >= container2Rect.left && itemX <= container2Rect.right && itemY >= container2Rect.top && itemY <= container2Rect.bottom && Math.abs(data.lastX) >= 225) {
@@ -226,7 +227,7 @@ const AddNote = ({addNoteModal, setAddNoteModal, setTaskModal, setSuccess, setEr
       setAddNoteModal(false)    
     }).catch(()=> setError(true))
   }
-  // /:id/createtask
+
   const handleNewTask = () => {
     axios.put(`http://localhost:8000/user/${currentUser.id}/createtask`, {
       "taskName":taskNameRef.current.value, 
