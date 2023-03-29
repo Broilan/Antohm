@@ -42,6 +42,12 @@ router.put('/task/status/:taskId', ctrls.user.updateTaskStatus);
 //getting a users archives
 router.get('/archives/:id', ctrls.user.getArchives);
 
+//delete a resource
+router.delete('/deleteresource/:id/:resourceId', ctrls.user.deleteResource);
+
+//update a resource type
+router.put('/updateresourcetype/:resourceId', ctrls.user.updateResourceType);
+
 //date routes
 router.get('/dates/:id', ctrls.user.getUsersSavedDates);
 //create a date for a user 

@@ -150,9 +150,19 @@ const updateNote = async (req, res) => {
         foundNote.save()
         .then(updatedNote => {
             res.json({updatedNote: updatedNote})
-        }).catch(err => res.json({err:err}))
-    }).catch(err => res.json({err:err}))
+        }).catch(err => res.json({err1:err}))
+    }).catch(err => res.json({err2:err}))
 }
+
+
+//delete a resource from a user
+const deleteResource = async (req, res) => {
+    Resource.findByIdAndDelete(req.params.resourceId)
+        .then(() => {
+            res.json({message: 'Resource deleted'})
+        }).catch(err => res.json({err3:err}))
+}
+
 
 
 //add a new note to a date
@@ -212,9 +222,6 @@ const archiveItem = (req, res) => {
         if(req.body.item == 'date') {
         foundUser.archivedDates.push(foundUser.savedDates.id(req.params.itemId))
         foundUser.savedDates.id(req.params.itemId).remove()
-        } else if (req.body.item == 'application') {
-            foundUser.archivedJobs.push(foundUser.jobs.id(req.params.itemId))
-            foundUser.jobs.id(req.params.itemId).remove()
         } else if (req.body.item == 'task') {
             let taskid = foundUser.tasks.find(task => task._id == req.params.itemId)
             let taskidindex = foundUser.tasks.indexOf(taskid)
@@ -227,6 +234,19 @@ const archiveItem = (req, res) => {
         }).catch(err => res.json({err1:err}))
     }).catch(err => res.json({err2:err}))
 }
+
+//update the type on a resource
+const updateResourceType = (req, res) => {
+    Resource.findOne({_id: req.params.resourceId})
+    .then(foundResource => {
+        foundResource.resourceType = req.body.type
+        foundResource.save()
+        .then(updatedResource => {
+            res.json({updatedResource: updatedResource})
+        }).catch(err => res.json({err1:err}))
+    }).catch(err => res.json({err2:err}))
+}
+
 
 //get a users archives
 const getArchives = (req, res) => {
@@ -658,6 +678,7 @@ const deleteTaskComment = (req, res) => {
 
 module.exports = {
     archiveItem,
+    deleteResource,
     getUserWithJobDataPopulated,
     getAllUsers,
     updateUserJobData,
@@ -665,6 +686,7 @@ module.exports = {
     getAUsersFollowingNoPopulate,
     getAUsersFollowers,
     addNoteToDate,
+    updateResourceType,
     getUsersSavedDates,
     deleteNoteFromDate,
     createNewDate,
