@@ -5,12 +5,14 @@ import Draggable from "react-draggable";
 import { FiEdit } from 'react-icons/fi';
 import { BsFillTrashFill, BsArchive} from 'react-icons/bs';
 import { BiNotepad } from 'react-icons/bi';
+import { AiOutlineCalendar } from 'react-icons/ai';
 
 export const Kanban = () => {
   const {currentUser} = useContext(DataContext)
   const [error, setError] = useState(false)
   const [success, setSuccess] = useState(false)
   const [userTasks, setUserTasks] = useState()
+  const [editting, setEditting] = useState(false)
   const [taskModal, setTaskModal] = useState(false)
   const [addNoteModal, setAddNoteModal] = useState(false)
   const [makeSureModal, setMakeSureModal] = useState(false)
@@ -68,7 +70,8 @@ export const Kanban = () => {
 
   return (
     <>
-    <TaskItemModal setTaskModal={setTaskModal} success={success} userTasks={userTasks} taskModal={taskModal} makeSureModal={makeSureModal} setAddNoteModal={setAddNoteModal} setMakeSureModal={setMakeSureModal} setSuccess={setSuccess} setError={setError}/>
+    <EdittingModal editting={editting} setEditting={setEditting} setTaskModal={setTaskModal} setSuccess={setSuccess} setError={setError}/>
+    <TaskItemModal setTaskModal={setTaskModal}  setEditting={setEditting} success={success} userTasks={userTasks} taskModal={taskModal} makeSureModal={makeSureModal} setAddNoteModal={setAddNoteModal} setMakeSureModal={setMakeSureModal} setSuccess={setSuccess} setError={setError}/>
     <MakeSure makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal} setTaskModal={setTaskModal} setSuccess={setSuccess} setError={setError}/>
     <SuccessModal success={success} setSuccess={setSuccess} />
     <ErrorModal error={error} setError={setError} />
@@ -159,7 +162,7 @@ export const Kanban = () => {
   )
 }
 
-const TaskItemModal = ({taskModal, setTaskModal, setAddNoteModal, setMakeSureModal, success, setSuccess, setError}) => {
+const TaskItemModal = ({taskModal, setTaskModal, setAddNoteModal, setMakeSureModal, setEditting, setSuccess, setError}) => {
   const {currentUser} = useContext(DataContext)
 
   function Archive() {
@@ -182,7 +185,7 @@ const TaskItemModal = ({taskModal, setTaskModal, setAddNoteModal, setMakeSureMod
 
         <div className='flex z-[100] '>
         <p className='text-2xl z-[100]  font-bold'>{taskModal.taskName}</p>
-        <div className='text-xl z-[100]  ml-auto font-bold'><FiEdit /></div>
+        <div  className='text-xl z-[100]  ml-auto font-bold'><FiEdit /></div>
         </div>
         <p className='text-xl z-[100]  font-bold'>{taskModal.task}</p>
         
@@ -194,7 +197,7 @@ const TaskItemModal = ({taskModal, setTaskModal, setAddNoteModal, setMakeSureMod
             <div className='border-black border-2 h-fit p-2 hover:bg-gray-200 cursor-pointer'>
         <div className='flex gap-3'>
           
-        <div className='ml-auto'><FiEdit /></div>
+        <div onClick={() => setEditting(note._id)} className='ml-auto'><FiEdit /></div>
         <div onClick={() => setMakeSureModal({"noteId": note._id, "taskId": taskModal._id})}className='mr-2'><BsFillTrashFill /></div>
         </div>
         <p>{note.content}</p>
@@ -385,14 +388,48 @@ const ErrorModal = ({setError, error}) => {
   )
 }
 
+const EdittingModal = ({setEditting, editting, setSuccess, setError}) => {
+  const {currentUser} = useContext(DataContext)
+  const newNoteRef = useRef()
+  console.log(editting)
+  const handleUpdate = () => {
+    axios.put(`http://localhost:8000/user/date/${currentUser.id}/${editting}`, {
+      "content": newNoteRef.current.value
+    }).then(() => {
+      setEditting(false)
+      setSuccess(true)
+    }).catch(() => setError(true))
+  }
 
-import { AiOutlineCalendar } from 'react-icons/ai';
+  return (
+    <>
+    {editting?
+    <div className='w-screen h-screen flex items-center justify-center absolute z-[200]'>
+    <div className='flex-col text-center mb-52 bg-red-300 p-2 rounded-xl scale-[1.5]'>
+    <div className='flex flex-col justify-center'>
+    
+    <div>
+    <label htmlFor='note' className='font-bold text-xl '>Edit note</label><br />
+    <input id='note' type="text" ref={newNoteRef} />
+    </div>
 
+    </div>
+    <div className='flex justify-evenly'>
+    <button onClick={() => setEditting(false)} className='bg-red-400 p-1 font-bold rounded-lg'>Discard Changes</button>
+    <button onClick={handleUpdate} className='bg-blue-300 p-1 font-bold rounded-lg'>Update</button>
+    </div>
+    </div>
+    </div>
+    :null}
+    </>
+  )
+}
 
 export function TodoList({setTaskOrDate}){ 
   const {currentUser} = useContext(DataContext)
   const [userTasks, setUserTasks] = useState([])
   const [archivedTasks, setArchivedTasks] = useState([])
+  const [editting, setEditting] = useState(false)
   const [makeSureModal, setMakeSureModal] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
@@ -414,6 +451,7 @@ export function TodoList({setTaskOrDate}){
 
   return (
     <>       
+    <EdittingModal setEditting={setEditting} editting={editting} setSuccess={setSuccess} setError={setError}/>
       <AddNote addNoteModal={addNoteModal} setAddNoteModal={setAddNoteModal} setError={setError} setSuccess={setSuccess} />
       <TaskItemModal setTaskModal={setTaskModal} taskModal={taskModal} makeSureModal={makeSureModal} setAddNoteModal={setAddNoteModal} setMakeSureModal={setMakeSureModal} setSuccess={setSuccess} setError={setError}/>
       <MakeSure makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal} setTaskModal={setTaskModal} setSuccess={setSuccess} setError={setError}/>
