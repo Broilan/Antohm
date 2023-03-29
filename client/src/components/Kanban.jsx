@@ -1,9 +1,10 @@
-import React, { useContext, useState, useRef, useEffect, createRef } from 'react'
+import React, { useContext, useState, useRef, useEffect } from 'react'
 import axios from 'axios'
 import { DataContext } from '../App'
-import Draggable, {DraggableCore} from "react-draggable";
+import Draggable from "react-draggable";
 import { FiEdit } from 'react-icons/fi';
-import { BsFillTrashFill } from 'react-icons/bs';
+import { BsFillTrashFill, BsArchive} from 'react-icons/bs';
+import { BiNotepad } from 'react-icons/bi';
 
 export const Kanban = () => {
   const {currentUser} = useContext(DataContext)
@@ -390,18 +391,23 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 
 export function TodoList({setTaskOrDate}){ 
   const {currentUser} = useContext(DataContext)
-  const [userTasks, setUserTasks] = useState()
+  const [userTasks, setUserTasks] = useState([])
+  const [archivedTasks, setArchivedTasks] = useState([])
   const [makeSureModal, setMakeSureModal] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
   const [taskModal, setTaskModal] = useState(false)
   const [addNoteModal, setAddNoteModal] = useState(false)
+  const [currentView, setCurrentView] = useState([])
 
 
   useEffect(() => {
     axios.get(`http://localhost:8000/user/tasks/${currentUser.id}`)
     .then(response => {
+      console.log(response)
+      setCurrentView(response.data.userTasks.tasks)
       setUserTasks(response.data.userTasks.tasks)
+      setArchivedTasks(response.data.userTasks.archivedTasks)
     }).catch(err => console.log(err))
   }, [success])
   
@@ -416,13 +422,14 @@ export function TodoList({setTaskOrDate}){
         <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
         
         <div className='flex gap-3 mx-auto items-center justify-center' >
-        <div className= 'font-bold mt-4 text-[2rem] fixed '>Tasks</div>
+        <div className= 'font-bold mt-4 text-[2rem] fixed '>{ currentView == archivedTasks? 'Archived Tasks' : "Current Tasks"}</div>
+        <div onClick={() => {currentView == userTasks? setCurrentView(archivedTasks) : setCurrentView(userTasks) }} className='text-[2rem] ml-2 cursor-pointer'>{ currentView == archivedTasks?<BiNotepad /> : <BsArchive />}</div>
         <div className='ml-auto text-[2rem] cursor-pointer' onClick={() => setTaskOrDate(2)}><AiOutlineCalendar /></div>
         <div onClick={() => setAddNoteModal(true)} className='text-[3rem] cursor-pointer'>+</div>
         </div>
 
         <div>
-          {userTasks?.map((task) => (
+          {currentView?.map((task) => (
               <div onClick={(e) => setTaskModal(task)}>
 
                 <div className='flex h-20 cursor-pointer hover:bg-gray-300 hover:opacity-90 border-b-gray-300 border-[1px]'>

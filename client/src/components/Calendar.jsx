@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { DataContext } from '../App';
 import axios from 'axios';
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineCalendar } from 'react-icons/ai';
 import { BiNotepad } from 'react-icons/bi';
 import { FiEdit } from 'react-icons/fi';
-import { BsFillTrashFill } from 'react-icons/bs';
+import { BsFillTrashFill, BsArchive } from 'react-icons/bs';
 
 const monthsNames = ["January", "February", "March", "April", 'May', "June", "July", "August", "September", "October", "November", "December"]
 
@@ -162,15 +162,22 @@ function checkDate2(date){
 export const SavedDates = ({setTaskOrDate}) => {
   const [dateModalOpen, setDateModalOpen] = useState(false)
   const [addDateModal, setAddDateModal] = useState(false)
+  const [archivedDates, setArchivedDates] = useState([])
+  const [currentView, setCurrentView] = useState([])
   const [error, setError] = useState(false)
   const [areYouSure, setAreYouSure] = useState(false)
   const [success, setSuccess] = useState(false)
   const [editting, setEditting] = useState(false)
   const {currentUser} = useContext(DataContext)
   const [savedDates, setSavedDates] = useState([])
+
   useEffect(() => {
     axios.get(`http://localhost:8000/user/dates/${currentUser.id}`).then((res) => {
       setSavedDates(res.data.savedDates)
+      setCurrentView(res.data.savedDates)
+      axios.get(`http://localhost:8000/user/${currentUser.id}`).then((res) => {
+        setArchivedDates(res.data.foundUser.archivedDates)
+      })
     })
   }, [])
 
@@ -184,12 +191,13 @@ export const SavedDates = ({setTaskOrDate}) => {
   <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
 
 <div className='flex justify-center items-center border-black border-b-[1px]'>
-<div className= 'font-bold mt-4 text-[2rem] fixed '>Saved Dates</div>
+<div className= 'font-bold mt-4 text-[2rem] fixed '>{currentView==savedDates? "Saved Dates" : "Archived Dates" }</div>
+<div onClick={() => {currentView == savedDates? setCurrentView(archivedDates) : setCurrentView(savedDates) }} className='text-[2rem] ml-2 cursor-pointer'>{currentView==savedDates? <BsArchive/> : <AiOutlineCalendar /> }</div>
 <div className='ml-auto text-[2rem]' onClick={() => setTaskOrDate(1)}><BiNotepad/></div>
 <div onClick={() => setAddDateModal(true)} className='text-[3rem] mr-4'> + </div>
 </div>
 
-{savedDates?.map((date) => 
+{currentView?.map((date) => 
 <>  
 <div onClick={() => setDateModalOpen([2, date, date.date])} className='p-2 border-[1px] border-gray-400 hover:bg-gray-300 cursor-pointer'> 
 <h1 className='font-bold'>{date?.date}</h1>
@@ -255,7 +263,7 @@ const AddDateModal = ({addDateModal, setSavedDates, savedDates, setAddDateModal,
   savedDates.forEach(async (date) => {
     if(date.date == addDateModal || date.date == dateRef.current){
       executed = true
-     await axios.put(`http://localhost:8000/user/adddatenote/${currentUser.id}/${date._id}`, {"content": contentRef.current}).then((res)=>{
+     await axios.put(`http://localhost:8000/user/adddatenote/${currentUser.id}/${date._id}`, {"content": contentRef.current}).then(()=>{
       setSuccess(true)
     }).catch(() => setError(true))
     setAddDateModal(false)

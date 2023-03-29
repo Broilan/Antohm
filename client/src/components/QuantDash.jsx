@@ -7,7 +7,7 @@ import axios from 'axios';
 import { BiNotepad, BiHelpCircle } from 'react-icons/bi';
 import { GrResources, GrDocumentUpdate } from 'react-icons/gr';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import {BsKanban, BsArchive} from 'react-icons/bs'
+import {BsKanban} from 'react-icons/bs'
 import {TfiCalendar} from 'react-icons/tfi'
 
 
@@ -76,13 +76,13 @@ function DataComponentModal(props) {
   }
 
   const removeCompany = () => {
-    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "remove", "type": open2[1]}).then(response => {
+    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "remove", "type": open2[1]}).then(() => {
       axios.get(`http://localhost:8000/user/${currentUser.id}`).then(response => setUsersData(response.data.foundUser), setOpen3([true, 'removed'])).catch(err => console.log(err), setOpen3[true, 'error'])
     }).catch(err => console.log(err), setOpen3[true, 'error'])
   }
 
   const addCompany = () => {
-    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "add", "type": open2[1] }).then(response => {
+    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {'removeOrAdd': "add", "type": open2[1] }).then(() => {
       axios.get(`http://localhost:8000/user/${currentUser.id}`).then(response => setUsersData(response.data.foundUser), setOpen3([true, 'added'])).catch(err => console.log(err), setOpen3[true, 'error'])
     }).catch(err => console.log(err), setOpen3[true, 'error'])
   }
@@ -219,33 +219,10 @@ export default function QuantDash(){
     <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(2)}><div><TfiCalendar/></div><div>Calendar</div></div>
     <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(3)}><div><GrResources/></div><div>Resources</div></div>
     <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(4)}><div><BiNotepad/></div><div>Applications</div></div> 
-    <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(5)}><div><BsArchive /></div><div>Archives</div></div>  
   </div>
-  <div>{view == 1? <Kanban/>: view == 2?<Calendar/>: view == 3? <Resources/>: view == 4? <Applications/>:view==5?<Archives/>:null }</div>
+  <div>{view == 1? <Kanban/>: view == 2?<Calendar/>: view == 3? <Resources/>: view == 4? <Applications/>:null }</div>
   </div>
   
   </>
-  )
-}
- 
-
-
-const Archives = () => {
-  const [currentView, setCurrentView] = useState(1)
-  return (
-    <>
-    <div className='bg-dimWhite w-[60%] h-[80vh] mx-auto rounded-3xl shadow-xl border-2 border-gray-400 overflow-y-scroll'>
-    <h1 className='text-[4rem] underline text-center font-bold '>Archives</h1>
-
-    <ul className='flex gap-10 w-[100%] justify-center font-bold mt-4 text-xl'>
-        <li onClick={() => setCurrentView(1)} className='hover:underline font-bold'>Jobs</li>
-        <li onClick={() => setCurrentView(2)} className='hover:underline font-bold'>Dates</li>
-        <li onClick={() => setCurrentView(3)} className='hover:underline font-bold'>Resources</li>
-        <li onClick={() => setCurrentView(4)} className='hover:underline font-bold'>Tasks</li>
-      </ul>
-      <div className='flex flex-row flex-wrap pl-5'>
-      </div>
-      </div>
-    </>
   )
 }
