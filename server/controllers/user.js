@@ -401,12 +401,20 @@ const getUserResources = (req, res) => {
     }).catch(err => res.json({err:err}))
 }
 
-//Get Tasks///////////////
+//Get Tasks
 const getTasks = (req, res) => {
     User.findById(req.params.id).populate({path:'tasks', populate: {path: 'notes', model: 'Note'}})
     .then(userTasks => {
         res.json({userTasks: userTasks})
     }).catch(err => {res.json({error: err})})
+}
+
+//Get task notes
+const taskNotes = (req, res) => {
+    Task.findById(req.params.taskId).populate('notes')
+    .then(foundTask => {
+        res.json({foundNotes: foundTask.notes})
+    }).catch(err => res.json({err:err}))
 }
 
 //Get task comments
@@ -652,6 +660,7 @@ module.exports = {
     getUsersSavedDates,
     deleteNoteFromDate,
     createNewDate,
+    taskNotes,
     updateNote,
     deleteDate,
     deleteNoteFromTask,
