@@ -16,7 +16,7 @@ const OtherUserProf = () => {
     useEffect(() => {
         axios.get(`http://localhost:8000/user/${userID}/posts`)
        .then(response => {
-        setPosts(response.data.usersPosts.map((p) =>  <Post postID={p._id} niche={p.niche} subNiche={p.subNiche} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
+        setPosts(response.data.usersPosts.map((p) =>  <Post postID={p._id} niche={p.niche} subNiche={p.subNiche} posterID={p.UserID._id} pfp={p.UserID.pfp} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
        })
        axios.get(`http://localhost:8000/user/${userID}`)
        .then(response => {
@@ -66,12 +66,12 @@ const OtherUserProf = () => {
         
       <div className='mx-auto w-[35%] '>
         <body className='overflow-y-scroll scrollbar-hide'>
-      <div className='bg-gray-300 h-[8rem]'>hi</div>
+      <img src={otherUser?.header} className='bg-gray-300 w-[100%] h-[8rem] cursor-pointer object-cover'/>
   
       <div className='bg-white h-[12rem] flex flex-col justify-end'>
 
         <div className='flex gap-4 mb-24 ml-4' >
-        <div className='bg-white border-[1px] border-black rounded-[50%]  w-24 h-24'> pic</div>
+        <img src={otherUser?.pfp} className='bg-white border-[1px] border-black rounded-[50%] w-24 h-24'/>
         <div className=' font-bold mt-16'>{otherUser?.name} <br /> <p className='font-normal ml-1 text-[0.9rem]'>@{otherUser?.displayName}</p> </div>
         <div className='flex gap-2 mt-auto'>
         <OpsButton buttonType={'Follow'} otheruser={otherUser?.name} />
@@ -83,8 +83,6 @@ const OtherUserProf = () => {
         <li className="cursor-pointer" onClick={(e) => changeFeed('posts')}>Posts</li>
         <li className="cursor-pointer" onClick={(e) => changeFeed('likes')}>Likes</li>
         <li className="cursor-pointer" onClick={(e) => changeFeed('comments')}>Comments</li>
-        <li className="cursor-pointer" onClick={(e) => changeFeed('followers')}>Followers</li>
-        <li className="cursor-pointer" onClick={(e) => changeFeed('following')}>Following</li>
       </ul>
       </div>
       {posts} 

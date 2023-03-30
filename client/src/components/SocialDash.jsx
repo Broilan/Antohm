@@ -11,14 +11,8 @@ import { BiCamera } from 'react-icons/bi';
 const SocialDash = () => {
   const {currentUser, open, setOpen} = useContext(DataContext)
   const [posts, setPosts] = useState()
-  const [userHeader, setUserHeader] = useState(currentUser.header)
-  const [userPfp, setUserPfp] = useState(currentUser.pfp)
   
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/${currentUser?.id}`)
-    .then(response => {
-      setUserPfp(response.data.foundUser.pfp)
-    }).catch(err => console.log(err))
       axios.get(`http://localhost:8000/user/${currentUser?.id}/posts`)
      .then(response => {
       setPosts(response.data.usersPosts.reverse().map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={currentUser.pfp} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
@@ -91,13 +85,13 @@ const SocialDash = () => {
     <div className='mx-auto w-[35%] '>
       <body className='overflow-y-scroll scrollbar-hide'>
     <input type="file" id="file-input" className='z-[-1] absolute' onChange={(e) => handleFile({"type": "header", "e": e, "userid": currentUser.id })} />
-    <label htmlFor="file-input"><img src={userHeader} className='bg-gray-300 w-[100%] h-[8rem] cursor-pointer object-cover'/></label>
+    <label htmlFor="file-input"><img src={currentUser.header} className='bg-gray-300 w-[100%] h-[8rem] cursor-pointer object-cover'/></label>
     
 
     <div className='bg-white h-[12rem] flex flex-col justify-end'>
       <div className='flex mb-24 ml-4 gap-2 cursor-pointer'>
 
-      <label htmlFor="file-input"><img src={userPfp} className='bg-white border-[1px] border-black cursor-pointer mt-4 rounded-[50%]  w-24 h-24'/></label>
+      <label htmlFor="file-input"><img src={currentUser.pfp} className='bg-white border-[1px] border-black cursor-pointer mt-4 rounded-[50%]  w-24 h-24'/></label>
       <input type="file" id="file-input" className='z-[-1] absolute' onChange={(e) => handleFile({"type": "pfp", "e": e, "userid": currentUser.id })} />
 
       <div className='flex mt-12 gap-3 items-center'>

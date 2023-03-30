@@ -1,4 +1,5 @@
 // import './App.css';
+import axios from "axios";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import PrivateRoute from "./utils/PrivateRoute";
@@ -15,6 +16,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState('');
   const [mOpen, setMOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [pfp, setPfp] = useState()
+  const [header, setHeader] = useState()
 
   //modal stuff
   const [open, setOpen] = useState(false);
@@ -31,9 +34,13 @@ function App() {
       token = jwt_decode(localStorage.getItem('jwtToken'));
       setAuthToken(localStorage.getItem('jwtToken'));
       setCurrentUser(token);
+      axios.get(`http://localhost:8000/user/${token.id}`)
+        .then(response => {
+          setCurrentUser(prev => ({...prev, pfp: response.data.foundUser.pfp, header: response.data.foundUser.header, following: response.data.foundUser.following}))
+        }).catch(err => console.log(err))  
     }
   }, []);
-
+console.log(currentUser)
   const nowCurrentUser = (userData) => {
     console.log('===> nowCurrent is here.');
     setCurrentUser(userData);
