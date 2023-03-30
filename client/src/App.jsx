@@ -28,21 +28,19 @@ function App() {
     let token;
     if (!localStorage.getItem('jwtToken')) {
       setIsAuthenticated(false);
-      console.log('====> Authenticated is now FALSE');
-      <Navigate to="/"/>
+      <Navigate to="/login"/>
     } else {
       token = jwt_decode(localStorage.getItem('jwtToken'));
       setAuthToken(localStorage.getItem('jwtToken'));
       setCurrentUser(token);
-      axios.get(`http://localhost:8000/user/${token.id}`)
+      axios.get(`http://localhost:8000/user/${token?.id}`)
         .then(response => {
           setCurrentUser(prev => ({...prev, pfp: response.data.foundUser.pfp, header: response.data.foundUser.header, following: response.data.foundUser.following}))
         }).catch(err => console.log(err))  
     }
   }, []);
-console.log(currentUser)
+
   const nowCurrentUser = (userData) => {
-    console.log('===> nowCurrent is here.');
     setCurrentUser(userData);
     setIsAuthenticated(true);
   }
@@ -53,7 +51,7 @@ console.log(currentUser)
       localStorage.removeItem('jwtToken');
       setCurrentUser(null);
       setIsAuthenticated(false);
-      <Navigate to="/"/>
+      <Navigate to="/login"/>
     }
   }
 
@@ -65,16 +63,16 @@ console.log(currentUser)
     <DataContext.Provider value={{ currentUser, setCurrentUser, open2, setOpen2, handleLogout, nowCurrentUser, isAuthenticated, setIsAuthenticated, open, setOpen, mOpen, setMOpen, modalType, setModalType}}>
     <Navbar/>
           <Routes>
-              <Route path='/' element={ <Home />} />
+              <Route path='/' element={ <PrivateRoute><Home /></PrivateRoute>} />
 
-              <Route path='/post/:id' element={ <PostPage />} />
+              <Route path='/post/:id' element={ <PrivateRoute><PostPage /></PrivateRoute>} />
               
 
               <Route path='/profile' element={ <PrivateRoute><Profile /></PrivateRoute>}/>
-              <Route path='/jobs' element={ <Jobs />}/> 
-              <Route exact path='/profile/:userid' element={ <OtherUserProf />} />
-              <Route path='/resources' element={ <CommunityResources/>}/> 
-              <Route path='applications' element={ <Applications />} />
+              <Route path='/jobs' element={ <PrivateRoute><Jobs /></PrivateRoute>}/> 
+              <Route exact path='/profile/:userid' element={ <PrivateRoute><OtherUserProf /></PrivateRoute>} />
+              <Route path='/resources' element={ <PrivateRoute><CommunityResources/></PrivateRoute>}/> 
+              <Route path='applications' element={ <PrivateRoute><Applications /></PrivateRoute>} />
 
               <Route path='/login' element={ <Login />} />
               <Route path='/signup' element={ <Signup />} />

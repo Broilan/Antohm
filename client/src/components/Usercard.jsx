@@ -10,7 +10,7 @@ const Usercard = () => {
   const followersRef = useRef(0)
   const followingRef = useRef(0) 
   useEffect(() => {
-  axios.get(`http://localhost:8000/user/${currentUser.id}`).then(response => {
+  axios.get(`http://localhost:8000/user/${currentUser?.id}`).then(response => {
     followersRef.current = response.data.foundUser.followers.length
     followingRef.current = response.data.foundUser.following.length
   })
@@ -19,11 +19,11 @@ const Usercard = () => {
   return (
     <>
     <div className='relative bg-white rounded-2xl border-gray-300 scale-[1.2] border-[1px] w-[18rem] h-[26rem]'>
-    <img src={currentUser.header} className='w-[100%] object-cover rounded-2xl h-16  rounded-br-none rounded-bl-none border-gray-400 border-b-black border-b-[1px]'/>
+    <img src={currentUser?.header} className='w-[100%] object-cover rounded-2xl h-16  rounded-br-none rounded-bl-none border-gray-400 border-b-black border-b-[1px]'/>
     <div className='flex flex-col items-center justify-center mt-[-3.5rem]'>
-        <img src={currentUser.pfp} className=' rounded-[50%] outline outline-1 w-16 mt-5 mb-3'/>
-        <div className='font-bold'>{currentUser.name}</div>
-        <div className='mb-3' >{currentUser.email}</div>
+        <img src={currentUser?.pfp} className=' rounded-[50%] outline outline-1 w-16 mt-5 mb-3'/>
+        <div className='font-bold'>{currentUser?.name}</div>
+        <div className='mb-3' >{currentUser?.email}</div>
         
         <p className='text-sm px-5 text-center border-b-[1px] pb-2 border-b-gray-400'>essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with</p>
 

@@ -1,6 +1,5 @@
 import React, {useContext, useRef} from 'react'
 import { DataContext } from '../App';
-import defaultpfp from '../assets/defaultpfp.png'
 import axios from 'axios';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { FaRegCommentDots } from 'react-icons/fa';
@@ -49,14 +48,15 @@ const Post = (props) => {
     axios.put(`http://localhost:8000/post/bookmark/${postID}/${currentUser.id}/${posterID}`)
     navigate('/')
   }
-  // console.log(usersFollowed, posterID)
 
   const handleUnfollow = (id) => {
     axios.put(`http://localhost:8000/user/unfollow/${id}/${currentUser.id}/`)
   }
 
   const handleFollow = (id) => {
-    axios.put(`http://localhost:8000/user/follow/${id}/${currentUser.id}/`).then(response => setCurrentUser({...currentUser, following:[...response.data.response.following]}))
+    axios.put(`http://localhost:8000/user/follow/${id}/${currentUser.id}/`).then(response => {
+      setCurrentUser({...currentUser, following:[...response.data.user.following]})
+    })
   }
 
   return (

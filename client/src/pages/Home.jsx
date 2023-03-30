@@ -24,7 +24,6 @@ const navigate = useNavigate()
     
     const formChange = (e) => {
         postForm.current = e.target.value 
-
     }
 
    async function addPicture(e) {
@@ -63,8 +62,8 @@ const navigate = useNavigate()
     <div className='border-black border-[1px] w-[33%] p-3 pt-4 bg-white'>
 
     <div className=' bg-white flex gap-1 mb-[-6rem] w-16 h-12 z-10 p-1 mr-2'>
-    <img src={currentUser.pfp} className='rounded-[50%] border-[1px] w-12 h-12 mt-1 z-10 border-gray-400'/>
-    <div className='font-semibold bg-white z-10'>{currentUser.name} <br /> <p className='text-[0.8rem] after:content-[""] bg-white after:border-gray-300 after:ml-1 after:border-[1px] z-10'>@{currentUser.displayName}</p></div>
+    <img src={currentUser?.pfp} className='rounded-[50%] border-[1px] w-12 h-12 mt-1 z-10 border-gray-400'/>
+    <div className='font-semibold bg-white z-10'>{currentUser?.name} <br /> <p className='text-[0.8rem] after:content-[""] bg-white after:border-gray-300 after:ml-1 after:border-[1px] z-10'>@{currentUser?.displayName}</p></div>
     </div>
 
     <div onClick={handleSubmit} className=' relative cursor-pointer ml-auto mr-2 top-[5.7rem] bg-blue-500 h-10 w-24 text-center text-white font-bold p-2 rounded-3xl'>post</div>
