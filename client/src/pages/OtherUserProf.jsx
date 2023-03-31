@@ -86,7 +86,7 @@ const OtherUserProf = () => {
         <img src={otherUser?.pfp} className='bg-white border-[1px] border-black rounded-[50%] w-24 h-24'/>
         <div className=' font-bold mt-16'>{otherUser?.name} <br /> <p className='font-normal ml-1 text-[0.9rem]'>@{otherUser?.displayName}</p> </div>
         <div className='flex gap-2 mt-auto'>
-          {currentUser?.following.includes(otherUser?._id) ?
+          {currentUser?.following?.includes(otherUser?._id) ?
            <div className="bg-blue-300 rounded-xl p-1 font-bold text-white shadow-xl cursor-pointer" onClick={() => handleUnfollow(otherUser?._id)}>Unfollow</div>
            :
             <div className="bg-blue-300 rounded-xl p-1 font-bold text-white shadow-xl cursor-pointer" onClick={() => handleFollow(otherUser?._id)}>Follow</div>
