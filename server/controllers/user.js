@@ -98,7 +98,7 @@ const userSignup = (req, res) => {
 
 //GET Users
 const getUsers = (req, res) => {
-    User.findOne({_id: req.params.id}).populate({path:'archivedDates', populate: {path: 'notes', model: 'Note'}})
+    User.findOne({_id: req.params.id}).populate({path:'archivedDates', populate: {path: 'notes', model: 'Note'}}).populate('likes').populate('bookmarks').populate('resources')
     .then(foundUser => {
         res.json({foundUser: foundUser})
     }).catch(err => res.json({err:err}))

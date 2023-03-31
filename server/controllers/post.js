@@ -65,12 +65,43 @@ const makeAPost = async (req, res) => {
         User.findByIdAndUpdate(req.params.userid, {
             posts: userPosts
         })
-        .then(response => {
+        .then(() => {
             res.json({response: newPost})
         })
         })
     })
 }
+
+const unlikeAPost = async (req, res) => {
+    let likeID;
+    await Post.findById(req.params.postId).populate('likes')
+    .then(async (foundPost) => {
+         foundPost.likes.forEach(async (like) => {
+            if(like.likeBy == req.params.id){
+                likeID = like._id
+               await Like.findByIdAndDelete(like._id)
+                .then(async () => {
+                    await Post.findByIdAndUpdate(req.params.postId, {
+                        $pull: {likes: like._id}
+                    })
+                    .then(async () => {
+                        await User.findByIdAndUpdate(req.params.id, {
+                            $pull: {likes: like._id}
+                        })
+                        .then(() => {
+                           console.log('deleted')
+                        }).catch(err => res.json({err: err}))
+                    }).catch(err => res.json({err: err}))
+                }).catch(err => res.json({err: err}))
+            }
+        })
+    }).catch(err => res.json({err: err}))
+    User.findById(req.params.id)
+    .populate('likes')
+    .then(foundUser => res.json({user: foundUser}))
+    .catch(err => res.json({err: err}))
+}
+
 
 const likeAPost = (req, res) => {
     Like.create({   
@@ -95,15 +126,15 @@ const likeAPost = (req, res) => {
             User.findByIdAndUpdate(req.params.to, {
                 notifications: userNotifs
             })
-            .then(responsex => {
+            .then(() => {
                 User.findById(req.params.by)
-                .then(foundUserY => {
+                .then(() => {
                     userLikes = foundUser.likes
                     userLikes.push(newLike._id)
                         User.findByIdAndUpdate(req.params.by, {
                             likes: userLikes
                         })
-                        .then(responsey => {
+                        .then(() => {
                             Post.findById(req.params.postid)
                             .then(foundPost => {
                                 postLikes = foundPost.likes
@@ -111,8 +142,11 @@ const likeAPost = (req, res) => {
                             Post.findByIdAndUpdate(req.params.postid, {
                                 likes: postLikes
                             })
-                            .then(response => {
-                                res.json({response: response})
+                            .then(() => {
+                                User.findById(req.params.by)
+                                .populate('likes')
+                                .then(foundUser => res.json({user: foundUser}))
+                                .catch(err => res.json({err: err}))
                             })
                             })
                         })
@@ -126,7 +160,6 @@ const likeAPost = (req, res) => {
 }
 
 const commentOnAPost = (req, res) => {
-
     Comment.create({   
     commentTo: req.params.to,
     commentFrom: req.params.by,
@@ -153,19 +186,18 @@ const commentOnAPost = (req, res) => {
             User.findByIdAndUpdate(req.params.to, {
                 notifications: userNotifs
             })
-            .then(responsex => {
+            .then(() => {
                 User.findById(req.params.by)
-                .then(foundUserY => {
-                    userComments = foundUser.comments
+                .then(() => {
+                    let userComments = foundUser.comments
                     userComments.push(newComment._id)
                         User.findByIdAndUpdate(req.params.by, {
                             comments: userComments
                         })
-                        .then(responsey => {
+                        .then(() => {
                             Post.findById(req.params.postid)
                             .then(foundPost => {
-                                postComments = foundPost.comments
-                                console.log("userlikess", postComments)
+                               let postComments = foundPost.comments
                                 postComments.push(newComment._id)
                             Post.findByIdAndUpdate(req.params.postid, {
                                 comments: postComments
@@ -207,15 +239,15 @@ const bookmarkAPost = (req, res) => {
             User.findByIdAndUpdate(req.params.to, {
                 notifications: userNotifs
             })
-            .then(responsex => {
+            .then(() => {
                 User.findById(req.params.by)
-                .then(foundUserY => {
+                .then(() => {
                     userBookmarks = foundUser.bookmarks
                     userBookmarks.push(newBookmark._id)
                         User.findByIdAndUpdate(req.params.by, {
                             bookmarks: userBookmarks
                         })
-                        .then(responsey => {
+                        .then(() => {
                             Post.findById(req.params.postid)
                             .then(foundPost => {
                                 postBookmarks = foundPost.bookmarks
@@ -263,15 +295,15 @@ const makePostAResource = (req, res) => {
             User.findByIdAndUpdate(req.params.to, {
                 notifications: userNotifs
             })
-            .then(responsex => {
+            .then(() => {
                 User.findById(req.params.by)
-                .then(foundUserY => {
+                .then(() => {
                     userResources = foundUser.resources
                     userResources.push(newResource._id)
                         User.findByIdAndUpdate(req.params.by, {
                             resources: userResources
                         })
-                        .then(responsey => {
+                        .then(() => {
                             Post.findById(req.params.postid)
                             .then(foundPost => {
                                 postResources = foundPost.sourced
@@ -308,6 +340,7 @@ const deleteAPost = (req, res) => {
 
 
 module.exports = { 
+    unlikeAPost,
     getPostComments,
     makePostAResource,
     getAllPosts,
