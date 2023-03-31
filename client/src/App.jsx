@@ -35,7 +35,15 @@ function App() {
       setCurrentUser(token);
       axios.get(`http://localhost:8000/user/${token?.id}`)
         .then(response => {
-          setCurrentUser(prev => ({...prev, pfp: response.data.foundUser.pfp, header: response.data.foundUser.header, following: response.data.foundUser.following}))
+          setCurrentUser((prev) => 
+            ({...prev, 
+              pfp: response.data.foundUser.pfp, 
+              header: response.data.foundUser.header, 
+              following: response.data.foundUser.following,
+              likes: response.data.foundUser.likes,
+              bookmarks: response.data.foundUser.bookmarks,
+              resources: response.data.foundUser.resources,
+            }))
         }).catch(err => console.log(err))  
     }
   }, []);

@@ -14,25 +14,33 @@ const Post = (props) => {
   //props
   const {postID, niche, subNiche, image, posterID, displayName, username, bookmarks, comments, likes, datePosted, content, sourced, pfp, currentFeed} = props
   //refs
-  const likeRef = useRef(<AiOutlineHeart />)
   const likeNum = useRef(likes?.length)
-  const bookmarkRef = useRef(<BsBookmark />)
   const bookmarkNum = useRef(bookmarks?.length)
   const commentsNum = useRef(comments?.length)
   const resourcesNum = useRef(sourced?.length)
-
+  const likeRef = useRef(false)
   //navigate
   const navigate=useNavigate()
    
   function nav(id) {
     navigate(`/post/${id}`)
   }
+  // router.put('/unlike/:id/:postId', ctrls.post.unlikeAPost) //unliking a post
 
   const handleLike = () => {
-    likeRef.current = <AiFillHeart />
-    likeNum.current = likeNum.current + 1
-    axios.put(`http://localhost:8000/post/like/${postID}/${currentUser.id}/${posterID}`)
-    navigate('/')
+    let unliked = false
+    currentUser?.likes?.forEach((like) => {
+      if(like.likeOn == postID) {
+        unliked = true
+        likeRef.current = false
+        likeNum.current = likeNum.current - 1
+        axios.put(`http://localhost:8000/post/unlike/${currentUser.id}/${postID}`).then((response) => setCurrentUser({...currentUser, likes: response.data.user.likes}))
+      }})
+    if(unliked == false) {
+      likeNum.current = likeNum.current + 1
+      axios.put(`http://localhost:8000/post/like/${postID}/${currentUser.id}/${posterID}`).then((response) => setCurrentUser({...currentUser, likes: response.data.user.likes}))
+    }
+
   }
 
   const handleAddResource = () => {
@@ -44,7 +52,6 @@ const Post = (props) => {
 
   const handleBookmark = () => {
     bookmarkNum.current = bookmarkNum.current + 1
-    bookmarkRef.current = <BsFillBookmarkFill />
     axios.put(`http://localhost:8000/post/bookmark/${postID}/${currentUser.id}/${posterID}`)
     navigate('/')
   }
@@ -86,8 +93,20 @@ const Post = (props) => {
     {currentFeed? null : 
     <div className='flex pl-4 gap-10 mt-4 mb-1 border-t-[1px] border-t-gray-200'>
     <div className='flex gap-2 text-xl'>
-    <div className='mt-1 cursor-pointer' onClick={handleLike}>{likeRef.current}</div>
-    <div className='text-sm'> {likeNum.current}</div>
+    <div className='mt-1 cursor-pointer' onClick={handleLike}>
+  
+    {currentUser?.likes?.map((like, index) => {
+      if(like.likeOn == postID) {
+        likeRef.current = true
+        return <AiFillHeart/>
+      } else if(index == currentUser.likes.length - 1 && likeRef.current == false) {
+        return <AiOutlineHeart/>
+      }
+    })}
+      
+      {currentUser?.likes?.length == 0? <AiOutlineHeart/>: console.log(currentUser)}
+    </div>
+    <div className='text-sm' onClick={handleLike}> {likeNum.current}</div>
     </div>
     <div className='flex gap-2 text-xl'>
     <div className='mt-1 cursor-pointer'><FaRegCommentDots/></div>
@@ -98,7 +117,9 @@ const Post = (props) => {
     <div className='text-sm'>{resourcesNum.current}</div>
     </div>
     <div className='flex relative gap-2 text-xl'>
-    <div className='mt-1 cursor-pointer' onClick={handleBookmark}>{bookmarkRef.current}</div>
+    <div className='mt-1 cursor-pointer' onClick={handleBookmark}>
+      {currentUser?.bookmarks?.map(bookmark => bookmark.post == postID? <BsFillBookmarkFill />: <BsBookmark />)}
+    </div>
     <div className='text-sm'>{bookmarkNum.current}</div>
     </div>
     </div>
