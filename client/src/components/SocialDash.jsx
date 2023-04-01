@@ -15,9 +15,10 @@ const SocialDash = () => {
   useEffect(() => {
       axios.get(`http://localhost:8000/user/${currentUser?.id}/posts`)
      .then(response => {
+      console.log(response)
       setPosts(response.data.usersPosts.reverse().map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={currentUser.pfp} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
      }).catch(err => console.log(err))
-  }, [])
+  }, [currentUser])
 
   function changeFeed(current) {
     switch (current) {
@@ -123,21 +124,6 @@ const SocialDash = () => {
 }
 
 export default SocialDash
-
-// const updateUser = async (req, res) => {
-//   User.findOne({_id: req.params.id})
-//   .then(foundUser => {
-//       foundUser.linkedIn = req.body.linkedIn
-//       foundUser.github = req.body.github
-//       foundUser.twitter = req.body.twitter
-//       foundUser.website = req.body.website
-//       foundUser.bio = req.body.bio
-//       foundUser.save()
-//       .then(updatedUser => {
-//           res.json({updatedUser: updatedUser})
-//       }).catch(err => res.json({err:err}))
-//   }).catch(err => res.json({err:err}))
-// }
 
 const EditProfileModal = () => {
   const {currentUser, open, setOpen} = useContext(DataContext)

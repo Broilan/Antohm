@@ -23,7 +23,7 @@ const OtherUserProf = () => {
        .then(response => {
         setOtherUser(response.data.foundUser)
        })
-    }, [])
+    }, [currentUser])
   
     const handleUnfollow = (id) => {
       axios.put(`http://localhost:8000/user/unfollow/${id}/${currentUser.id}/`).then(response => {

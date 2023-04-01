@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import {Usercard, UserGroups, CommentForm  } from '../components'
-
 import { Post, Comment} from '../components'
+import { DataContext } from '../App'
 
 const PostPage = () => {
+    const {currentUser} = useContext(DataContext)
     const [foundPost, setFoundPost] = useState()
     const [foundComments, setFoundComments] = useState()
     const params = useParams()
@@ -21,7 +22,7 @@ const PostPage = () => {
             })
             }
         )
-    }, [])
+    }, [currentUser])
 
   return (
     <>
