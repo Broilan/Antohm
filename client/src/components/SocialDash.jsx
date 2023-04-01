@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState, } from 'react'
+import React, {useContext, useEffect, useRef, useState, } from 'react'
 import axios from 'axios'
 import { DataContext } from '../App'
 import {Post, Usercard, UserGroups, Modal} from './'
@@ -89,17 +89,20 @@ const SocialDash = () => {
     
 
     <div className='bg-white h-[12rem] flex flex-col justify-end'>
-      <div className='flex mb-24 ml-4 gap-2 cursor-pointer'>
 
-      <label htmlFor="file-input"><img src={currentUser.pfp} className='bg-white border-[1px] border-black cursor-pointer mt-4 rounded-[50%]  w-24 h-24'/></label>
+      <div className='flex mb-4 ml-4 gap-2 cursor-pointer'>
+      <div className='flex flex-col '>
+      <div className='flex gap-4'>
+      <label htmlFor="file-input"><img src={currentUser.pfp} className='bg-white border-[1px] mt-4 border-black cursor-pointer rounded-[50%] w-24 h-24'/></label>
       <input type="file" id="file-input" className='z-[-1] absolute' onChange={(e) => handleFile({"type": "pfp", "e": e, "userid": currentUser.id })} />
-
-      <div className='flex mt-12 gap-3 items-center'>
-      <div className='font-bold  text-2xl'>{currentUser.name} <br /> <p className='font-bold ml-1 text-lg'>@{currentUser.displayName}</p> </div>
+      <div className='flex gap-3 items-end'>
+      <div className='font-bold text-2xl'>{currentUser.name} <br /> <p className='font-bold ml-1 text-lg'>@{currentUser.displayName}</p> </div>
       <div onClick={() => setOpen(true)} className='bg-white rounded-3xl hover:bg-gray-300 border-blue-400 border-4 p-2 font-bold h-fit w-fit'>Edit Profile</div>
       </div>
       </div>
-
+      <div className='text-left w-[30rem] h-[5rem] mt-2 text-lg'>{currentUser?.bio ?? null}</div>
+      </div>
+      </div>
     <ul className='flex gap-10 justify-center text-xl border-black border-2'>
       <li className="cursor-pointer" onClick={(e) => changeFeed('posts')}>Posts</li>
       <li className="cursor-pointer" onClick={(e) => changeFeed('likes')}>Likes</li>
@@ -121,60 +124,97 @@ const SocialDash = () => {
 
 export default SocialDash
 
+// const updateUser = async (req, res) => {
+//   User.findOne({_id: req.params.id})
+//   .then(foundUser => {
+//       foundUser.linkedIn = req.body.linkedIn
+//       foundUser.github = req.body.github
+//       foundUser.twitter = req.body.twitter
+//       foundUser.website = req.body.website
+//       foundUser.bio = req.body.bio
+//       foundUser.save()
+//       .then(updatedUser => {
+//           res.json({updatedUser: updatedUser})
+//       }).catch(err => res.json({err:err}))
+//   }).catch(err => res.json({err:err}))
+// }
 
 const EditProfileModal = () => {
   const {currentUser, open, setOpen} = useContext(DataContext)
+  const twitterRef = useRef()
+  const githubRef = useRef()
+  const linkedinRef = useRef()
+  const websiteRef = useRef()
+  const bioRef = useRef()
+  const nameRef = useRef()
+  const emailRef = useRef()
+  const passwordRef = useRef()
+
+  function handleSubmit() {
+    console.log(linkedinRef, githubRef, twitterRef, websiteRef, bioRef)
+    axios.put(`http://localhost:8000/user/update/${currentUser.id}`, {
+      linkedIn: linkedinRef.current.value,
+      github: githubRef.current.value,
+      twitter: twitterRef.current.value,
+      website: websiteRef.current.value,
+      bio: bioRef.current.value,
+    })
+    .then(response => {
+      console.log(response)
+    }).catch(err => console.log(err))
+  }
+
 
   return(
     <>
     <div className='relative bg-white rounded-2xl border-gray-300 scale-[1.2] border-[1px] w-[18rem] h-fit'>
 
     <label htmlFor="header-input" className='cursor-pointer'><img src={currentUser.header} className='w-[100%] object-cover opacity-80 rounded-2xl h-16  rounded-br-none rounded-bl-none border-gray-400 border-b-black border-b-[1px]'/><div className='mt-[-3rem] mb-5 absolute ml-[1.2rem] text-2xl'><BiCamera/></div></label>
-    <input type="file" id="header-input" className='hidden' onChange={(e) => handleFile({"type": "pfp", "e": e, "userid": currentUser.id })} />
+    <input type="file" id="header-input" className='hidden' onChange={(e) => handleFile({"type": "header", "e": e, "userid": currentUser.id })} />
 
     <div className='flex flex-col items-center gap-1 justify-center mt-[-3.5rem]'>
         <label htmlFor="pfp-input" className='cursor-pointer'><img src={currentUser.pfp} className=' rounded-[50%] opacity-80 outline outline-1 w-16 mt-5 mb-3'/><div className='mt-[-3rem] mb-5 absolute ml-[1.2rem] text-2xl'><BiCamera/></div></label>
         <input type="file" id="pfp-input" className='hidden' onChange={(e) => handleFile({"type": "pfp", "e": e, "userid": currentUser.id })} />
         <p className='font-bold text-xl underline'>Personal Info</p>
-        <label className='font-bold' htmlFor="name-input">Name</label>
-        <input className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue={currentUser.name}/>
+        <label  className='font-bold' htmlFor="name-input">Name</label>
+        <input ref={nameRef} className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue={currentUser.name}/>
         <label className='font-bold' htmlFor="email-input">Email</label>
-        <input className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue={currentUser.email}/>
+        <input ref={emailRef} className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue={currentUser.email}/>
         <label className='font-bold' htmlFor="password-input">Password</label>
-        <input className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue="*********"/>
+        <input ref={passwordRef} className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue="*********"/>
 
         <label className='font-bold' htmlFor="bio">Bio</label>
-        <input type="text" className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' id='bio' defaultValue="essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with" />
+        <input ref={bioRef} type="text" className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' maxLength="140" id='bio' defaultValue={currentUser?.bio ?? 'add a bio!'} />
 
             <div className='flex flex-col items-center gap-3 border-t-black border-t-2 w-[100%] mt-2'>
             <p className='font-bold text-xl underline'>Public Links</p>
             <div className='flex flex-col items-center'>
             <div><AiFillGithub /> </div>
             <label className='font-bold' htmlFor="password-input">Github</label>
-            <input className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue="*********"/>
+            <input ref={githubRef} className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue={currentUser?.github ?? 'add a link!'}/>
             </div>
 
             <div className='flex flex-col items-center'>
             <div><RiTwitterFill /> </div>
             <label className='font-bold' htmlFor="password-input">Twitter</label>
-            <input className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue="*********"/>
+            <input ref={twitterRef} className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue={currentUser?.twitter ?? 'add a link!' }/>
             </div>
 
             <div className='flex flex-col items-center'>
             <div><AiFillLinkedin /> </div>
-            <label className='font-bold' htmlFor="password-input">LinkedIn</label>
-            <input className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue="*********"/>
+            <label  className='font-bold' htmlFor="password-input">LinkedIn</label>
+            <input ref={linkedinRef} className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue={currentUser?.linkedin ?? 'add a link!'}/>
             </div>
 
             <div className='flex flex-col items-center'>
             <div><FaClipboardList /> </div>
-            <label className='font-bold' htmlFor="password-input">Resume</label>
-            <input className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue="*********"/>
+            <label className='font-bold' htmlFor="password-input">Website</label>
+            <input ref={websiteRef} className='text-lg px-5 text-center border-2 rounded-xl border-gray-500 truncate' defaultValue={currentUser?.website ?? 'add a link!'}/>
             </div>
             </div>
             <div className='flex font-bold text-md border-t-black border-t-2 w-[100%] justify-center mt-2'>
             <button onClick={() => setOpen(false)} className='bg-red-300 rounded-bl-2xl hover:bg-red-400 w-[50%]'>Discard Changes</button>
-            <button className='bg-blue-300 rounded-br-2xl hover:bg-blue-400 w-[50%]'>Save Changes</button>
+            <button onClick={handleSubmit} className='bg-blue-300 rounded-br-2xl hover:bg-blue-400 w-[50%]'>Save Changes</button>
             </div>
       </div>
     </div>

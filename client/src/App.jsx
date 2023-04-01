@@ -43,6 +43,11 @@ function App() {
               likes: response.data.foundUser.likes,
               bookmarks: response.data.foundUser.bookmarks,
               resources: response.data.foundUser.resources,
+              github: response.data.foundUser.github,
+              linkedin: response.data.foundUser.linkedIn,
+              twitter: response.data.foundUser.twitter,
+              website: response.data.foundUser.website,
+              bio: response.data.foundUser.bio,
             }))
         }).catch(err => console.log(err))  
     }
