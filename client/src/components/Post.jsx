@@ -26,7 +26,6 @@ const Post = (props) => {
   function nav(id) {
     navigate(`/post/${id}`)
   }
-  // router.put('/unlike/:id/:postId', ctrls.post.unlikeAPost) //unliking a post
 
   const handleLike = () => {
     let unliked = false
@@ -46,7 +45,6 @@ const Post = (props) => {
   
   const handleAddResource = () => {
     let filter = sourced.filter((resource) => resource.UserID == currentUser.id)
-    console.log(sourced, currentUser.id)
     let unsourced = false
     const link = {'link':`http://127.0.0.1:5173/post/${postID}`}
       if(filter.length > 0) {

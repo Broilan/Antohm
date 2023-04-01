@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useContext, useRef} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import {states} from '../data/data'
-import { DataContext } from '../App';
 import { IoMdBriefcase } from 'react-icons/io';
 
 const Jobs = () => {
@@ -9,7 +8,6 @@ const [jobs, setJobs] = useState([])
 const [sortedJobs, setSortedJobs] = useState([])
 const [stackedFilters, setStackedFilters] = useState({location: false, jobType: false, level: false, salary: false })
 const [selected, setSelected] = useState()
-const {currentUser, isAuthenticated} = useContext(DataContext)
 
 
     
@@ -67,15 +65,15 @@ const {currentUser, isAuthenticated} = useContext(DataContext)
 
         <div>
             <div className='bg-blue-400 w-[100%] h-24 outline-blue-500 rounded-tl-xl flex flex-col items-center'>
-            <p className='text-white text-center mt-1 text-xl font-bold'>Search our api for one million + jobs. <br />  Updated <p className='underline text-2xl inline'>everyday.</p></p>
+            <div className='text-white text-center mt-1 text-xl font-bold'>Search our api for one million + jobs. <br />  Updated <p className='underline text-2xl inline'>everyday.</p></div>
 
            <div className='translate-y-8 z-10 flex gap-8'>           
            <select onChange={(e)=> filterJobs(e.target.value, 'location')} className=' bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
-            <option hidden selected>Location</option>
+            <option hidden defaultValue>Location</option>
                 {states.map((s) =>  <option value={s}>{s}</option> )}
            </select>
            <select onChange={(e)=> filterJobs(e.target.value, 'salary')} className='bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
-                <option hidden selected>Salary</option>
+                <option hidden defaultValue>Salary</option>
                 <option value="$0-$25k">$0-$25k</option>
                 <option value="$25k-$50k">$25k-$50k</option>
                 <option value="$50k-$75k">$50k-$75k</option>
@@ -85,13 +83,13 @@ const {currentUser, isAuthenticated} = useContext(DataContext)
                 <option value="$200k+">$200k+</option>
            </select>
            <select onChange={(e)=> filterJobs(e.target.value, 'level')} className='bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
-                <option hidden selected>Level</option>
+                <option hidden defaultValue>Level</option>
                 <option value="Entry">Entry</option>
                 <option value="Mid">Mid</option>
                 <option value="Senior">Senior</option>
            </select>
            <select onChange={(e) => filterJobs(e.target.value, "position")} className='bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
-            <option hidden selected>Position</option>
+            <option hidden value>Position</option>
             <option value='Software engineer'>Software Engineer</option>
             <option value="UX designer">UX Engineer</option>
             <option value="dev ops engineer">Dev Ops</option>
@@ -106,7 +104,7 @@ const {currentUser, isAuthenticated} = useContext(DataContext)
         <div className='border-[1px] border-gray-400 w-[100%] h-screen mt-6 flex flex-col overflow-y-scroll'>
             <div className='border-[1px] border-gray-400 w-[100%] h-26  cursor-pointer'>
                 
-                {sortedJobs.map((j) =>
+                {sortedJobs.map((j) => 
                 <div className={`flex border-gray-300 hover:bg-gray-300 ${j == selected? "bg-gray-300": null} border-[1px]`} onClick={(e) => setSelected(j)}>
                 <img src={j.companyLogo} alt="xx" className='w-16 h-16 rounded-xl border-black border-[1px] m-1'/>
                 <div>
@@ -114,7 +112,7 @@ const {currentUser, isAuthenticated} = useContext(DataContext)
                 <p className='font-bold px-1'>{j.company}</p>
                 <p className='px-1'>{j.datePosted}</p>
                 </div>
-                </div>
+                </div> 
                 )}
 
 

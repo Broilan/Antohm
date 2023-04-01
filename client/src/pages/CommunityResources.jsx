@@ -33,7 +33,7 @@ const CommunityResources = () => {
       response.data.allPosts.forEach((p) => {if(p.niche == false || p.niche == "false" || p.niche == undefined || p.niche == null) {return} else {arr.push(p)}})
       setPostsArr(arr)
     })
-  }, [])
+  }, [currentUser])
   
   const handleSubmit = (e) => {
 
@@ -163,8 +163,8 @@ function getSubNiche(e) {
         <p onClick={(e) => changeGroup('Science')}>Science</p>
         <p onClick={(e) => changeGroup('other')}>other</p>
       </div>
-      {postsArr.map((p) => <div className='w-[33%]'> 
-      <Post niche={p.niche} subNiche={p.subNiche} pfp={p.UserID} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div> )}
+      {postsArr.map((p, index) => <div className='w-[33%]'> 
+      <Post index={index} niche={p.niche} subNiche={p.subNiche} pfp={p.UserID} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div> )}
     </div>
     </>
   )
