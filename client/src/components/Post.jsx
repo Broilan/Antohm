@@ -43,12 +43,26 @@ const Post = (props) => {
     }
 
   }
-
+  
   const handleAddResource = () => {
-    const link = {'link':`http://127.0.0.1:5173/post/${postID}` }
-    resourcesNum.current = resourcesNum.current + 1
+    let filter = sourced.filter((resource) => resource.UserID == currentUser.id)
+    let unsourced = false
+    const link = {'link':`http://127.0.0.1:5173/post/${postID}`}
+      if(filter.length > 0) {
+        unsourced = true
+        resourcesNum.current = resourcesNum.current - 1
+        axios.delete(`http://localhost:8000/user/deleteresource/${currentUser.id}/${filter[0]._id}`)
+        .then(response => {
+          setCurrentUser({...currentUser, resources: response.data.user?.resources})
+        }).catch(err => console.log(err))
+      }
+    if(unsourced == false) {
+      resourcesNum.current = resourcesNum.current + 1
     axios.put(`http://localhost:8000/post/resource/${postID}/${currentUser.id}/${posterID}`, link )
-    navigate('/')
+    .then(response => {
+      setCurrentUser({...currentUser, resources: response.data.user?.resources})
+    }).catch(err => console.log(err))
+  }
   }
 
   const handleBookmark = () => {

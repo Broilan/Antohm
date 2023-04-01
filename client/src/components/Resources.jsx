@@ -70,7 +70,7 @@ const Resources = () => {
                 </div>
 
                 <div>
-                    <p className='truncate mt-4'>{r.post[0].content}</p>
+                    <p className='truncate mt-4'>{r.post.content}</p>
                 </div>
 
                 <div className='flex gap-4 mt-4 '>

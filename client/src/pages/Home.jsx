@@ -20,7 +20,7 @@ const navigate = useNavigate()
             setPostFeed(response.data.allPosts.reverse())
             }
         )
-    }, [])
+    }, [currentUser])
     
     const formChange = (e) => {
         postForm.current = e.target.value 
