@@ -82,10 +82,12 @@ const OtherUserProf = () => {
   
       <div className='bg-white h-[12rem] flex flex-col justify-end'>
 
-        <div className='flex gap-4 mb-24 ml-4' >
+        <div className='flex flex-col justify-end gap-4 ml-4'>
+        <div className='flex items-end'>
         <img src={otherUser?.pfp} className='bg-white border-[1px] border-black rounded-[50%] w-24 h-24'/>
-        <div className=' font-bold mt-16'>{otherUser?.name} <br /> <p className='font-normal ml-1 text-[0.9rem]'>@{otherUser?.displayName}</p> </div>
-        <div className='flex gap-2 mt-auto'>
+        <div className='flex gap-2'>
+        <div className=' font-bold'>{otherUser?.name} <br /> <p className='font-normal ml-1 text-[0.9rem]'>@{otherUser?.displayName}</p> </div>
+        <div className='flex gap-2 h-8'>
           {currentUser?.following?.includes(otherUser?._id) ?
            <div className="bg-blue-300 rounded-xl p-1 font-bold text-white shadow-xl cursor-pointer" onClick={() => handleUnfollow(otherUser?._id)}>Unfollow</div>
            :
@@ -94,6 +96,10 @@ const OtherUserProf = () => {
         
         <div className="bg-blue-300 rounded-xl p-1 font-bold text-white shadow-xl cursor-pointer" onClick={() => setMOpen([true, userID, otherUser?.name])}>Message</div>
         </div>
+        </div>
+        </div>
+        
+        <div className='text-left w-[30rem] h-[5rem] mt-2 text-lg'>{otherUser?.bio ?? null}</div>
         </div>
   
       <ul className='flex gap-10 justify-center text-xl'>

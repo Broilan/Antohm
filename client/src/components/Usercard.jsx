@@ -25,7 +25,7 @@ const Usercard = () => {
         <div className='font-bold'>{currentUser?.name}</div>
         <div className='mb-3' >{currentUser?.email}</div>
         
-        <p className='text-sm px-5 text-center border-b-[1px] pb-2 border-b-gray-400'>essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with</p>
+        <p className='text-sm px-5 text-center border-b-[1px] pb-2 h-[7rem] border-b-gray-400'>{currentUser?.bio ?? null}</p>
 
         <div className='flex gap-16 mt-2 border-b-[1px] pb-2 border-b-gray-400 w-[100%] justify-center'>
             <div className='text-center font-bold'>{followersRef.current} <br /> followers</div>
@@ -35,29 +35,28 @@ const Usercard = () => {
         <div>
             <div className='flex justify-center'>
             <h1 className='font-bold p-1'>Public Links</h1>
-            <h1 className='font-bold mr-[-1rem] text-2xl'>+</h1>
             </div>
 
             <div className='flex gap-3'>
 
-            <div className='flex flex-col items-center'>
-            <div><AiFillGithub /> </div>
+            <div className='flex flex-col cursor-pointer items-center'>
+            <a href={currentUser?.github ?? null} target="_blank"><AiFillGithub /> </a>
             <p>Github</p>
             </div>
 
-            <div className='flex flex-col items-center'>
-            <div><RiTwitterFill /> </div>
+            <div className='flex flex-col cursor-pointer items-center'>
+            <a href={currentUser?.twitter ?? null} target="_blank"><RiTwitterFill /> </a>
             <p>Twitter</p> 
             </div>
 
-            <div className='flex flex-col items-center'>
-            <div><AiFillLinkedin /> </div>
+            <div className='flex flex-col cursor-pointer items-center'>
+            <a href={currentUser?.linkedin ?? null} target="_blank"><AiFillLinkedin /> </a>
             <p>LinkedIn</p> 
             </div>
 
-            <div className='flex flex-col items-center'>
-            <div><FaClipboardList /> </div>
-            <p>Resume</p> 
+            <div className='flex flex-col cursor-pointer items-center'>
+            <a href={currentUser?.website ?? null} target="_blank"><FaClipboardList /> </a>
+            <p>Website</p> 
             </div>
             
             </div>
