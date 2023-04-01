@@ -12,6 +12,8 @@ router.put('/unlike/:id/:postId', ctrls.post.unlikeAPost) //unliking a post
 router.put('/comment/:postid/:by/:to', ctrls.post.commentOnAPost) //commenting on a post
 router.put('/bookmark/:postid/:by/:to', ctrls.post.bookmarkAPost) //bookmarking a post
 router.put('/resource/:postid/:by/:to', ctrls.post.makePostAResource) //making a post a resource
+//delete a bookmark
+router.put('/removebookmark/:postId/:id', ctrls.post.deleteBookmark) //deleting a bookmark
 router.delete('/:postid', ctrls.post.deleteAPost) //deleting a post
 
 module.exports = router;

@@ -102,6 +102,36 @@ const unlikeAPost = async (req, res) => {
     .catch(err => res.json({err: err}))
 }
 
+const deleteBookmark = async (req, res) => {
+    let bookmarkID;
+    await Post.findById(req.params.postId).populate('bookmarks')
+    .then(foundPost => {
+        foundPost.bookmarks.forEach(bookmark => {
+            if(bookmark.bookmarkFrom == req.params.id){
+                bookmarkID = bookmark._id
+                Bookmark.findByIdAndDelete(bookmark._id)
+                .then(() => {
+                    Post.findByIdAndUpdate(req.params.postId, {
+                        $pull: {bookmarks: bookmarkID}
+                    })
+                    .then(() => {
+                        User.findByIdAndUpdate(req.params.id, {
+                            $pull: {bookmarks: bookmarkID}
+                        })
+                        .then(() => {
+                        }).catch(err => res.json({err: err}))
+                    }).catch(err => res.json({err: err}))
+                }).catch(err => res.json({err: err}))
+            }
+        })
+    }).catch(err => res.json({err: err}))
+    User.findById(req.params.id)
+    .populate('bookmarks')
+    .then(foundUser => res.json({user: foundUser}))
+    .catch(err => res.json({err: err}))
+}
+
+
 
 const likeAPost = (req, res) => {
     Like.create({   
@@ -255,8 +285,11 @@ const bookmarkAPost = (req, res) => {
                             Post.findByIdAndUpdate(req.params.postid, {
                                 bookmarks: postBookmarks
                             })
-                            .then(response => {
-                                res.json({response: response})
+                            .then(() => {
+                                User.findById(req.params.by)
+                                .populate('bookmarks')
+                                .then(foundUser => res.json({user: foundUser}))
+                                .catch(err => res.json({err: err}))
                             })
                             })
                         })
@@ -340,6 +373,7 @@ const deleteAPost = (req, res) => {
 
 
 module.exports = { 
+    deleteBookmark,
     unlikeAPost,
     getPostComments,
     makePostAResource,
