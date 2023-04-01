@@ -173,9 +173,23 @@ const updateNote = async (req, res) => {
 //delete a resource from a user
 const deleteResource = async (req, res) => {
     Resource.findByIdAndDelete(req.params.resourceId)
-        .then(() => {
-            res.json({message: 'Resource deleted'})
-        }).catch(err => res.json({err3:err}))
+        .then((response) => {
+            Post.findById(response.post)
+            .then(foundPost => {
+                foundPost.sourced.pull(req.params.resourceId)
+                foundPost.save()
+                .then(() => {
+                    User.findById(req.params.id).populate('resources')
+                    .then(foundUser => {
+                        foundUser.resources.pull(req.params.resourceId)
+                        foundUser.save()
+                        .then(user => {
+                            res.json({user: user})
+                        }).catch(err => res.json({err1: err}))
+                    }).catch(err => res.json({err1: err}))
+                }).catch(err => res.json({err2:err}))
+            }).catch(err => res.json({err3:err}))
+        }).catch(err => res.json({err4:err}))
 }
 
 

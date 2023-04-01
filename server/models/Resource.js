@@ -6,7 +6,7 @@ const resourceSchema = new Schema({
     resourceBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     resourceType: String,
     linkTo: String,
-    post: [{type: mongoose.Schema.Types.ObjectId,ref: 'Post' }],
+    post: {type: mongoose.Schema.Types.ObjectId,ref: 'Post' },
     image: {type: String},
     date: {
         type: Date,

@@ -16,7 +16,7 @@ cloudinary.config({
 require('dotenv').config();
 
 const getAllPosts = (req, res) => {
-    Post.find({}).populate('UserID').then(response => {
+    Post.find({}).populate('UserID').populate('sourced').then(response => {
         res.json({allPosts: response})
     })
 }
@@ -344,18 +344,21 @@ const makePostAResource = (req, res) => {
                             Post.findByIdAndUpdate(req.params.postid, {
                                 sourced: postResources
                             })
-                            .then(response => {
-                                res.json({response: response})
-                            })
-                            })
-                        })
-                })
-            })
-            })
+                            .then(() => {
+                                User.findById(req.params.by)
+                                .populate('resources')
+                                .then(foundUser => res.json({user: foundUser}))
+                                .catch(err => res.json({err: err}))
+                            }).catch(err => res.json({err: err}))
+                            }).catch(err => res.json({err: err}))
+                        }).catch(err => res.json({err: err}))
+                }).catch(err => res.json({err: err}))
+            }).catch(err => res.json({err: err}))
+            }).catch(err => res.json({err: err}))
 
-        })
+        }).catch(err => res.json({err: err}))
 
-    })
+    }).catch(err => res.json({err: err}))
 }
 
 const deleteAPost = (req, res) => {
