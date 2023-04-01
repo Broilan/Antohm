@@ -2,7 +2,8 @@ import React, {useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { DataContext } from '../App'
-import {Post, Usercard} from '../components'
+import {Post} from '../components'
+import OtherUserCard from '../components/OtherUserCard'
 
 const OtherUserProf = () => {
   const {mOpen, setMOpen, currentUser, setCurrentUser} = useContext(DataContext)
@@ -69,7 +70,7 @@ const OtherUserProf = () => {
         <div className='flex flex-col right-[5%] top-[10%] fixed gap-4' >
   
         <div >
-            <Usercard />
+            <OtherUserCard otherUser={otherUser}/>
         </div>
   
         </div>
@@ -97,12 +98,13 @@ const OtherUserProf = () => {
         <div className="bg-blue-300 rounded-xl p-1 font-bold text-white shadow-xl cursor-pointer" onClick={() => setMOpen([true, userID, otherUser?.name])}>Message</div>
         </div>
         </div>
+        
         </div>
         
         <div className='text-left w-[30rem] h-[5rem] mt-2 text-lg'>{otherUser?.bio ?? null}</div>
+        
         </div>
-  
-      <ul className='flex gap-10 justify-center text-xl'>
+     <ul className='flex gap-10 justify-center text-xl'>
         <li className="cursor-pointer" onClick={(e) => changeFeed('posts')}>Posts</li>
         <li className="cursor-pointer" onClick={(e) => changeFeed('likes')}>Likes</li>
         <li className="cursor-pointer" onClick={(e) => changeFeed('comments')}>Comments</li>
