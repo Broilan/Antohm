@@ -24,10 +24,11 @@ const userSchema = new Schema({
     likes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Like'}],
     notifications: [{type: mongoose.Schema.Types.ObjectId, ref: 'Notification'}],
     savedDates: [dateSchema],
-    external_links: [{
-        title: {type: String},
-        url: {type: String}
-    }],
+    linkedIn: String,
+    github: String,
+    website: String,
+    twitter: String,
+    bio: String,
     archivedDates:[dateSchema],
     archivedTasks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Task'}],
     header: String,

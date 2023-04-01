@@ -142,6 +142,21 @@ const createNewDate = async (req, res) => {
     }).catch(err => res.json({err:err}))
 }
 
+const updateUser = async (req, res) => {
+    User.findOne({_id: req.params.id})
+    .then(foundUser => {
+        foundUser.linkedIn = req.body.linkedIn
+        foundUser.github = req.body.github
+        foundUser.twitter = req.body.twitter
+        foundUser.website = req.body.website
+        foundUser.bio = req.body.bio
+        foundUser.save()
+        .then(updatedUser => {
+            res.json({updatedUser: updatedUser})
+        }).catch(err => res.json({err:err}))
+    }).catch(err => res.json({err:err}))
+}
+
 //put route that allows a user to update a note on a date
 const updateNote = async (req, res) => {
     Note.findOne({_id: req.params.noteId})
@@ -464,20 +479,6 @@ const userJobs = (req, res) => {
     }).catch(err => res.json({err:err}))
 }
 
-//Update personal user info
-const updatePersonalInfo = (req, res) => {
-        User.findByIdAndUpdate(req.params.id, {
-            name: req.body.name,
-            email: req.body.email,
-        })
-        .then(updatedUser => {
-            res.json({updatedUser: updatedUser})
-        })
-        .catch(error => { 
-            res.json({ message: 'email already exists!' })
-        });
-    }
-
     const deleteUser = (req, res) => {
         User.findByIdAndDelete(req.params.id)
         .then(deletedUser => {
@@ -686,6 +687,7 @@ module.exports = {
     getUserWithJobDataPopulated,
     getAllUsers,
     updateUserJobData,
+    updateUser,
     getAUsersFollowing,
     getAUsersFollowingNoPopulate,
     getAUsersFollowers,
@@ -717,7 +719,6 @@ module.exports = {
     putNoteOnTask,
     deleteTask,
     deleteTaskComment,
-    updatePersonalInfo,
     deleteUser,
     postJob,
     userJobs,
