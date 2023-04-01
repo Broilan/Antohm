@@ -19,6 +19,7 @@ const Post = (props) => {
   const commentsNum = useRef(comments?.length)
   const resourcesNum = useRef(sourced?.length)
   const likeRef = useRef(false)
+  const bookmarkRef = useRef(false)
   //navigate
   const navigate=useNavigate()
    
@@ -34,11 +35,11 @@ const Post = (props) => {
         unliked = true
         likeRef.current = false
         likeNum.current = likeNum.current - 1
-        axios.put(`http://localhost:8000/post/unlike/${currentUser.id}/${postID}`).then((response) => setCurrentUser({...currentUser, likes: response.data.user.likes}))
+        axios.put(`http://localhost:8000/post/unlike/${currentUser.id}/${postID}`).then((response) => setCurrentUser({...currentUser, likes: response.data.user?.likes}))
       }})
     if(unliked == false) {
       likeNum.current = likeNum.current + 1
-      axios.put(`http://localhost:8000/post/like/${postID}/${currentUser.id}/${posterID}`).then((response) => setCurrentUser({...currentUser, likes: response.data.user.likes}))
+      axios.put(`http://localhost:8000/post/like/${postID}/${currentUser.id}/${posterID}`).then((response) => setCurrentUser({...currentUser, likes: response.data.user?.likes}))
     }
 
   }
@@ -51,9 +52,18 @@ const Post = (props) => {
   }
 
   const handleBookmark = () => {
-    bookmarkNum.current = bookmarkNum.current + 1
-    axios.put(`http://localhost:8000/post/bookmark/${postID}/${currentUser.id}/${posterID}`)
-    navigate('/')
+    let unbookmarked = false
+    currentUser?.bookmarks?.forEach((bookmark) => {
+      if(bookmark.post == postID) {
+        unbookmarked = true
+        bookmarkRef.current = false
+        bookmarkNum.current = bookmarkNum.current - 1
+        axios.put(`http://localhost:8000/post/removebookmark/${postID}/${currentUser.id}`).then((response) => setCurrentUser({...currentUser, bookmarks: response.data.user?.bookmarks}))
+      }})
+    if(unbookmarked == false) {
+      bookmarkNum.current = bookmarkNum.current + 1
+      axios.put(`http://localhost:8000/post/bookmark/${postID}/${currentUser.id}/${posterID}`).then((response) => setCurrentUser({...currentUser, bookmarks: response.data.user?.bookmarks}))
+    }
   }
 
   const handleUnfollow = (id) => {
@@ -104,7 +114,7 @@ const Post = (props) => {
       }
     })}
       
-      {currentUser?.likes?.length == 0? <AiOutlineHeart/>: console.log(currentUser)}
+      {currentUser?.likes?.length == 0? <AiOutlineHeart/>: null}
     </div>
     <div className='text-sm' onClick={handleLike}> {likeNum.current}</div>
     </div>
@@ -117,8 +127,16 @@ const Post = (props) => {
     <div className='text-sm'>{resourcesNum.current}</div>
     </div>
     <div className='flex relative gap-2 text-xl'>
-    <div className='mt-1 cursor-pointer' onClick={handleBookmark}>
-      {currentUser?.bookmarks?.map(bookmark => bookmark.post == postID? <BsFillBookmarkFill />: <BsBookmark />)}
+    <div className='mt-1 cursor-pointer' onClick={handleBookmark}>    
+    {currentUser?.bookmarks?.map((bookmark, index) => {
+      if(bookmark.post == postID) {
+        bookmarkRef.current = true
+        return <BsFillBookmarkFill/>
+      } else if(index == currentUser.bookmarks.length - 1 && bookmarkRef.current == false) {
+        return <BsBookmark/>
+      }
+    })}
+    {currentUser?.bookmarks?.length == 0? <BsBookmark/>: null}
     </div>
     <div className='text-sm'>{bookmarkNum.current}</div>
     </div>
