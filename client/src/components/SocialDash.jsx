@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useRef, useState, } from 'react'
 import axios from 'axios'
 import { DataContext } from '../App'
-import {Post, Usercard, UserGroups, Modal} from './'
+import {Post, Usercard, Modal} from './'
 import handleFile from '../utils/FileUpload'
 import { AiFillGithub, AiFillLinkedin  } from 'react-icons/ai';
 import { RiTwitterFill } from 'react-icons/ri';
@@ -72,10 +72,6 @@ const SocialDash = () => {
 
       <div >
           <Usercard />
-      </div>
-
-      <div >
-          <UserGroups />
       </div>
 
       </div>

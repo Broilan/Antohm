@@ -95,7 +95,7 @@ const OtherUserProf = () => {
             <div className="bg-blue-300 rounded-xl p-1 font-bold text-white shadow-xl cursor-pointer" onClick={() => handleFollow(otherUser?._id)}>Follow</div>
            }
         
-        <div className="bg-blue-300 rounded-xl p-1 font-bold text-white shadow-xl cursor-pointer" onClick={() => setMOpen([true, userID, otherUser?.name])}>Message</div>
+        <div className="bg-blue-300 rounded-xl p-1 font-bold text-white shadow-xl cursor-pointer" onClick={() => setMOpen(otherUser)}>Message</div>
         </div>
         </div>
         

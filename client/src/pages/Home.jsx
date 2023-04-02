@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import handleFile from '../utils/FileUpload'
 import { AiOutlineFileGif, AiFillPicture } from 'react-icons/ai'; 
-import { Post, Usercard, UserGroups, News } from '../components'
+import { Post, Usercard, News } from '../components'
 import { GrEmoji } from 'react-icons/gr';
 import { DataContext } from '../App';
 
@@ -49,9 +49,6 @@ const navigate = useNavigate()
         <Usercard />
     </div>
 
-    <div >
-        <UserGroups />
-    </div>
     </div>
 
     <div className='right-[32%] top-[10%] fixed'>

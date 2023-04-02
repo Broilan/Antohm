@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import {Usercard, UserGroups, CommentForm  } from '../components'
+import {Usercard, CommentForm  } from '../components'
 import { Post, Comment} from '../components'
 import { DataContext } from '../App'
 
@@ -32,9 +32,6 @@ const PostPage = () => {
             <Usercard />
         </div>
 
-        <div >
-            <UserGroups />
-        </div>
     </div>
 
     <div className='w-screen flex flex-col items-center overflow-y-scroll h-screen'>

@@ -25,14 +25,23 @@ const DmModal = (props) => {
 
 
     useEffect(() => {
-      axios.get(`http://localhost:8000/user/dms/${currentUser.id}/`)
+      axios.get(`http://localhost:8000/user/dms/${currentUser.id}`)
       .then(response => {
         setAllDms(response.data.dms.reverse())
         setDropdownState(response.data.dms.reverse())
       }).catch(err => console.log(err))
       getAllUsers()
+      if(mOpen != true) {
+        setCurrentDm(mOpen)
+        axios.get(`http://localhost:8000/user/dms/${currentUser.id}`).then(response => {
+          response.data.dms.forEach((dm) => {
+            if(dm.to._id == mOpen._id || dm.from._id == mOpen._id) {
+              setDmArray(dm.messages)
+            } 
+          })
+        })
+      }
     }, [])
-
 
     useEffect(() => {
       socket.on('recieve_message', (data) => {
@@ -52,6 +61,7 @@ const DmModal = (props) => {
     }
 
     const openDM = (dm) => {
+      console.log(dm)
       if(isTyping) {
         setCurrentDm(dm)
         setDmArray(["nothing to see here yet!"])
@@ -111,7 +121,7 @@ const DmModal = (props) => {
         <div onClick={() => setMOpen(false)} className='bg-black cursor-pointer rounded-[50%] h-5 w-5 text-white text-center ml-auto mr-5 mt-[-2.5rem]'>x</div>
         </div>
             {/* replace this with the thrive logo later */}
-           <img src={currentDm?.pfp ?? 'hi'} className='rounded-[50%] border-[1px] w-12 mx-auto border-black' />   
+           <img src={currentDm?.pfp ?? currentUser?.pfp} className='rounded-[50%] border-[1px] w-12 mx-auto border-black' />   
 
             <div className='mt-4'>
             {dmArray == false?<div className='rounded-lg border-black bg-blue-400 text-white font-bold break-words border-[1px] w-fit h-fit p-5 mx-auto'>Search for other users to chat with.<br></br> <p className='text-center text-2xl'>Be kind!</p> </div> : null} 
