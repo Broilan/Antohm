@@ -6,7 +6,6 @@ const http = require('http')
 const mongoose = require("mongoose")
 const passport = require('passport');
 require('./config/passport')(passport);
-const PORT = parseInt(process.env.PORT || 8080);
 const routes = require('./routes');
 
 const app = express();
@@ -64,4 +63,4 @@ app.get('/', (req, res) => {
 
 
   // Server
-server.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`));
+server.listen(process.env.PORT || 8000, () => console.log(`Server is running on PORT: ${process.env.PORT}`));

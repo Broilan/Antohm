@@ -31,11 +31,11 @@ cloudinary.config({
         if(response.postType == "pfp") {
           User.findByIdAndUpdate(req.params.user, {
             pfp: response.photo
-          }).then(response => { res.json({response:response}), console.log(response)})
+          }).then(response => { res.json({response:response})})
         } else {
         User.findByIdAndUpdate(req.params.user, {
           header: response.photo
-        }).then(response => { res.json({response:response}), console.log(response)})
+        }).then(response => { res.json({response:response})})
         }})}
         
         

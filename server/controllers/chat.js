@@ -48,7 +48,6 @@ const postDM = (req, res) => {
                 ]}), {
                     messages: dmArr
                 }).then(response => {
-                    console.log(response)               
                      DmList.findOne({ $and: [
                     { $or: [{from: req.params.from}, {from: req.params.to}]},
                     { $or: [{to: req.params.to}, {to: req.params.from}]}

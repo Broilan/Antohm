@@ -29,7 +29,6 @@ module.exports = (passport) => {
             }
         })
         .catch(error => {
-            console.log('=====> Error below (passport.js)');
             console.log(error);
         })
     }))

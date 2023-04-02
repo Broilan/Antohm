@@ -46,7 +46,6 @@ const getPostComments = (req, res) => {
 
 const makeAPost = async (req, res) => {
     const photoUrl = req.body.image? await cloudinary.uploader.upload(req.body.image):null
-    console.log(photoUrl)
     Post.create({   
     UserID: req.params.userid,
     content: req.body.content,
