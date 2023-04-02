@@ -94,18 +94,25 @@ const userSignup = (req, res) => {
     }
 };
 
-
-
 //GET Users
 const getUsers = (req, res) => {
-    User.findOne({_id: req.params.id}).populate({path:'archivedDates', populate: {path: 'notes', model: 'Note'}}).populate('likes').populate('bookmarks').populate('resources')
+    User.findOne({_id: req.params.id})
+    .populate({path:'archivedDates', populate: {path: 'notes', model: 'Note'}})
+    .populate('likes')
+    .populate('bookmarks')
+    .populate('resources')
+    .populate('Dms')
     .then(foundUser => {
         res.json({foundUser: foundUser})
     }).catch(err => res.json({err:err}))
 }
 
 const getUserWithJobDataPopulated = (req, res) => {
-    User.findOne({_id: req.params.id}).populate('applications').populate('responses').populate('offers').populate('interviews')
+    User.findOne({_id: req.params.id})
+    .populate('applications')
+    .populate('responses')
+    .populate('offers')
+    .populate('interviews')
     .then(foundUser => {
         res.json({foundUser: foundUser})
     }).catch(err => res.json({err:err}))
@@ -113,7 +120,8 @@ const getUserWithJobDataPopulated = (req, res) => {
 
 //GET a users saved dates
 const getUsersSavedDates = (req, res) => {
-    User.findOne({_id: req.params.id}).populate({path:'savedDates', populate: {path: 'notes', model: 'Note'}})
+    User.findOne({_id: req.params.id})
+    .populate({path:'savedDates', populate: {path: 'notes', model: 'Note'}})
     .then(foundUser => {
         console.log(foundUser)
         res.json({savedDates: foundUser.savedDates})
@@ -132,7 +140,8 @@ const createNewDate = async (req, res) => {
             req.body.notes = savedNote
         }).catch(err => res.json({err:err}))  
     } 
-    User.findOne({_id: req.params.id}).populate({path:'savedDates', populate: {path: 'notes', model: 'Note'}})
+    User.findOne({_id: req.params.id})
+    .populate({path:'savedDates', populate: {path: 'notes', model: 'Note'}})
     .then(foundUser => {
         foundUser.savedDates.push(req.body)
         foundUser.save()
@@ -191,7 +200,6 @@ const deleteResource = async (req, res) => {
             }).catch(err => res.json({err3:err}))
         }).catch(err => res.json({err4:err}))
 }
-
 
 
 //add a new note to a date
@@ -325,7 +333,8 @@ const getUsersNotifs = (req, res) => {
 
 //getting a users posts
 const getAUsersPosts = (req, res) => {
-    Post.find({UserID: req.params.id}).populate('UserID').then(response => {
+    Post.find({UserID: req.params.id}).populate('UserID').populate('sourced')
+    .then(response => {
         res.json({usersPosts: response})
     }).catch(err => res.json({err:err}))
 }
