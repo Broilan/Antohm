@@ -34,11 +34,11 @@ const Post = (props) => {
         unliked = true
         likeRef.current = false
         likeNum.current = likeNum.current - 1
-        axios.put(`http://localhost:8000/post/unlike/${currentUser.id}/${postID}`).then((response) => setCurrentUser({...currentUser, likes: response.data.user?.likes}))
+        axios.put(`https://thrive-server.herokuapp.com/post/unlike/${currentUser.id}/${postID}`).then((response) => setCurrentUser({...currentUser, likes: response.data.user?.likes}))
       }})
     if(unliked == false) {
       likeNum.current = likeNum.current + 1
-      axios.put(`http://localhost:8000/post/like/${postID}/${currentUser.id}/${posterID}`).then((response) => setCurrentUser({...currentUser, likes: response.data.user?.likes}))
+      axios.put(`https://thrive-server.herokuapp.com/post/like/${postID}/${currentUser.id}/${posterID}`).then((response) => setCurrentUser({...currentUser, likes: response.data.user?.likes}))
     }
 
   }
@@ -50,14 +50,14 @@ const Post = (props) => {
       if(filter.length > 0) {
         unsourced = true
         resourcesNum.current = resourcesNum.current - 1
-        axios.delete(`http://localhost:8000/user/deleteresource/${currentUser.id}/${filter[0]._id}`)
+        axios.delete(`https://thrive-server.herokuapp.com/user/deleteresource/${currentUser.id}/${filter[0]._id}`)
         .then(response => {
           setCurrentUser({...currentUser, resources: response.data.user?.resources})
         }).catch(err => console.log(err))
       }
     if(unsourced == false) {
       resourcesNum.current = resourcesNum.current + 1
-    axios.put(`http://localhost:8000/post/resource/${postID}/${currentUser.id}/${posterID}`, link )
+    axios.put(`https://thrive-server.herokuapp.com/post/resource/${postID}/${currentUser.id}/${posterID}`, link )
     .then(response => {
       setCurrentUser({...currentUser, resources: response.data.user?.resources})
     }).catch(err => console.log(err))
@@ -71,20 +71,20 @@ const Post = (props) => {
         unbookmarked = true
         bookmarkRef.current = false
         bookmarkNum.current = bookmarkNum.current - 1
-        axios.put(`http://localhost:8000/post/removebookmark/${postID}/${currentUser.id}`).then((response) => setCurrentUser({...currentUser, bookmarks: response.data.user?.bookmarks}))
+        axios.put(`https://thrive-server.herokuapp.com/post/removebookmark/${postID}/${currentUser.id}`).then((response) => setCurrentUser({...currentUser, bookmarks: response.data.user?.bookmarks}))
       }})
     if(unbookmarked == false) {
       bookmarkNum.current = bookmarkNum.current + 1
-      axios.put(`http://localhost:8000/post/bookmark/${postID}/${currentUser.id}/${posterID}`).then((response) => setCurrentUser({...currentUser, bookmarks: response.data.user?.bookmarks}))
+      axios.put(`https://thrive-server.herokuapp.com/post/bookmark/${postID}/${currentUser.id}/${posterID}`).then((response) => setCurrentUser({...currentUser, bookmarks: response.data.user?.bookmarks}))
     }
   }
 
   const handleUnfollow = (id) => {
-    axios.put(`http://localhost:8000/user/unfollow/${id}/${currentUser.id}/`)
+    axios.put(`https://thrive-server.herokuapp.com/user/unfollow/${id}/${currentUser.id}/`)
   }
 
   const handleFollow = (id) => {
-    axios.put(`http://localhost:8000/user/follow/${id}/${currentUser.id}/`).then(response => {
+    axios.put(`https://thrive-server.herokuapp.com/user/follow/${id}/${currentUser.id}/`).then(response => {
       setCurrentUser({...currentUser, following:[...response.data.user.following]})
     })
   }

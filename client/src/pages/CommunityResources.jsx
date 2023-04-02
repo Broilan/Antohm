@@ -28,7 +28,7 @@ const CommunityResources = () => {
 
   useEffect(() => {
     let arr = []
-    axios.get(`http://localhost:8000/post`).then(response => {
+    axios.get(`https://thrive-server.herokuapp.com/post`).then(response => {
       response.data.allPosts.forEach((p) => {if(p.niche == false || p.niche == "false" || p.niche == undefined || p.niche == null) {return} else {arr.push(p)}})
       setPostsArr(arr)
     })
@@ -37,7 +37,7 @@ const CommunityResources = () => {
   const handleSubmit = (e) => {
 
     let data = {"content": postForm.current, "niche": nicheRef.current, "subNiche": subNicheRef.current} 
-    axios.put(`http://localhost:8000/post/${currentUser.id}`, data)
+    axios.put(`https://thrive-server.herokuapp.com/post/${currentUser.id}`, data)
     .then(response => {
           navigate(`/post/${response.data.response._id}`)
     })
@@ -49,7 +49,7 @@ function changeGroup(group) {
       if(group == "All") {
     window.location.reload()
   } else {
-    axios.get(`http://localhost:8000/post`).then(response => {response.data.allPosts.forEach((p) => {if(p.niche == group) {newArr.push(p)}})
+    axios.get(`https://thrive-server.herokuapp.com/post`).then(response => {response.data.allPosts.forEach((p) => {if(p.niche == group) {newArr.push(p)}})
         setPostsArr(newArr)
         setCurrentNiche(group)
         nicheRef.current = group

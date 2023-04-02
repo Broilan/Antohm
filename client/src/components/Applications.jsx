@@ -13,7 +13,7 @@ const Applications = () => {
   const [interviews, setInterviews] = useState([])
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/jobspopulated/${currentUser.id}`).then(response => {
+    axios.get(`https://thrive-server.herokuapp.com/user/jobspopulated/${currentUser.id}`).then(response => {
       setApplied(response.data.foundUser.applications)
       setResponses(response.data.foundUser.responses)
       setOffers(response.data.foundUser.offers)
@@ -57,7 +57,7 @@ function Views(props){
   const {currentUser} = useContext(DataContext)
 
   const removeCompany = () => {
-    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${id}`, {
+    axios.put(`https://thrive-server.herokuapp.com/user/updatejobs/${currentUser.id}/${id}`, {
       'removeOrAdd': "remove", "type": currentView})
       .then(() => {
         setSuccess([true, currentView])

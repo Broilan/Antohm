@@ -15,24 +15,24 @@ const OtherUserProf = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/user/${userID}/posts`)
+        axios.get(`https://thrive-server.herokuapp.com/user/${userID}/posts`)
        .then(response => {
         setPosts(response.data.usersPosts.map((p) =>  <Post postID={p._id} niche={p.niche} subNiche={p.subNiche} posterID={p.UserID._id} pfp={p.UserID.pfp} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
        })
-       axios.get(`http://localhost:8000/user/${userID}`)
+       axios.get(`https://thrive-server.herokuapp.com/user/${userID}`)
        .then(response => {
         setOtherUser(response.data.foundUser)
        })
     }, [currentUser])
   
     const handleUnfollow = (id) => {
-      axios.put(`http://localhost:8000/user/unfollow/${id}/${currentUser.id}/`).then(response => {
+      axios.put(`https://thrive-server.herokuapp.com/user/unfollow/${id}/${currentUser.id}/`).then(response => {
         setCurrentUser({...currentUser, following:[...response.data.user.following]})
       }).catch(err => console.log(err))
     }
   
     const handleFollow = (id) => {
-      axios.put(`http://localhost:8000/user/follow/${id}/${currentUser.id}/`).then(response => {
+      axios.put(`https://thrive-server.herokuapp.com/user/follow/${id}/${currentUser.id}/`).then(response => {
         setCurrentUser({...currentUser, following:[...response.data.user.following]})
       }).catch(err => console.log(err))
     }
@@ -40,21 +40,21 @@ const OtherUserProf = () => {
     function changeFeed(current) {
       switch (current) {
         case 'posts': 
-        axios.get(`http://localhost:8000/user/${userID}/posts`)
+        axios.get(`https://thrive-server.herokuapp.com/user/${userID}/posts`)
        .then(response => {
         setPosts(response.data.usersPosts.map((p) =>  <Post postID={p._id} niche={p.niche} subNiche={p.subNiche} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}    /> ))
        })
        break;
   
         case 'likes':
-          axios.get(`http://localhost:8000/user/${userID}/likes`)
+          axios.get(`https://thrive-server.herokuapp.com/user/${userID}/likes`)
           .then(response => {
            setPosts(response.data.usersLikes?.map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} postID={p.likeOn._id} posterID={p.likeTo._id} username={p.likeTo.name} displayName={p.likeTo.displayName} bookmarks={p.likeOn.bookmarks} comments={p.likeOn.comments} likes={p.likeOn.likes} datePosted={p.likeOn.date} content={p.likeOn.content} sourced={p.likeOn.sourced}    /> ))
           })
           break;
   
         case 'comments':
-          axios.get(`http://localhost:8000/user/${userID}/comments`)
+          axios.get(`https://thrive-server.herokuapp.com/user/${userID}/comments`)
           .then(response => {
             setPosts(response.data.usersComments?.map((p) =>  <Post postID={p._id} posterID={p.commentFrom._id} username={p.commentFrom.name} displayName={p.commentFrom.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.postID.date} content={p.content} sourced={p.sourced}    /> ))
           })

@@ -15,7 +15,7 @@ const postForm = useRef()
 const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get('http://localhost:8000/post')
+        axios.get('https://thrive-server.herokuapp.com/post')
             .then(response=> {
             setPostFeed(response.data.allPosts.reverse())
             }
@@ -33,7 +33,7 @@ const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         let data = {"content": postForm.current, "image": img}
-        axios.put(`http://localhost:8000/post/${currentUser.id}`, data)
+        axios.put(`https://thrive-server.herokuapp.com/post/${currentUser.id}`, data)
         .then(response => {
               navigate(`/post/${response.data.response._id}`)
         })

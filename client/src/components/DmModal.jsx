@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react'
 import axios from 'axios'
 import io from 'socket.io-client'
 import { DataContext } from '../App'
-const socket = io.connect('http://localhost:8000')
+const socket = io.connect('https://thrive-server.herokuapp.com')
 
 const DmModal = (props) => {
   const {currentUser} = useContext(DataContext)
@@ -17,7 +17,7 @@ const DmModal = (props) => {
     const messageRef = useRef()
 
     function getAllUsers() {
-      axios.get(`http://localhost:8000/user`)
+      axios.get(`https://thrive-server.herokuapp.com/user`)
       .then(response => {
         setAllUsers(response.data.allusers)
       })
@@ -25,7 +25,7 @@ const DmModal = (props) => {
 
 
     useEffect(() => {
-      axios.get(`http://localhost:8000/user/dms/${currentUser.id}`)
+      axios.get(`https://thrive-server.herokuapp.com/user/dms/${currentUser.id}`)
       .then(response => {
         setAllDms(response.data.dms.reverse())
         setDropdownState(response.data.dms.reverse())
@@ -33,7 +33,7 @@ const DmModal = (props) => {
       getAllUsers()
       if(mOpen != true) {
         setCurrentDm(mOpen)
-        axios.get(`http://localhost:8000/user/dms/${currentUser.id}`).then(response => {
+        axios.get(`https://thrive-server.herokuapp.com/user/dms/${currentUser.id}`).then(response => {
           response.data.dms.forEach((dm) => {
             if(dm.to._id == mOpen._id || dm.from._id == mOpen._id) {
               setDmArray(dm.messages)
@@ -50,7 +50,7 @@ const DmModal = (props) => {
     }, [socket])
 
     const sendMessage = () => {
-      axios.put(`http://localhost:8000/chat/send/${currentUser.id}/${currentDm._id}`, {"message": messageRef.current.value})
+      axios.put(`https://thrive-server.herokuapp.com/chat/send/${currentUser.id}/${currentDm._id}`, {"message": messageRef.current.value})
       .then(response => {
           setDmArray(response.data.newDmArr.messages)
         socket.emit("send_message", response.data.newDmArr.messages)

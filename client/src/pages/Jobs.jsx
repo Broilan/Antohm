@@ -12,7 +12,7 @@ const [selected, setSelected] = useState()
 
     
     useEffect(() => {
-        axios.get('http://localhost:8000/job/allJobs').then(response => {
+        axios.get('https://thrive-server.herokuapp.com/job/allJobs').then(response => {
             setJobs(response.data.allJobs.reverse())
             setSortedJobs(response.data.allJobs.reverse())
         })

@@ -23,7 +23,7 @@ export const Kanban = () => {
   const container3Ref = useRef()
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/tasks/${currentUser.id}`).then(response => setUserTasks(response.data.userTasks.tasks)).catch(err => {throw err}) 
+    axios.get(`https://thrive-server.herokuapp.com/user/tasks/${currentUser.id}`).then(response => setUserTasks(response.data.userTasks.tasks)).catch(err => {throw err}) 
 
   }, [success])
 
@@ -43,21 +43,21 @@ export const Kanban = () => {
     let container3Rect = container3Ref.current.getBoundingClientRect()
     if(itemX >= container2Rect.left && itemX <= container2Rect.right && itemY >= container2Rect.top && itemY <= container2Rect.bottom && Math.abs(data.lastX) >= 225) {
       //container 2
-      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'In Progress'}).then(() => {
+      axios.put(`https://thrive-server.herokuapp.com/user/task/status/${task._id}`, {"status": 'In Progress'}).then(() => {
         setSuccess(true)
         setTaskModal(false)
       }).catch(() => setError(true))
       setTaskModal(false)
     } else if(itemX >= container3Rect.left && itemX <= container3Rect.right && itemY >= container3Rect.top && itemY <= container3Rect.bottom && Math.abs(data.lastX) >= 225) {
       //container 3
-      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'Finished'}).then(() => {
+      axios.put(`https://thrive-server.herokuapp.com/user/task/status/${task._id}`, {"status": 'Finished'}).then(() => {
         setSuccess(true)
         setTaskModal(false)
       }).catch(() => setError(true))
       setTaskModal(false)
     } else if(itemX >= container1Rect.left && itemX <= container1Rect.right && itemY >= container1Rect.top && itemY <= container1Rect.bottom && Math.abs(data.lastX) >= 225) {
       //container 1
-      axios.put(`http://localhost:8000/user/task/status/${task._id}`, {"status": 'To Do'}).then(() => {
+      axios.put(`https://thrive-server.herokuapp.com/user/task/status/${task._id}`, {"status": 'To Do'}).then(() => {
         setSuccess(true)
         setTaskModal(false)
       }).catch(() => setError(true))
@@ -165,7 +165,7 @@ const TaskItemModal = ({taskModal, setTaskModal, setAddNoteModal, setMakeSureMod
   const {currentUser} = useContext(DataContext)
 
   function Archive() {
-    axios.put(`http://localhost:8000/user/archive/${currentUser.id}/${taskModal._id}`, {
+    axios.put(`https://thrive-server.herokuapp.com/user/archive/${currentUser.id}/${taskModal._id}`, {
       "item": "task"
     }).then(()=> setSuccess(true)).catch(()=> setError(true))
   }
@@ -222,7 +222,7 @@ const AddNote = ({addNoteModal, setAddNoteModal, setTaskModal, setSuccess, setEr
   const taskNameRef = useRef()
   const noteRef = useRef()
   const handleNewNote = () => {
-    axios.put(`http://localhost:8000/user/tasknote/${currentUser.id}/${addNoteModal._id}`, {
+    axios.put(`https://thrive-server.herokuapp.com/user/tasknote/${currentUser.id}/${addNoteModal._id}`, {
       "note": noteRef.current.value
     }).then((res)=> {
       setTaskModal(res.data.updatedTask)
@@ -232,7 +232,7 @@ const AddNote = ({addNoteModal, setAddNoteModal, setTaskModal, setSuccess, setEr
   }
 
   const handleNewTask = () => {
-    axios.put(`http://localhost:8000/user/${currentUser.id}/createtask`, {
+    axios.put(`https://thrive-server.herokuapp.com/user/${currentUser.id}/createtask`, {
       "taskName":taskNameRef.current.value, 
       "task": noteRef.current.value, 
       "importance": importanceRef.current.value
@@ -292,14 +292,14 @@ const AddNote = ({addNoteModal, setAddNoteModal, setTaskModal, setSuccess, setEr
 const MakeSure = ({setMakeSureModal, setTaskModal, makeSureModal, setSuccess, setError}) => {    
   const {currentUser} = useContext(DataContext)
   function deleteNote(){
-     axios.delete(`http://localhost:8000/user/deletenote/${currentUser._id}/${makeSureModal.taskId}/${makeSureModal.noteId}`).then(()=> {
+     axios.delete(`https://thrive-server.herokuapp.com/user/deletenote/${currentUser._id}/${makeSureModal.taskId}/${makeSureModal.noteId}`).then(()=> {
       setSuccess(true)
       setMakeSureModal(false)
     }).catch(()=> setError(true))
     }
 
   function deleteTask(){
-    axios.delete(`http://localhost:8000/user/deletetask/${currentUser._id}/${makeSureModal}`).then(()=> {
+    axios.delete(`https://thrive-server.herokuapp.com/user/deletetask/${currentUser._id}/${makeSureModal}`).then(()=> {
       setSuccess(true)
       setMakeSureModal(false)
       setTaskModal(false)
@@ -391,7 +391,7 @@ const EdittingModal = ({setEditting, editting, setSuccess, setError}) => {
   const {currentUser} = useContext(DataContext)
   const newNoteRef = useRef()
   const handleUpdate = () => {
-    axios.put(`http://localhost:8000/user/date/${currentUser.id}/${editting}`, {
+    axios.put(`https://thrive-server.herokuapp.com/user/date/${currentUser.id}/${editting}`, {
       "content": newNoteRef.current.value
     }).then(() => {
       setEditting(false)
@@ -437,7 +437,7 @@ export function TodoList({setTaskOrDate}){
 
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/tasks/${currentUser.id}`)
+    axios.get(`https://thrive-server.herokuapp.com/user/tasks/${currentUser.id}`)
     .then(response => {
       setCurrentView(response.data.userTasks.tasks)
       setUserTasks(response.data.userTasks.tasks)

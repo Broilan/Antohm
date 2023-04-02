@@ -51,7 +51,7 @@ export function Calendar() {
   
   
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/dates/${currentUser.id}`).then((res) => {
+    axios.get(`https://thrive-server.herokuapp.com/user/dates/${currentUser.id}`).then((res) => {
       setSavedDates(res.data.savedDates)
     })
   }, [success])
@@ -172,10 +172,10 @@ export const SavedDates = ({setTaskOrDate}) => {
   const [savedDates, setSavedDates] = useState([])
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/dates/${currentUser.id}`).then((res) => {
+    axios.get(`https://thrive-server.herokuapp.com/user/dates/${currentUser.id}`).then((res) => {
       setSavedDates(res.data.savedDates)
       setCurrentView(res.data.savedDates)
-      axios.get(`http://localhost:8000/user/${currentUser.id}`).then((res) => {
+      axios.get(`https://thrive-server.herokuapp.com/user/${currentUser.id}`).then((res) => {
         setArchivedDates(res.data.foundUser.archivedDates)
       })
     })
@@ -262,7 +262,7 @@ const AddDateModal = ({addDateModal, setSavedDates, savedDates, setAddDateModal,
   savedDates.forEach(async (date) => {
     if(date.date == addDateModal || date.date == dateRef.current){
       executed = true
-     await axios.put(`http://localhost:8000/user/adddatenote/${currentUser.id}/${date._id}`, {"content": contentRef.current}).then(()=>{
+     await axios.put(`https://thrive-server.herokuapp.com/user/adddatenote/${currentUser.id}/${date._id}`, {"content": contentRef.current}).then(()=>{
       setSuccess(true)
     }).catch(() => setError(true))
     setAddDateModal(false)
@@ -273,7 +273,7 @@ const AddDateModal = ({addDateModal, setSavedDates, savedDates, setAddDateModal,
     console.log(error)
   }
   if(!executed){
-    axios.put(`http://localhost:8000/user/date/${currentUser.id}`, 
+    axios.put(`https://thrive-server.herokuapp.com/user/date/${currentUser.id}`, 
     {"date": `${dateRef?.current? dateRef.current: addDateModal}`, "notes": contentRef.current}).then((res)=>{
       setSuccess(true)
       setSavedDates(res.data.updatedUserDates)
@@ -327,7 +327,7 @@ const EdittingModal = ({setEditting, editting, setSuccess, setError}) => {
   const newNoteRef = useRef()
 
   const handleUpdate = () => {
-    axios.put(`http://localhost:8000/user/date/${currentUser.id}/${editting.noteId}`, {"content": newNoteRef.current}).then((res) => {
+    axios.put(`https://thrive-server.herokuapp.com/user/date/${currentUser.id}/${editting.noteId}`, {"content": newNoteRef.current}).then((res) => {
       setSuccess(true)
     })
   }
@@ -359,10 +359,10 @@ const EdittingModal = ({setEditting, editting, setSuccess, setError}) => {
 const MakeSure = ({setAreYouSure, areYouSure, setSuccess, setError }) => {    
   const {currentUser} = useContext(DataContext)
   function deleteNote(){
-    axios.delete(`http://localhost:8000/user/deletedatenote/${currentUser.id}/${areYouSure.dateId}/${areYouSure.noteId}`).then(()=> setSuccess(true)).catch(() => setError(true))
+    axios.delete(`https://thrive-server.herokuapp.com/user/deletedatenote/${currentUser.id}/${areYouSure.dateId}/${areYouSure.noteId}`).then(()=> setSuccess(true)).catch(() => setError(true))
     }
   function deleteDate() {
-    axios.delete(`http://localhost:8000/user/date/${currentUser.id}/${areYouSure.dateId}/delete`).then(()=> setSuccess(true)).catch(() => setError(true))
+    axios.delete(`https://thrive-server.herokuapp.com/user/date/${currentUser.id}/${areYouSure.dateId}/delete`).then(()=> setSuccess(true)).catch(() => setError(true))
   }
 
   function checkWhich() {
@@ -376,7 +376,7 @@ const MakeSure = ({setAreYouSure, areYouSure, setSuccess, setError }) => {
   }
 
   function Archive() {
-    axios.put(`http://localhost:8000/user/archive/${currentUser.id}/${areYouSure.dateId}`, {
+    axios.put(`https://thrive-server.herokuapp.com/user/archive/${currentUser.id}/${areYouSure.dateId}`, {
       "item": "date"
     }).then(()=> setSuccess(true)).catch(() => setError(true))
   }

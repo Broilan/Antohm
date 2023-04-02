@@ -76,20 +76,20 @@ function DataComponentModal(props) {
   }
 
   const removeCompany = () => {
-    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {
+    axios.put(`https://thrive-server.herokuapp.com/user/updatejobs/${currentUser.id}/${selected._id}`, {
       'removeOrAdd': "remove", "type": open2[1]})
       .then(() => {
-      axios.get(`http://localhost:8000/user/${currentUser.id}`)
+      axios.get(`https://thrive-server.herokuapp.com/user/${currentUser.id}`)
       .then(response => setUsersData(response.data.foundUser), setOpen3([true, 'removed']))
       .catch(() =>setOpen3[true, 'error'])
     }).catch(() => setOpen3[true, 'error'])
   }
 
   const addCompany = () => {
-    axios.put(`http://localhost:8000/user/updatejobs/${currentUser.id}/${selected._id}`, {
+    axios.put(`https://thrive-server.herokuapp.com/user/updatejobs/${currentUser.id}/${selected._id}`, {
       'removeOrAdd': "add", "type": open2[1]})
       .then(() => {
-      axios.get(`http://localhost:8000/user/${currentUser.id}`)
+      axios.get(`https://thrive-server.herokuapp.com/user/${currentUser.id}`)
       .then(response => setUsersData(response.data.foundUser), setOpen3([true, 'added']))
       .catch(() => setOpen3[true, 'error'])
     }).catch(() => setOpen3[true, 'error'])
@@ -163,7 +163,7 @@ function DataComponents(props) {
   const quantityRef = useRef(0)
   const [jobs, setJobs] = useState([])
   useEffect(() => {
-    axios.get('http://localhost:8000/job/allJobs').then(response => {
+    axios.get('https://thrive-server.herokuapp.com/job/allJobs').then(response => {
         setJobs(response.data.allJobs.reverse())
     })
             switch (dataName) {
@@ -206,7 +206,7 @@ export default function QuantDash(){
   const dataNames = ["Applications Sent", "Responses", "Interviews", "Offers"]
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/jobspopulated/${currentUser.id}`)
+    axios.get(`https://thrive-server.herokuapp.com/user/jobspopulated/${currentUser.id}`)
     .then(response => setUsersData(response.data.foundUser)).catch(err => console.log(err))
   }, [])
   

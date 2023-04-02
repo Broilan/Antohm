@@ -9,7 +9,7 @@ export default function handleFile({type, e, userid}) {
         reader.onloadend = () => {
         const data = {"postType": type, "photo": reader.result }
         if(type == "pfp") {
-                resolve(axios.post(`http://localhost:8000/upload/${userid}`, data))  
+                resolve(axios.post(`https://thrive-server.herokuapp.com/upload/${userid}`, data))  
         }else if(type == "post") {
             resolve(reader.result)
         }

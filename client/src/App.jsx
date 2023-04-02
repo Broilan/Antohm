@@ -33,7 +33,7 @@ function App() {
       token = jwt_decode(localStorage.getItem('jwtToken'));
       setAuthToken(localStorage.getItem('jwtToken'));
       setCurrentUser(token);
-      axios.get(`http://localhost:8000/user/${token?.id}`)
+      axios.get(`https://thrive-server.herokuapp.com/user/${token?.id}`)
         .then(response => {
           setCurrentUser((prev) => 
             ({...prev, 

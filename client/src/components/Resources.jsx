@@ -15,7 +15,7 @@ const Resources = () => {
   const [resources, setResources] = useState()
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/resources/${currentUser.id}`)
+    axios.get(`https://thrive-server.herokuapp.com/user/resources/${currentUser.id}`)
     .then(response => {
       setCurrent(response.data.resources)
       setResources(response.data.resources)
@@ -23,7 +23,7 @@ const Resources = () => {
   }, [success])
 
   function changeType(resourceId, newType) {
-    axios.put(`http://localhost:8000/user/updateresourcetype/${resourceId}`, {"type": newType})
+    axios.put(`https://thrive-server.herokuapp.com/user/updateresourcetype/${resourceId}`, {"type": newType})
     .then(() => setSuccess(true))
     .catch(() => setError(true))
   }
@@ -149,7 +149,7 @@ const ErrorModal = ({setError, error}) => {
     const {currentUser} = useContext(DataContext)
 
     function deleteResource() {
-      axios.delete(`http://localhost:8000/user/deleteresource/${currentUser.id}/${makeSureModal}`)
+      axios.delete(`https://thrive-server.herokuapp.com/user/deleteresource/${currentUser.id}/${makeSureModal}`)
       .then(() => {
         setSuccess(true)
         setMakeSureModal(false)

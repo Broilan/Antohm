@@ -13,10 +13,10 @@ const PostPage = () => {
     
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/post/${params.id}`)
+        axios.get(`https://thrive-server.herokuapp.com/post/${params.id}`)
             .then(response=> {
                 setFoundPost(response.data.post)
-            axios.get(`http://localhost:8000/post/comments/${params.id}`)
+            axios.get(`https://thrive-server.herokuapp.com/post/comments/${params.id}`)
             .then(response => {
             setFoundComments(response.data.comments)
             })

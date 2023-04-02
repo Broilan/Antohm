@@ -48,7 +48,7 @@ const Signup = () => {
             const pfp = defaultpfp
             const header = defaultheader
             const newUser = { name, displayName, email, password, pfp, header };
-            axios.post(`http://localhost:8000/user/signup`, newUser)
+            axios.post(`https://thrive-server.herokuapp.com/user/signup`, newUser)
             .then(() => {
                 setRedirect(true);
             })

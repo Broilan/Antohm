@@ -31,7 +31,7 @@ const Login = () => {
         e.preventDefault();
         const userData = { email, password };
 
-        axios.post(`http://localhost:8000/user/login`, userData)
+        axios.post(`https://thrive-server.herokuapp.com/user/login`, userData)
         .then(response => {
             const { token } = response.data;
             // save token to localStorage

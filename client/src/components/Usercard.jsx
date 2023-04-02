@@ -10,7 +10,7 @@ const Usercard = () => {
   const followersRef = useRef(0)
   const followingRef = useRef(0) 
   useEffect(() => {
-  axios.get(`http://localhost:8000/user/${currentUser?.id}`).then(response => {
+  axios.get(`https://thrive-server.herokuapp.com/user/${currentUser?.id}`).then(response => {
     followersRef.current = response.data.foundUser.followers.length
     followingRef.current = response.data.foundUser.following.length
   })

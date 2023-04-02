@@ -10,7 +10,7 @@ const commentForm = (props) => {
     const postForm = useRef()
 
     const handleSubmit = () => {
-        axios.put(`http://localhost:8000/post/comment/${postID}/${currentUser.id}/${posterID}`, {"content": postForm.current.value})
+        axios.put(`https://thrive-server.herokuapp.com/post/comment/${postID}/${currentUser.id}/${posterID}`, {"content": postForm.current.value})
         .then(response => {
               console.log('success')
         })

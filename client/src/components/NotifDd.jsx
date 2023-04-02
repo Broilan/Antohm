@@ -12,7 +12,7 @@ const NotifDd = (props) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/user/${currentUser.id}/notifications`)
+    axios.get(`https://thrive-server.herokuapp.com/user/${currentUser.id}/notifications`)
         .then(response=> {
         setNotifsArray(response.data.notifs.reverse())
         }
