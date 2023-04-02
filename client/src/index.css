@@ -10,7 +10,8 @@ body {
   background-color: #dff2f1;
   overflow-x: hidden;
   font-family: 'Poppins', sans-serif;
-  height: 100vh;
+  height: 100svh;
+  width: 100svw;
   }
 
 body::-webkit-scrollbar {

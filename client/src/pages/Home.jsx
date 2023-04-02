@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import handleFile from '../utils/FileUpload'
 import { AiOutlineFileGif, AiFillPicture } from 'react-icons/ai'; 
-import { Post, Usercard, News } from '../components'
+import { Post, Usercard } from '../components'
 import { GrEmoji } from 'react-icons/gr';
 import { DataContext } from '../App';
 
 const Home = () => {
-const {currentUser, isAuthenticated} = useContext(DataContext)
+const {currentUser} = useContext(DataContext)
 const [postFeed, setPostFeed] = useState()
 const [img, setImg] = useState()
 const postForm = useRef()
@@ -43,11 +43,7 @@ const navigate = useNavigate()
     <>
     
     <div className='flex flex-col ml-[16%] top-[10%] fixed gap-24' >
-
-    <div >
         <Usercard />
-    </div>
-
     </div>
 
     {/* <div className='right-[32%] top-[10%] fixed'>
@@ -81,7 +77,7 @@ const navigate = useNavigate()
         <option value="Following">Following</option>
     </select>
 
-    {postFeed?.map((p, index) => <div className='w-[33%]'><Post index={index} pfp={p.UserID} subNiche={p.subNiche} niche={p.niche} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div> )}
+    {postFeed?.map((p, index) => <div className='w-[33%]'><Post key={index} pfp={p.UserID} subNiche={p.subNiche} niche={p.niche} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div> )}
 
 
 

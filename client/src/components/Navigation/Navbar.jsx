@@ -35,7 +35,7 @@ const Navbar = () => {
         <>
         {isAuthenticated?
             <nav>                         
-                <div className="flex gap-10 items-center justify-center w-screen h-[3rem] bg-white border-black border-[1px] p-6">
+                <div className="flex gap-10 items-center justify-center w-screen h-16 bg-white border-black border-[1px] p-6">
 
                 <div className=" w-[17rem]  h-8 cursor-pointer" >
                     <div>

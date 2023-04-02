@@ -40,7 +40,7 @@ const PostPage = () => {
         {foundPost? <Post subNiche={foundPost.subNiche} image={foundPost.image} niche={foundPost.niche} pfp={foundPost?.UserID.pfp} postID={params.id} posterID={foundPost.UserID._id} username={foundPost.UserID.name} displayName={foundPost.UserID.displayName} bookmarks={foundPost.bookmarks} comments={foundPost.comments} likes={foundPost.likes} datePosted={foundPost.date} content={foundPost.content} sourced={foundPost.sourced} /> :null }
         <div className='border-gray-500 border-[1px] bg-white font-bold text-center'>Comments</div>
         {foundComments?  <CommentForm postID={params.id} posterID={foundPost.UserID._id} />:null }
-        {foundComments?.map((c) => <Comment pfp={c.commentFrom.pfp} from={c.commentFrom} to={c.commentTo} comments={c.comments} content={c.content} likes={c.likes} postID={c.postID} /> )}
+        {foundComments?.map((c, index) => <Comment key={index} pfp={c.commentFrom.pfp} from={c.commentFrom} to={c.commentTo} comments={c.comments} content={c.content} likes={c.likes} postID={c.postID} /> )}
         </div>
     </div>
    

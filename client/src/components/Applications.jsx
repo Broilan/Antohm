@@ -38,11 +38,11 @@ const Applications = () => {
         <li onClick={() => setCurrentView(offers)} className='hover:underline font-bold'>Offers</li>
       </ul>
       <div className='flex flex-row flex-wrap pl-5'>
-      {currentView?currentView.map((i)=> 
-        <Views linkedInLinks={i.linkedInLinks} id={i._id} setSuccess={setSuccess} currentView={currentView == responses? "Responses" : currentView == interviews? "Interviews": "Offers"} company={i.company} jobType={i.jobType} companyLogo={i.companyLogo} />
+      {currentView?currentView.map((i, index)=> 
+        <Views key={index} linkedInLinks={i.linkedInLinks} id={i._id} setSuccess={setSuccess} currentView={currentView == responses? "Responses" : currentView == interviews? "Interviews": "Offers"} company={i.company} jobType={i.jobType} companyLogo={i.companyLogo} />
       ):
-      applied?.map((i)=> 
-        <Views linkedInLinks={i.linkedInLinks} id={i._id} setSuccess={setSuccess} currentView={"Applications Sent"} company={i.company} jobType={i.jobType} companyLogo={i.companyLogo} />
+      applied?.map((i, index)=> 
+        <Views key={index} linkedInLinks={i.linkedInLinks} id={i._id} setSuccess={setSuccess} currentView={"Applications Sent"} company={i.company} jobType={i.jobType} companyLogo={i.companyLogo} />
       )}
       </div>
       </div>
