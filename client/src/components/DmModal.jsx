@@ -94,10 +94,10 @@ const DmModal = (props) => {
 
   return (
     <>
-    <div className='w-screen h-screen absolute flex items-end justify-end '>
+    <div className='w-screen h-screen absolute flex items-end justify-end  '>
     <div className='flex bg-white rounded-3xl border-gray-400 border-[2px] rounded-b-none rounded-tr-none w-[45rem] h-[30rem] z-10 mb-[3.1rem]'>
 
-    <div className='flex flex-col w-[40%] border-r-gray-400 border-r-[1px] overflow-y-scroll ' id="dmp">
+    <div className='flex flex-col w-[40%] border-r-gray-400 border-r-[1px] overflow-y-scroll scrollbar-remove '>
         <h1 className='text-center font-bold mt-1 border-b-[1px] border-black pb-6'>Chats</h1>
         <input onChange={(e) => searchUsers(e)} type="text" className='border-black border-2 w-48 mx-auto my-2 relative mt-[-1rem] rounded-md p-1 ' placeholder='Search users'/>
 
@@ -113,7 +113,7 @@ const DmModal = (props) => {
     )}
     </div>
 
-    <div className='w-[60%] h-[100%] overflow-y-scroll' id="dms">
+    <div className='w-[60%] h-[100%] overflow-y-scroll scrollbar-remove'>
 
         <div className='border-b-black border-b-[1px] mb-2 p-1'>
         <h1 className='font-bold m-5 '>{currentDm? currentDm.name: "Welcome to your chats!"}</h1>

@@ -2,7 +2,6 @@ import React, {useEffect, useState, useContext} from 'react'
 import { DataContext } from '../App'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { GrLinkUp } from 'react-icons/gr';
 
 const NotifDd = (props) => {
   const {currentUser} = useContext(DataContext)
@@ -22,7 +21,7 @@ const NotifDd = (props) => {
 
   return (
     <>
-    <div className='absolute bg-white w-96 h-[25rem] rounded-3xl overflow-y-scroll z-10 right-6 border-gray-400 border-[2px]' id="notifs">
+    <div className='absolute bg-white w-96 h-[25rem] rounded-3xl overflow-y-scroll z-10 right-6 border-gray-400 border-[2px] scrollbar-remove' >
 
       <div className='mb-[0.75rem]'>
       <h1 className='font-bold p-2 border-b-black border-b-[1px]'>Notifications</h1>

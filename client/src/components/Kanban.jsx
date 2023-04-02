@@ -254,7 +254,7 @@ const AddNote = ({addNoteModal, setAddNoteModal, setTaskModal, setSuccess, setEr
     {addNoteModal?
       <>
       <div className='w-screen flex items-center justify-center h-screen absolute z-[101] top-0 bg-transBlack'>
-      <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[40%]"}`}>
+      <div className="flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[40%]">
       <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>Add a note</h1>
       <div onClick={()=> setAddNoteModal(false)}  className='ml-auto mr-2 cursor-pointer'>x</div></div>
       <div className='flex flex-col items-center gap-2 mt-4'>
@@ -454,7 +454,7 @@ export function TodoList({setTaskOrDate}){
       <MakeSure makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal} setTaskModal={setTaskModal} setSuccess={setSuccess} setError={setError}/>
       <SuccessModal success={success} setSuccess={setSuccess} />
       <ErrorModal error={error} setError={setError} />
-        <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
+        <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll scrollbar-remove'>
         
         <div className='flex gap-3 mx-auto items-center justify-center' >
         <div className= 'font-bold mt-4 text-[2rem] fixed '>{ currentView == archivedTasks? 'Archived Tasks' : "Current Tasks"}</div>

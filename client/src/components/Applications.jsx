@@ -28,7 +28,7 @@ const Applications = () => {
   return (
     <>
     <SuccessModal success={success} setSuccess={setSuccess}/>
-    <div className='bg-dimWhite w-[60%] h-[80vh] mx-auto rounded-3xl shadow-xl border-2 border-gray-400 overflow-y-scroll'>
+    <div className='bg-dimWhite w-[60%] h-[80vh] mx-auto rounded-3xl shadow-xl border-2 border-gray-400 overflow-y-scroll scrollbar-remove'>
     <h1 className='text-[4rem] underline text-center font-bold '>Job Tracking</h1>
 
     <ul className='flex gap-10 w-[100%] justify-center font-bold mt-4 text-xl'>

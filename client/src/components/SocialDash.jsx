@@ -49,7 +49,7 @@ const SocialDash = () => {
         }).catch(err => console.log(err))
         break;
       case 'following':
-        axios.get(`https://thrive-server.herokuapp.com/user/${currentUser?.id}/following`)
+        axios.get(`https://thrive-server.herokuapp.com//user/${currentUser?.id}/following`)
         .then(response => {
           setPosts(response.data.usersFollowing.following.reverse()?.map((p, index) =>  <Post index={index} pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'following'} /> ))
         }).catch(err => console.log(err))
@@ -76,7 +76,6 @@ const SocialDash = () => {
     <div className='flex flex-col justify-center text-center'>
       
     <div className='mx-auto w-[35%] '>
-      <body className='overflow-y-scroll scrollbar-hide'>
     <input type="file" id="file-input" className='z-[-1] absolute' onChange={(e) => handleFile({"type": "header", "e": e, "userid": currentUser.id })} />
     <label htmlFor="file-input"><img src={currentUser.header} className='bg-gray-300 w-[100%] h-[8rem] cursor-pointer object-cover'/></label>
     
@@ -106,7 +105,6 @@ const SocialDash = () => {
     </ul>
     </div>
     {posts} 
-    </body>
     </div>
 
     </div>

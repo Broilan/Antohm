@@ -188,7 +188,7 @@ export const SavedDates = ({setTaskOrDate}) => {
     <EdittingModal editting={editting} setEditting={setEditting} setSuccess={setSuccess} setError={setError} />
     <MakeSure setAreYouSure={setAreYouSure} areYouSure={areYouSure} setSuccess={setSuccess} setError={setError} />
     <SuccessModal success={success} setSuccess={setSuccess}  />
-  <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll' id="todolist">
+  <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll scrollbar-remove'>
 
 <div className='flex justify-center items-center border-black border-b-[1px]'>
 <div className= 'font-bold mt-4 text-[2rem] fixed '>{currentView==savedDates? "Saved Dates" : "Archived Dates" }</div>

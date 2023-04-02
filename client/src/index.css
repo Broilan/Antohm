@@ -1,8 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+
 body {
-    background: #dff2f1;
-    overflow-x: hidden;
+  background-color: #dff2f1;
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  }
+
+body::-webkit-scrollbar {
+  display: none;
 }
+
+.scrollbar-remove::-webkit-scrollbar {
+  display: none;
+}
+
+#dropdown-box::-webkit-scrollbar {
+  width: 4px;
+}
+
+#dropdown-box::-webkit-scrollbar-thumb {
+  background: gray;
+}
+
+/* #job-board-list {
+  overflow: scroll;
+}
+ */
+
+
+  

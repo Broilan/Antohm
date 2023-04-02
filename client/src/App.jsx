@@ -1,4 +1,3 @@
-// import './App.css';
 import axios from "axios";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
