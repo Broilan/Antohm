@@ -131,7 +131,7 @@ const Post = (props) => {
     </div>
     <div className='text-sm' onClick={handleLike}> {likeNum.current}</div>
     </div>
-    <div className='flex gap-2 text-xl'>
+    <div onClick={() => nav(postID)} className='flex gap-2 text-xl'>
     <div className='mt-1 cursor-pointer'><FaRegCommentDots/></div>
     <div className='text-sm'>{commentsNum.current}</div>
     </div>

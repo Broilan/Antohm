@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Suspense } from 'react';
 import { DataContext } from '../App';
 import axios from 'axios';
 import { AiOutlineFileGif, AiFillPicture } from 'react-icons/ai'; 
@@ -84,16 +83,16 @@ function getSubNiche(e) {
 
   return (
     <>
-    <div className='absolute bg-white rounded-2xl h-[32rem] w-96 border-gray-300 border-[1px] top-40 left-40'>
+    <div className='absolute bg-white rounded-2xl h-[32rem] w-96 border-gray-300 border-[1px] top-40 left-96'>
       <div className='bg-gray-500 w-[100%] h-20 rounded-t-2xl flex flex-col justify-center text-center font-bold text-white'> Our Recommended Resources</div>
       <div className="flex gap-2 text-sm border-[1px] border-gray-400 items-center justify-between p-2">
-        <p onClick={(e) => changeGroup('All')}>All</p>
-        <p onClick={(e) => changeGroup('Design')}>Design</p>
-        <p onClick={(e) => changeGroup('Engineering')}>Engineering</p>
-        <p onClick={(e) => changeGroup('Data')}>Data</p>
-        <p onClick={(e) => changeGroup('Math')}>Math</p>
-        <p onClick={(e) => changeGroup('Science')}>Science</p>
-        <p onClick={(e) => changeGroup('other')}>other</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('All')}>All</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Design')}>Design</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Engineering')}>Engineering</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Data')}>Data</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Math')}>Math</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Science')}>Science</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('other')}>other</p>
       </div>
       <div className=' flex flex-col gap-4 text-center overflow-y-scroll h-96'>
       <a target="_blank" href='https://www.youtube.com/@khanacademy' className='p-1 flex hover:bg-gray-300'><img src={kahn} className="w-16 rounded-2xl" /><p className='pt-4 pl-2'>Khan Academy</p></a >
@@ -118,14 +117,14 @@ function getSubNiche(e) {
 <div className='flex relative gap-4 top-[5.7rem]'>
 
 {!currentNiche?<select onChange={(e) => getNiche(e)} className='ml-auto cursor-pointer text-white bg-blue-500 h-8 w-20 text-center font-bold p-1 rounded-3xl'>
-  <option value="Niche" selected hidden>Niche</option>
-  <option value="All">All</option>
-  <option value="Design">Design</option>
-  <option value="Engineering">Engineering</option>
-  <option value="Data">Data</option>
-  <option value="Math">Math</option>
-  <option value="Science">Science</option>
-  <option value="Other">Other</option>
+  <option className='cursor-pointer' value="Niche" selected hidden>Niche</option>
+  <option className='cursor-pointer' value="All">All</option>
+  <option className='cursor-pointer' value="Design">Design</option>
+  <option className='cursor-pointer' value="Engineering">Engineering</option>
+  <option className='cursor-pointer' value="Data">Data</option>
+  <option className='cursor-pointer' value="Math">Math</option>
+  <option className='cursor-pointer' value="Science">Science</option>
+  <option className='cursor-pointer' value="Other">Other</option>
 </select> :
 <select onChange={(e) => getSubNiche(e)} className='ml-auto cursor-pointer text-white bg-blue-500 h-8 w-20 text-center font-bold p-1 rounded-3xl'>
   {nicheArr.map((n) => 
@@ -155,13 +154,13 @@ function getSubNiche(e) {
 
 </div>
       <div className="flex bg-white gap-2 border-[1px] border-gray-400 w-[33%] items-center justify-between p-2">
-        <p onClick={(e) => changeGroup('All')} className="cursor-pointer z-10">All</p>
-        <p onClick={(e) => changeGroup('Design')}>Design</p>
-        <p onClick={(e) => changeGroup('Engineering')}>Engineering</p>
-        <p onClick={(e) => changeGroup('Data')}>Data</p>
-        <p onClick={(e) => changeGroup('Math')}>Math</p>
-        <p onClick={(e) => changeGroup('Science')}>Science</p>
-        <p onClick={(e) => changeGroup('other')}>other</p>
+        <p className='cursor-pointer font-bold z-10' onClick={(e) => changeGroup('All')}>All</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Design')}>Design</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Engineering')}>Engineering</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Data')}>Data</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Math')}>Math</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Science')}>Science</p>
+        <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('other')}>other</p>
       </div>
       {postsArr.map((p, index) => <div className='w-[33%]'> 
       <Post index={index} niche={p.niche} subNiche={p.subNiche} pfp={p.UserID} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div> )}

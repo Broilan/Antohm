@@ -51,9 +51,9 @@ const navigate = useNavigate()
 
     </div>
 
-    <div className='right-[32%] top-[10%] fixed'>
+    {/* <div className='right-[32%] top-[10%] fixed'>
         <News />
-    </div>
+    </div> */}
     <div className='w-screen h-screen flex flex-col items-center overflow-y-scroll'>
 
     <div className='border-black border-[1px] w-[33%] p-3 pt-4 bg-white'>
