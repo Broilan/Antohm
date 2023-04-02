@@ -1,4 +1,4 @@
-const Job = require('../models/job')
+const Job = require('../models/Job')
 const PCR = require("puppeteer-chromium-resolver");
 require('dotenv').config(); // load environment variables from .env file
 const { Configuration, OpenAIApi } = require("openai"); 
