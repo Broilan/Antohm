@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import DmModal from "../DmModal";
 import NotifDd from "../NotifDd";
@@ -10,19 +10,18 @@ import { BiLogOut } from 'react-icons/bi';
 
 import { MdOutlineCallMade, MdWorkOutline} from 'react-icons/md';
 import { HiOutlineNewspaper } from 'react-icons/hi';
-import { AiOutlineBell, AiFillHome, AiOutlineDown } from 'react-icons/ai';
+import { AiOutlineBell, AiOutlineDown } from 'react-icons/ai';
 import { TfiEmail } from 'react-icons/tfi';
 import { MdOutlinePerson } from 'react-icons/md';
 import { VscSettingsGear } from 'react-icons/vsc';
 
-import logo from '../../assets/Thrive.png'
 
 
 const Navbar = () => {            
     const {isAuthenticated, handleLogout, mOpen, setMOpen} = useContext(DataContext)
     const [dropdown, setDropdown] = useState(false)
     const [notifsOpen, setNotifsOpen] = useState(false)
-
+    const nav = useNavigate()
     function openDropdown() {
         dropdown == true? setDropdown(false) : setDropdown(true)
     }
@@ -36,20 +35,19 @@ const Navbar = () => {
         <>
         {isAuthenticated?
             <nav>                         
-                
                 <div className="flex gap-10 items-center justify-center w-screen h-[3rem] bg-white border-black border-[1px] p-6">
-            <NavLink className=" bg-transparent w-1 scale-x-[50] cursor-pointer translate-x-[-5rem] z-10 h-10" to="/"></NavLink> 
-            <img src={logo} className="absolute bottom-[30.25rem] scale-[0.25] left-[-16rem] z-[1]" />  
 
                 <div className=" w-[17rem]  h-8 cursor-pointer" >
-
+                    <div>
+                    <div>
+                     <div onClick={() => nav('/')} className="font-Oswald cursor-pointer text-[3.3rem] border-2 border-black h-0 translate-y-[-1.6rem] w-fit">Thrive</div>   
                     <div className="flex ml-[27rem] bg-white border-l-black rounded-xl flex-col h-fit ">
                     <div className="flex items-center z-10" onClick={openDropdown} >
                          <div className="text-xl font-bold ">Home</div>
                          <div className="text-xl border-r-[1px] border-gray-500"><AiOutlineDown /></div>
                     </div>
-                    
-
+                    </div>
+                    </div>
                     {dropdown == true? 
                     <div className="z-50 bg-white w-[8rem] outline ">  
 

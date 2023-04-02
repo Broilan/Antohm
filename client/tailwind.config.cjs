@@ -15,6 +15,7 @@ module.exports = {
         transBlack: "rgba(0, 0, 0, 0.1)"
       },
       fontFamily: {
+        Oswald: ["Oswald", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
       },
     },
