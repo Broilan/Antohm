@@ -70,7 +70,7 @@ const makeAPost = async (req, res) => {
         })
     })
 }
-//xx
+
 const unlikeAPost = async (req, res) => {
     let likeID;
     await Post.findById(req.params.postId).populate('likes')
