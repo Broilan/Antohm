@@ -49,9 +49,7 @@ const Signup = () => {
             const header = defaultheader
             const newUser = { name, displayName, email, password, pfp, header };
             axios.post(`http://localhost:8000/user/signup`, newUser)
-            .then(response => {
-                console.log('===> Yay, new user');
-                console.log(response);
+            .then(() => {
                 setRedirect(true);
             })
             .catch(error => console.log('===> Error in Signup', error));

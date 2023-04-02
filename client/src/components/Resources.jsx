@@ -23,7 +23,6 @@ const Resources = () => {
   }, [success])
 
   function changeType(resourceId, newType) {
-    console.log(resourceId, newType)
     axios.put(`http://localhost:8000/user/updateresourcetype/${resourceId}`, {"type": newType})
     .then(() => setSuccess(true))
     .catch(() => setError(true))

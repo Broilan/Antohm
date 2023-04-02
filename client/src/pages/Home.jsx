@@ -32,7 +32,6 @@ const navigate = useNavigate()
 }
 
     const handleSubmit = (e) => {
-        console.log("imgg", img)
         let data = {"content": postForm.current, "image": img}
         axios.put(`http://localhost:8000/post/${currentUser.id}`, data)
         .then(response => {

@@ -31,7 +31,6 @@ const SocialDash = () => {
       case 'likes':
         axios.get(`http://localhost:8000/user/${currentUser?.id}/likes`)
         .then(response => {
-          console.log(response.data.usersLikes)
          setPosts(response.data.usersLikes.reverse()?.map((p, index) =>  <Post index={index} niche={p.niche} subNiche={p.subNiche} pfp={p.likeTo.pfp} image={p.image} postID={p.likeOn._id} posterID={p.likeTo._id} username={p.likeTo.name} displayName={p.likeTo.displayName} bookmarks={p.likeOn.bookmarks} comments={p.likeOn.comments} likes={p.likeOn.likes} datePosted={p.likeOn.date} content={p.likeOn.content} sourced={p.likeOn.sourced}    /> ))
         }).catch(err => console.log(err))
         break;
@@ -52,14 +51,12 @@ const SocialDash = () => {
       case 'following':
         axios.get(`http://localhost:8000/user/${currentUser?.id}/following`)
         .then(response => {
-          console.log(response.data.usersFollowing.following)
           setPosts(response.data.usersFollowing.following.reverse()?.map((p, index) =>  <Post index={index} pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'following'} /> ))
         }).catch(err => console.log(err))
         break;
       case 'followers':
         axios.get(`http://localhost:8000/user/${currentUser?.id}/followers`)
         .then(response => {
-          console.log(response.data.usersFollowers.followers)
           setPosts(response.data.usersFollowers.followers.reverse()?.map((p, index) =>  <Post index={index} pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'followers'} /> ))
           }).catch(err => console.log(err))
           break;
@@ -132,7 +129,6 @@ const EditProfileModal = () => {
   const passwordRef = useRef()
 
   function handleSubmit() {
-    console.log(linkedinRef, githubRef, twitterRef, websiteRef, bioRef)
     axios.put(`http://localhost:8000/user/update/${currentUser.id}`, {
       linkedIn: linkedinRef.current.value,
       github: githubRef.current.value,
@@ -141,7 +137,6 @@ const EditProfileModal = () => {
       bio: bioRef.current.value,
     })
     .then(response => {
-      console.log(response)
     }).catch(err => console.log(err))
   }
 

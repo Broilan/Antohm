@@ -37,7 +37,6 @@ const CommunityResources = () => {
   const handleSubmit = (e) => {
 
     let data = {"content": postForm.current, "niche": nicheRef.current, "subNiche": subNicheRef.current} 
-       console.log(data)
     axios.put(`http://localhost:8000/post/${currentUser.id}`, data)
     .then(response => {
           navigate(`/post/${response.data.response._id}`)
@@ -72,13 +71,10 @@ function handleForm(e) {
 
 function getNiche(e) {
   nicheRef.current = e.target.value
-  console.log(nicheRef.current)
 }
 
 function getSubNiche(e) {
-  console.log(nicheRef.current, subNicheRef.current)
   subNicheRef.current = e.target.value
-  console.log(nicheRef.current, subNicheRef.current)
 }
 
   return (

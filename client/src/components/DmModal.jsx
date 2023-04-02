@@ -61,7 +61,6 @@ const DmModal = (props) => {
     }
 
     const openDM = (dm) => {
-      console.log(dm)
       if(isTyping) {
         setCurrentDm(dm)
         setDmArray(["nothing to see here yet!"])

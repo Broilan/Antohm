@@ -168,7 +168,6 @@ function DataComponents(props) {
     })
             switch (dataName) {
           case 'Applications Sent':
-            console.log('bruh', usersData?.applications.length)
           quantityRef.current = usersData?.applications.length
           break;
           case 'Responses':

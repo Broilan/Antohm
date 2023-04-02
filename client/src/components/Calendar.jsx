@@ -253,7 +253,6 @@ const AddDateModal = ({addDateModal, setSavedDates, savedDates, setAddDateModal,
     let executed = false
     if(addDateModal != true) {
       dateRef.current = addDateModal
-      console.log(dateRef.current)
     }  
     //if note or date aren't filled out, return
     if(!dateRef.current || !contentRef.current){

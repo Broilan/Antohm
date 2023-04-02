@@ -11,7 +11,6 @@ export default function handleFile({type, e, userid}) {
         if(type == "pfp") {
                 resolve(axios.post(`http://localhost:8000/upload/${userid}`, data))  
         }else if(type == "post") {
-            console.log(reader)    
             resolve(reader.result)
         }
         }

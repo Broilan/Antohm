@@ -39,7 +39,6 @@ export const Kanban = () => {
     let itemX = e.clientX
     let itemY = e.clientY
     let container1Rect = container1Ref.current.getBoundingClientRect()
-    console.log(container1Rect)
     let container2Rect = container2Ref.current.getBoundingClientRect()
     let container3Rect = container3Ref.current.getBoundingClientRect()
     if(itemX >= container2Rect.left && itemX <= container2Rect.right && itemY >= container2Rect.top && itemY <= container2Rect.bottom && Math.abs(data.lastX) >= 225) {
@@ -391,7 +390,6 @@ const ErrorModal = ({setError, error}) => {
 const EdittingModal = ({setEditting, editting, setSuccess, setError}) => {
   const {currentUser} = useContext(DataContext)
   const newNoteRef = useRef()
-  console.log(editting)
   const handleUpdate = () => {
     axios.put(`http://localhost:8000/user/date/${currentUser.id}/${editting}`, {
       "content": newNoteRef.current.value
@@ -441,7 +439,6 @@ export function TodoList({setTaskOrDate}){
   useEffect(() => {
     axios.get(`http://localhost:8000/user/tasks/${currentUser.id}`)
     .then(response => {
-      console.log(response)
       setCurrentView(response.data.userTasks.tasks)
       setUserTasks(response.data.userTasks.tasks)
       setArchivedTasks(response.data.userTasks.archivedTasks)

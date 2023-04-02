@@ -19,7 +19,6 @@ const OpsButton = (props) => {
             
         }
     }
-    console.log(mOpen)
   return (
     <>
     <div className='bg-blue-300 rounded-3xl text-center w-24 h-12'>

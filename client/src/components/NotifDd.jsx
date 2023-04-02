@@ -15,12 +15,10 @@ const NotifDd = (props) => {
     axios.get(`http://localhost:8000/user/${currentUser.id}/notifications`)
         .then(response=> {
         setNotifsArray(response.data.notifs.reverse())
-        console.log(response.data.notifs)
         }
     )
 }, [])
 
-console.log(notifsArray)
 
   return (
     <>

@@ -12,7 +12,7 @@ const commentForm = (props) => {
     const handleSubmit = () => {
         axios.put(`http://localhost:8000/post/comment/${postID}/${currentUser.id}/${posterID}`, {"content": postForm.current.value})
         .then(response => {
-              console.log(response)
+              console.log('success')
         })
     }
     

@@ -49,7 +49,6 @@ const OtherUserProf = () => {
         case 'likes':
           axios.get(`http://localhost:8000/user/${userID}/likes`)
           .then(response => {
-            console.log(response.data.usersLikes)
            setPosts(response.data.usersLikes?.map((p) =>  <Post niche={p.niche} subNiche={p.subNiche} postID={p.likeOn._id} posterID={p.likeTo._id} username={p.likeTo.name} displayName={p.likeTo.displayName} bookmarks={p.likeOn.bookmarks} comments={p.likeOn.comments} likes={p.likeOn.likes} datePosted={p.likeOn.date} content={p.likeOn.content} sourced={p.likeOn.sourced}    /> ))
           })
           break;
