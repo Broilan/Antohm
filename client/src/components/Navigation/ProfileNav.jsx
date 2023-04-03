@@ -5,7 +5,7 @@ const ProfileSideBar = (props) => {
   const {setCurrent} = props
   return (
     <>
-        <div className='flex flex-col gap-10 bg-dimWhite rounded-2xl shadow-xl border-gray-400 border-2 p-2 w-[21rem] lg:w-[18rem] items-center'>
+        <div className='flex flex-col z-100 gap-10 bg-dimWhite rounded-2xl shadow-xl border-gray-400 border-2 p-2 w-[21rem] lg:w-[18rem] items-center'>
             <div>
             <h4 className='font-bold text-3xl underline lg:text-2xl'>Dashboards</h4>
             <div className='flex justify-evenly font-bold text-xl lg:flex-col lg:w-fit'>

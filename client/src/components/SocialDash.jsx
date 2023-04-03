@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useRef, useState, } from 'react'
 import axios from 'axios'
 import { DataContext } from '../App'
-import {Post, Usercard, Modal} from './'
+import {Post, Usercard} from './'
 import handleFile from '../utils/FileUpload'
 import { AiFillGithub, AiFillLinkedin  } from 'react-icons/ai';
 import { RiTwitterFill } from 'react-icons/ri';
@@ -9,7 +9,8 @@ import { FaClipboardList } from 'react-icons/fa';
 import { BiCamera } from 'react-icons/bi';
 
 const SocialDash = () => {
-  const {currentUser, open, setOpen} = useContext(DataContext)
+  const {currentUser} = useContext(DataContext)
+  const [profileModal, setProfileModal] = useState(false)
   const [posts, setPosts] = useState()
   
   useEffect(() => {
@@ -64,12 +65,12 @@ const SocialDash = () => {
 }
   return (
     <>
-      <Modal component={<EditProfileModal/>}/>
+      {profileModal? <EditProfileModal setProfileModal={setProfileModal}/> : null}
       <div className='fixed ml-64 mt-16 3xl:ml-24 2xl:ml-5 1.5xl:ml-0 lg:hidden' >
           <Usercard />
       </div>
     
-    <div className='flex flex-col justify-center text-center'>
+    <div className='flex flex-col justify-center text-center lg:w-screen'>
       
     <div className='mx-auto w-[35%] border-gray-400 border-[1px] lg:w-screen '>
     <input type="file" id="file-input" className='invisible absolute' onChange={(e) => handleFile({"type": "header", "e": e, "userid": currentUser.id })} />
@@ -85,7 +86,7 @@ const SocialDash = () => {
       <input type="file" id="file-input" className='invisible absolute' onChange={(e) => handleFile({"type": "pfp", "e": e, "userid": currentUser.id })} />
       <div className='flex gap-3 items-end'>
       <div className='font-bold text-2xl'>{currentUser.name} <br /> <p className='font-bold ml-1 text-lg'>@{currentUser.displayName}</p> </div>
-      <div onClick={() => setOpen(true)} className='bg-white rounded-3xl hover:bg-gray-300 border-blue-400 border-4 p-2 font-bold h-fit w-fit 3xs:px-[3px]'>Edit Profile</div>
+      <div onClick={() => setProfileModal(true)} className='bg-white rounded-3xl hover:bg-gray-300 border-blue-400 border-4 p-2 font-bold h-fit w-fit 3xs:px-[3px]'>Edit Profile</div>
       </div>
       </div>
       <div className='text-left w-[30rem] h-[5rem] mt-2 text-lg'>{currentUser?.bio ?? null}</div>
@@ -109,8 +110,8 @@ const SocialDash = () => {
 
 export default SocialDash
 
-const EditProfileModal = () => {
-  const {currentUser, open, setOpen} = useContext(DataContext)
+const EditProfileModal = ({setProfileModal}) => {
+  const {currentUser} = useContext(DataContext)
   const twitterRef = useRef()
   const githubRef = useRef()
   const linkedinRef = useRef()
@@ -135,7 +136,8 @@ const EditProfileModal = () => {
 
   return(
     <>
-    <div className='relative bg-white rounded-2xl border-gray-300 scale-[1.2] border-[1px] w-[18rem] h-fit'>
+    <div className='w-screen h-screen flex items-center justify-center absolute bg-transBlack'>
+    <div className='absolute bg-white rounded-2xl border-gray-300 border-[1px] w-[18rem] h-fit'>
 
     <label htmlFor="header-input" className='cursor-pointer'><img src={currentUser.header} className='w-[100%] object-cover opacity-80 rounded-2xl h-16  rounded-br-none rounded-bl-none border-gray-400 border-b-black border-b-[1px]'/><div className='mt-[-3rem] mb-5 absolute ml-[1.2rem] text-2xl'><BiCamera/></div></label>
     <input type="file" id="header-input" className='hidden' onChange={(e) => handleFile({"type": "header", "e": e, "userid": currentUser.id })} />
@@ -181,10 +183,11 @@ const EditProfileModal = () => {
             </div>
             </div>
             <div className='flex font-bold text-md border-t-black border-t-2 w-[100%] justify-center mt-2'>
-            <button onClick={() => setOpen(false)} className='bg-red-300 rounded-bl-2xl hover:bg-red-400 w-[50%]'>Discard Changes</button>
+            <button onClick={() => setProfileModal(false)} className='bg-red-300 rounded-bl-2xl hover:bg-red-400 w-[50%]'>Discard Changes</button>
             <button onClick={handleSubmit} className='bg-blue-300 rounded-br-2xl hover:bg-blue-400 w-[50%]'>Save Changes</button>
             </div>
       </div>
+    </div>
     </div>
     </>
   )

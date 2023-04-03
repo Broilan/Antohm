@@ -49,7 +49,7 @@ const Resources = () => {
                 <li onClick={() => filterResources('Job Search')} className={`hover:underline cursor-pointer ${currentStyle=='Job Search' && current != resources? 'underline': null} `}>Job Search</li>
                 </ul>
                  
-                <div className='flex flex-wrap gap-4 ml-2 h-fit mt-8 w-[100%]'>
+                <div className='flex flex-wrap gap-4 ml-2 h-fit mt-8 w-[100%] 1.25xl:gap-2'>
                 {current?.map((r) =>
                 <div className='w-[32%] py-1 h-fit bg-dimWhite rounded-3xl border-black border-[1.5px]'>
                 <div className='ml-auto rounded-tl-none rounded-br-none bg-dimWhite border-black border-t-0 border-r-0 border-[1px] w-fit h-fit p-1 rounded-3xl text-center'> 
@@ -73,13 +73,15 @@ const Resources = () => {
                 </div>
 
                 <div className='flex gap-4 mt-4 '>
-                  <select onChange={(e) => changeType(r._id, e.target.value)} className='border-black border-[0.5px] rounded-3xl p-1 bg-white font-semibold'>
+                  <select onChange={(e) => changeType(r._id, e.target.value)} className='border-black border-[0.5px] rounded-3xl p-1 bg-white font-semibold h-fit mt-auto '>
                   <option value={r.resourceType} selected hidden>{r.resourceType}</option>
                   <option value="Skill-Upkeep">Skill-Upkeep</option>
                   <option value="Job Search">Job Search</option>  
                   </select>   
+                  <div className='flex 1.25xl:flex-col 1.25xl:ml-auto'>
                     <div className='font-semibold p-1'>{new Intl.DateTimeFormat('en-us').format(new Date(r.date))}</div>
                     <div onClick={() => setMakeSureModal(r._id)} className='mr-2 ml-auto cursor-pointer border-black border-[0.5px] rounded-3xl p-1 bg-red-500 text-white font-semibold'>Delete</div>
+                  </div>
                 </div> 
 
                 </div>

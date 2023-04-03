@@ -184,7 +184,7 @@ function DataComponents(props) {
   return (  
     <>
     <DataComponentModal open2={open2} setOpen2={setOpen2} jobs={jobs} usersData={usersData} setUsersData={setUsersData}/> 
-    <div className='bg-dimWhite text-center rounded-2xl w-[20rem] h-[7.5rem] border-2 border-gray-400 shadow-xl'>
+    <div className='bg-dimWhite text-center rounded-2xl w-[20rem] h-[7.5rem] border-2 border-gray-400 shadow-xl 3xl:w-[15rem] '>
       <div className='flex justify-center'>
       <h1 className='underline text-xl font-bold mx-auto'>{dataName}</h1>
       <div onClick={() => setOpen2([true, dataName])} className='font-bold text-xl translate-x-[-10px] mt-2 h-6 w-6 cursor-pointer'><GrDocumentUpdate/></div>
@@ -212,24 +212,24 @@ export default function QuantDash(){
   
   return (
     <>   
-    <div className='flex flex-col gap-[1rem] h-fit absolute ml-14 mt-4'>
-      <div className='bg-dimWhite text-center rounded-2xl w-[20rem] h-[20rem] border-2 border-gray-400 shadow-xl'>
+    <div className='flex flex-col gap-[1rem] h-fit absolute ml-14 mt-4 2xl:gap-24 2xl:ml-2 2xl:flex-row 2xl:absolute 2xl:bottom-5'>
+      <div className='bg-dimWhite text-center rounded-2xl w-[20rem] h-[20rem] border-2 border-gray-400 shadow-xl 3xl:w-[15rem] 2xl:hidden'>
       <h1 className='underline text-xl font-bold'>Tamagatchi</h1>
       <p className='font-bold text-[3rem]'>level</p>
     </div>
     {dataNames.map((d) => <DataComponents setUsersData={setUsersData} dataName={d} usersData={usersData}/>)}
   </div>
-  {taskOrDate == 1?<TodoList setTaskOrDate={setTaskOrDate} currentUser={currentUser.id}/>: <SavedDates setTaskOrDate={setTaskOrDate}/> }
+ <div className='xl:scale-x-90 xl:relative xl:left-[4rem]'> {taskOrDate == 1?<TodoList setTaskOrDate={setTaskOrDate} currentUser={currentUser.id}/>: <SavedDates setTaskOrDate={setTaskOrDate}/> }</div>
   
 
   <div className='w-screen flex-col items-center '>
-  <div className='flex justify-center gap-20  pt-1 font-bold text-4xl bg-dimWhite w-[60%] rounded-3xl mx-auto border-2 border-gray-400 mt-4'>
+  <div className='flex justify-center gap-20  pt-1 font-bold text-4xl bg-dimWhite w-[60%] rounded-3xl mx-auto border-2 border-gray-400 mt-4 2xl:h-fit 2xl:w-[65rem] 2xl:gap-10 2xl:mt-1 2xl:ml-4 1.5xl:w-[60rem] 1.5xl:ml-6 1.25xl:w-[54rem] 1.25xl:ml-1'>
     <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(1)}> <div><BsKanban/></div><div>Kanban</div> </div>
     <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(2)}><div><TfiCalendar/></div><div>Calendar</div></div>
     <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(3)}><div><GrResources/></div><div>Resources</div></div>
     <div className='flex flex-col items-center cursor-pointer' onClick={()=> setView(4)}><div><BiNotepad/></div><div>Applications</div></div> 
   </div>
-  <div>{view == 1? <Kanban/>: view == 2?<Calendar/>: view == 3? <Resources/>: view == 4? <Applications/>:null }</div>
+  <div className='2xl:scale-y-[0.85] 2xl:w-[110rem] 1.25xl:w-[90rem] ml-1 1.5xl:w-[100rem] 1.5xl:translate-x-[-18rem] 2xl:translate-x-[-21rem] 2xl:translate-y-[-3.7rem]'>{view == 1? <Kanban/>: view == 2?<Calendar/>: view == 3? <Resources/>: view == 4? <Applications/>:null }</div>
   </div>
   
   </>
