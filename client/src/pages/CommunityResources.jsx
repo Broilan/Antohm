@@ -79,7 +79,7 @@ function getSubNiche(e) {
 
   return (
     <>
-    <div className='absolute bg-white rounded-2xl h-[32rem] w-96 border-gray-300 border-[1px] top-40 left-96'>
+    <div className='absolute bg-white rounded-2xl h-fit w-[24rem] border-gray-300 border-[1px] top-40 left-[8rem] 3xl:left-[2rem] xl:scale-75 xl:left-0 lg:hidden'>
       <div className='bg-gray-500 w-[100%] h-20 rounded-t-2xl flex flex-col justify-center text-center font-bold text-white'> Our Recommended Resources</div>
       <div className="flex gap-2 text-sm border-[1px] border-gray-400 items-center justify-between p-2">
         <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('All')}>All</p>
@@ -101,9 +101,9 @@ function getSubNiche(e) {
       </div>
     </div>
 
-    <AboutGroup />
+   <div className='absolute right-[-10rem] 3xl:right-[-20rem] xl:scale-75 xl:right-[-13rem] xl:top-40 top-30 lg:hidden'><AboutGroup /></div>
     <div className="flex flex-col w-screen h-screen items-center overflow-y-scroll">
-<div className='border-black border-[1px] w-[33%] p-3 pt-4 bg-white'>
+<div className='border-black border-[1px] w-[33%] p-3 pt-4 bg-white lg:w-screen'>
 
 <div className=' bg-white flex gap-1 mb-[-6rem] w-16 h-12 z-10 p-1 mr-2'>
 <img src={currentUser.pfp} className='rounded-[50%] border-[1px] w-12 h-12 mt-1 z-10 border-gray-400'/>
@@ -149,7 +149,7 @@ function getSubNiche(e) {
 
 
 </div>
-      <div className="flex bg-white gap-2 border-[1px] border-gray-400 w-[33%] items-center justify-between p-2">
+      <div className="flex bg-white gap-2 border-[1px] border-gray-400 w-[33%] items-center justify-between p-2 lg:w-screen">
         <p className='cursor-pointer font-bold z-10' onClick={(e) => changeGroup('All')}>All</p>
         <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Design')}>Design</p>
         <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Engineering')}>Engineering</p>
@@ -158,7 +158,7 @@ function getSubNiche(e) {
         <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('Science')}>Science</p>
         <p className='cursor-pointer font-bold' onClick={(e) => changeGroup('other')}>other</p>
       </div>
-      {postsArr.map((p, index) => <div className='w-[33%]'> 
+      {postsArr.map((p, index) => <div className='w-[33%] lg:w-screen'> 
       <Post index={index} niche={p.niche} subNiche={p.subNiche} pfp={p.UserID} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div> )}
     </div>
     </>
