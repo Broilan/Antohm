@@ -7,6 +7,7 @@ const Jobs = () => {
 const [jobs, setJobs] = useState([])
 const [sortedJobs, setSortedJobs] = useState([])
 const [stackedFilters, setStackedFilters] = useState({location: false, jobType: false, level: false, salary: false })
+const [jobModal, setJobModal] = useState(true)
 const [selected, setSelected] = useState()
 
 
@@ -56,23 +57,28 @@ const [selected, setSelected] = useState()
         }  
     }    
 
+    function openJob(j) {
+        setSelected(j)
+        setJobModal(true)
+    }
+
 
   return (
     <>
 
-    <div className='flex w-screen h-screen justify-center'>
-    <div className='border-gray-400 border-[1px] rounded-tl-xl h-screen bg-white w-[25vw]'>
+    <div className='flex w-screen h-screen justify-center overflow-y-hidden'>
+    <div className='border-gray-400 border-[1px] rounded-tl-xl h-screen bg-white w-[25vw] lg:w-[50vw] sm:w-screen'>
 
         <div>
             <div className='bg-blue-400 w-[100%] h-24 outline-blue-500 rounded-tl-xl flex flex-col items-center'>
-            <div className='text-white text-center mt-1 text-xl font-bold'>Search our api for one million + jobs. <br />  Updated <p className='underline text-2xl inline'>everyday.</p></div>
+            <div className='text-white text-center mt-1 text-xl font-bold 1.5xl:text-sm sm:text-xl'>Search our api for thousands of jobs. <br />  Updated <p className='underline text-2xl inline'>everyday.</p></div>
 
-           <div className='translate-y-8 z-10 flex gap-8'>           
-           <select onChange={(e)=> filterJobs(e.target.value, 'location')} className=' bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
+           <div className='translate-y-8 z-10 flex gap-8 1.5xl:translate-y-10 sm:translate-y-8 1.5xl:gap-3 lg:gap-16 md:gap-8 sm:gap-32 xs:gap-20 2xs:gap-12'>           
+           <select onChange={(e)=> filterJobs(e.target.value, 'location')} className=' bg-blue-600 cursor-pointer h-6 border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
             <option hidden defaultValue>Location</option>
                 {states.map((s) =>  <option value={s}>{s}</option> )}
            </select>
-           <select onChange={(e)=> filterJobs(e.target.value, 'salary')} className='bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
+           {/* <select onChange={(e)=> filterJobs(e.target.value, 'salary')} className='bg-blue-600 cursor-pointer h-6 border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
                 <option hidden defaultValue>Salary</option>
                 <option value="$0-$25k">$0-$25k</option>
                 <option value="$25k-$50k">$25k-$50k</option>
@@ -81,20 +87,20 @@ const [selected, setSelected] = useState()
                 <option value="$100k-$150k">$100k-$150k</option>
                 <option value="$150k-$200k">$150k-$200k</option>
                 <option value="$200k+">$200k+</option>
-           </select>
-           <select onChange={(e)=> filterJobs(e.target.value, 'level')} className='bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
+           </select> */}
+           {/* <select onChange={(e)=> filterJobs(e.target.value, 'level')} className='bg-blue-600 cursor-pointer border-gray-500 h-6 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
                 <option hidden defaultValue>Level</option>
                 <option value="Entry">Entry</option>
                 <option value="Mid">Mid</option>
                 <option value="Senior">Senior</option>
-           </select>
-           <select onChange={(e) => filterJobs(e.target.value, "position")} className='bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
+           </select> */}
+           <select onChange={(e) => filterJobs(e.target.value, "position")} className='bg-blue-600 cursor-pointer h-6 border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>
             <option hidden value>Position</option>
             <option value='Software engineer'>Software Engineer</option>
             <option value="UX designer">UX Engineer</option>
             <option value="dev ops engineer">Dev Ops</option>
            </select>
-           <div onClick={() => setSortedJobs(jobs)} className='bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 rounded-2xl text-center text-white font-bold'>Reset</div>
+           <div onClick={() => setSortedJobs(jobs)} className='bg-blue-600 cursor-pointer border-gray-500 border-[1px] w-24 h-6 rounded-2xl text-center text-white font-bold'>Reset</div>
            </div>
 
 
@@ -105,7 +111,7 @@ const [selected, setSelected] = useState()
             <div className='border-[1px] border-gray-400 w-[100%] h-26  cursor-pointer'>
                 
                 {sortedJobs.map((j) => 
-                <div className={`flex border-gray-300 hover:bg-gray-300 ${j == selected? "bg-gray-300": null} border-[1px]`} onClick={(e) => setSelected(j)}>
+                <div className={`flex border-gray-300 hover:bg-gray-300 ${j == selected? "bg-gray-300": null} border-[1px]`} onClick={() => openJob(j)}>
                 <img src={j.companyLogo} alt="xx" className='w-16 h-16 rounded-xl border-black border-[1px] m-1'/>
                 <div>
                 <p className='font-bold px-1 mb-1'>{j.jobType}</p>
@@ -123,13 +129,13 @@ const [selected, setSelected] = useState()
 
 
 
-    <div className='border-gray-400 border-[1px] rounded-tr-xl h-screen bg-white w-[40vw]'>
+    <div className='border-gray-400 border-[1px] rounded-tr-xl h-screen bg-white w-[40vw] lg:w-[50vw] sm:hidden'>
 
         <div className='m-2 border-b-gray-400 border-b-[1px]'>
 
             <div className='flex'>
-                <img src={selected? selected.companyLogo: jobs[0]?.companyLogo} alt="" className='rounded-[50%] border-black border-[1px] w-24 h-24'/>
-                <h1 className='text-[3.5rem] font-semibold'>{selected? selected.company: jobs[0]?.company}</h1>
+                <img src={selected? selected.companyLogo: jobs[0]?.companyLogo} alt="" className='rounded-[50%] lg:w-16 lg:h-16 border-black border-[1px] w-24 h-24'/>
+                <h1 className='text-[3.5rem] lg:text-4xl lg:mt-3 font-semibold'>{selected? selected.company: jobs[0]?.company}</h1>
                 <div className='flex gap-10 ml-auto mr-2 text-[1rem] '>
 
                 <div className='text-xl'>
@@ -139,18 +145,49 @@ const [selected, setSelected] = useState()
                 </div>
             </div>
 
-        <div className='flex items-center ml-2'>
-        <div className='text-[5rem] mt-1'><IoMdBriefcase /></div>  
-        <h2 className='text-[3rem] font-bold'> {selected? selected.jobType: jobs[0]?.jobType}</h2>
+        <div className='flex mt-3 items-center ml-2'>
+        <div className='text-4xl'><IoMdBriefcase /></div>  
+        <h2 className='text-4xl font-bold lg:text-2xl'> {selected? selected.jobType: jobs[0]?.jobType}</h2>
         </div>
         <div className='flex w-[100%] justify-end'>        
-        <a href={selected? selected.linkedInLinks: jobs[0]?.linkedInLinks} target="_blank" className='bg-blue-500 rounded-xl text-white text-4xl mt-[-4rem] mb-2 font-bold text-center p-2 cursor-pointer'>Apply</a>
+        <a href={selected? selected.linkedInLinks: jobs[0]?.linkedInLinks} target="_blank" className='bg-blue-500 rounded-xl text-white text-xl mt-[-3rem] h-fit shadow-xl mb-1 font-bold text-center p-2 cursor-pointer'>Apply</a>
         </div>   
         </div>
-        <div className='font-bold text-[5rem] ml-2 underline'>About The Company</div>
+        <div className='font-bold text-[3rem] ml-2 underline'>About The Company</div>
         <p className='p-4 font-semibold text-3xl max-w-[750px]'>{selected? selected.aboutCompany: jobs[0]?.aboutCompany}</p>
 
     </div>
+
+        {/* ////////////////////////////MOBILE////////////////////////// */}
+    {jobModal?
+    <div className='z-100 absolute h-screen w-screen items-center justify-center bg-transBlack hidden lg:flex'>
+    <div className='border-gray-400 border-[1px] rounded-2xl w-[20rem] h-fit bg-white lg:w-[50vw] absolute z-10'>
+
+<div className='m-2 border-b-gray-400 border-b-[1px]'>
+
+    <div className='flex'>
+        <img src={selected? selected.companyLogo: jobs[0]?.companyLogo} className='rounded-[50%] lg:w-16 lg:h-16 border-black border-[1px] w-24 h-24'/>
+        <div className='flex flex-col'>
+        <h1 className='text-xl ml-1 mr-1 font-semibold underline'>{selected? selected.company: jobs[0]?.company}</h1>
+            <h3 className='font-semibold cursor-pointer text-xl'>{selected? selected.location: jobs[0]?.location}</h3>
+        </div>
+            <div onClick={() => setJobModal(false)} className='bg-black rounded-[50%] h-4 w-4 ml-auto flex items-center justify-center text-white'>x</div>
+    </div>
+
+<div className='flex mt-3 items-center ml-2'>
+<div className='text-4xl'><IoMdBriefcase /></div>  
+<h2 className='text-4xl font-bold lg:text-2xl'> {selected? selected.jobType: jobs[0]?.jobType}</h2>
+</div>
+<div className='flex w-[100%] justify-end'>        
+<a href={selected? selected.linkedInLinks: jobs[0]?.linkedInLinks} target="_blank" className='bg-blue-500 rounded-xl text-white text-xl mt-[-3rem] h-fit shadow-xl mb-1 font-bold text-center p-2 cursor-pointer'>Apply</a>
+</div>   
+</div>
+<div className='font-bold text-3xl text-center ml-2 underline'>About The Company</div>
+<p className='p-4 font-semibold text-xl max-w-[750px] text-center'>{selected? selected.aboutCompany: jobs[0]?.aboutCompany}</p>
+
+    </div>
+    </div>
+      :null  }
     </div>
     </>
   )
