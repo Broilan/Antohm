@@ -42,7 +42,7 @@ const navigate = useNavigate()
   return (
     <>
     
-    <div className='fixed ml-72 mt-16 3xl:ml-24 xl:ml-10 lg:ml-0 md:hidden' >
+    <div className='fixed ml-56 mt-16 3xl:ml-24 2xl:ml-5 1.5xl:ml-0 lg:hidden' >
         <Usercard />
     </div>
 
@@ -51,7 +51,7 @@ const navigate = useNavigate()
     </div> */}
     <div className='w-screen h-screen flex flex-col items-center overflow-y-scroll'>
 
-    <div className='border-black border-[1px] w-[33%] p-3 pt-4 bg-white md:w-screen'>
+    <div className='border-black border-[1px] w-[45%] p-3 pt-4 bg-white lg:w-screen'>
 
     <div className=' bg-white flex gap-1 mb-[-6rem] w-16 h-12 z-10 p-1 mr-2'>
     <img src={currentUser?.pfp} className='rounded-[50%] border-[1px] w-12 h-12 mt-1 z-10 border-gray-400'/>
@@ -72,12 +72,12 @@ const navigate = useNavigate()
 
     </div>
 
-    <select type="text" className='bg-white w-[33%] border-black border-[1px] text-center font-semibold md:w-screen'>
+    <select type="text" className='bg-white w-[45%] border-black border-[1px] text-center font-semibold lg:w-screen'>
         <option value="Recent">Recent</option>
         <option value="Following">Following</option>
     </select>
 
-    {postFeed?.map((p, index) => <div className='w-[33%] md:w-screen'><Post key={index} pfp={p.UserID} subNiche={p.subNiche} niche={p.niche} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div> )}
+    {postFeed?.map((p, index) => <div className='w-[45%] lg:w-screen'><Post key={index} pfp={p.UserID} subNiche={p.subNiche} niche={p.niche} image={p.image} postID={p._id} posterID={p.UserID._id} username={p.UserID.name} displayName={p.UserID.displayName} bookmarks={p.bookmarks} comments={p.comments} likes={p.likes} datePosted={p.date} content={p.content} sourced={p.sourced}  /></div> )}
 
 
 

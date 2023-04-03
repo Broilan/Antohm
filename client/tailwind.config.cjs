@@ -29,7 +29,7 @@ module.exports = {
       '2xl': {'max': '1550px'},
       '1.5xl': {'max': '1450px'},
       'xl': {'max': '1275px'},
-      'lg': {'max': '1080px'},
+      'lg': {'max': '1024px'},
       'md': {'max': '880px'},
       'sm': {'max': '750px'},
       'xs': {'max': '625px'},

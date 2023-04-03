@@ -4,110 +4,97 @@ import DmModal from "../DmModal";
 import NotifDd from "../NotifDd";
 import { DataContext } from "../../App";
 import { FaHome } from 'react-icons/fa';
-import { ImCool } from 'react-icons/im';
 import { BiLogOut } from 'react-icons/bi';
 
 
-import { MdOutlineCallMade, MdWorkOutline} from 'react-icons/md';
+import { MdWorkOutline} from 'react-icons/md';
 import { HiOutlineNewspaper } from 'react-icons/hi';
-import { AiOutlineBell, AiOutlineDown } from 'react-icons/ai';
+import { AiOutlineBell } from 'react-icons/ai';
 import { TfiEmail } from 'react-icons/tfi';
 import { MdOutlinePerson } from 'react-icons/md';
 import { VscSettingsGear } from 'react-icons/vsc';
 
 
 
-const Navbar = () => {            
+const Navbar = () => {     
+    const {currentUser} = useContext(DataContext)   
     const {isAuthenticated, handleLogout, mOpen, setMOpen} = useContext(DataContext)
-    const [dropdown, setDropdown] = useState(false)
     const [notifsOpen, setNotifsOpen] = useState(false)
     const nav = useNavigate()
-    function openDropdown() {
-        dropdown == true? setDropdown(false) : setDropdown(true)
-    }
+
 
     function openMessages(){
         setMOpen(true)
     }
-
+console.log(currentUser)
 
     return (
         <>
         {isAuthenticated?
-            <nav>                         
-                <div className="flex gap-10 items-center justify-center w-screen h-16 bg-white border-black border-[1px] p-6">
+        <nav>                         
+            <div className="flex items-center w-screen h-12 lg:h-16 bg-white border-black border-[1px] py-6 px-2 gap-1">                    
+                     <div onClick={() => nav('/')} className="font-Oswald cursor-pointer ml-auto text-[3rem] lg:hidden h-0 translate-y-[-2.2rem]">Thrive</div>   
+                     <img src={currentUser?.pfp} onClick={() => nav('/profile')} className=" hidden cursor-pointer border-gray-300 border-[1px] ml-auto h-[3.6rem] w-[3.6rem] lg:block rounded-[50%]" />   
+                    <input type="text" placeholder="Search" className="border-gray-600 text-center mx-auto border-[1px] rounded-xl w-[30%] lg:w-[100%] h-10" />
 
-                <div className=" w-[17rem]  h-8 cursor-pointer" >
-                    <div>
-                    <div>
-                     <div onClick={() => nav('/')} className="font-Oswald cursor-pointer text-[3.3rem] border-2 border-black h-0 translate-y-[-1.6rem] w-fit">Thrive</div>   
-                    <div className="flex ml-[27rem] bg-white border-l-black rounded-xl flex-col h-fit ">
-                    <div className="flex items-center z-10" onClick={openDropdown} >
-                         <div className="text-xl font-bold ">Home</div>
-                         <div className="text-xl border-r-[1px] border-gray-500"><AiOutlineDown /></div>
-                    </div>
-                    </div>
-                    </div>
-                    {dropdown == true? 
-                    <div className="z-50 bg-white w-[8rem] outline ">  
-
-                    <p className="text-center text-gray-500 font-bold">Feeds</p>
-
-                    <div className="flex p-1 hover:bg-gray-300 cursor-pointer ">
-                        <div className="my-auto mr-3 text-3xl "><FaHome /></div>
-                         <div className="text-xl mt-1 font-bold">Home</div>
-                    </div>
-
-                    <div className="flex p-1 hover:bg-gray-300 cursor-pointer ">
-                        <div className="my-auto mr-3 text-3xl "><ImCool /></div>
-                         <div className="text-xl mt-1 font-bold">Popular</div>
-                    </div>
-
-                    <div className="flex p-1 hover:bg-gray-300 cursor-pointer ">
-                        <div className="my-auto mr-3 text-3xl "><MdOutlineCallMade /></div>
-                         <div className="text-xl mt-1 font-bold">All</div>
-                    </div>
-
-                    <p className="text-center text-gray-500 font-bold">Your groups</p>
-                    <div className="flex p-1 hover:bg-gray-300 cursor-pointer ">
-                        <div className="my-auto mr-3 text-3xl ">+</div>
-                         <div className="text-xl mt-1 font-bold">Create a group</div>
-                    </div>
-                    
-                    <div className="flex p-1 hover:bg-gray-300 cursor-pointer ">
-                        <div className="my-auto mr-3 w-10 h-10 border-black border-[1px] rounded-[50%]">img</div>
-                         <div className="text-xl mt-1 font-bold">Home</div>
-                         <div className='ml-auto my-auto mr-2 bg-blue-500 text-white rounded-[50%] h-6 w-6 text-center'>12</div>
-                    </div>
-                    </div> 
-
-                     : null}
-                    
-                    </div>
-
-                
+                <div className="flex gap-8 mr-4">
+                    <NavLink to="/" className='ml text-black lg:hidden text-[20px] font-bold transition-color mt-3 '><FaHome/></NavLink>
+                    <NavLink to="/jobs" className=' text-black lg:hidden text-[20px] font-bold transition-color mt-3 '><MdWorkOutline /></NavLink>
+                    <NavLink to="/resources" className=' text-black lg:hidden text-[20px] font-bold transition-color mt-3  '><HiOutlineNewspaper /></NavLink>
+                    <NavLink to="/profile" className=' text-black lg:hidden text-[20px] font-bold transition-color mt-3 '><MdOutlinePerson /></NavLink>
+                    <div id="notif-btn" onClick={() => setNotifsOpen(true)} className='cursor-pointer lg:hidden text-black text-[20px] font-bold mt-3'><AiOutlineBell/></div>
+                    <div onClick={openMessages} className='cursor-pointer text-black  text-[20px] lg:hidden font-bold mt-3'><TfiEmail/></div>
+                    <div className='items-center mr-[-1rem] text-[20px] ml-1 lg:text-3xl font-bold transition-color my-auto mt-1'><VscSettingsGear/></div>
+                    <div onClick={handleLogout} className='cursor-pointer text-black lg:hidden  text-[20px] font-bold mt-3'><BiLogOut /></div>
                 </div>
-                    
-                     <div className="flex gap-10">
-                    <input type="text" placeholder="Search" className="border-gray-600 px-24 mx-28 border-[1px] rounded-xl w-[25rem] h-10" />
-                    <NavLink to="/" className=' text-black text-[20px] font-bold transition-color mt-3 '><FaHome/></NavLink>
-                    <NavLink to="/jobs" className=' text-black text-[20px] font-bold transition-color mt-3 '><MdWorkOutline /></NavLink>
-                    <NavLink to="/resources" className=' text-black text-[20px] font-bold transition-color mt-3  '><HiOutlineNewspaper /></NavLink>
-                    <NavLink to="/profile" className=' text-black text-[20px] font-bold transition-color mt-3 '><MdOutlinePerson /></NavLink>
-                    <div id="notif-btn" onClick={() => setNotifsOpen(true)} className='cursor-pointer text-black text-[20px] font-bold mt-3'><AiOutlineBell/></div>
-                    <div onClick={openMessages} className='cursor-pointer text-black  text-[20px] font-bold mt-3'><TfiEmail/></div>
-                    <div className='cursor-pointer text-black  text-[20px] font-bold mt-3' ><VscSettingsGear/></div>
-                    <div onClick={handleLogout} className='cursor-pointer text-black  text-[20px] font-bold mt-3'><BiLogOut /></div>
-                    </div>
-                </div>
+             </div>
                                                                                                                                        
                 { mOpen != false?<><DmModal mOpen={mOpen} setMOpen={setMOpen}/></> : null }
                 { notifsOpen == true?<><NotifDd notifsOpen={notifsOpen} setNotifsOpen={setNotifsOpen}/></> : null }
-            </nav>
+         </nav>
+                    :null
+                    
+            }
+                    <>
+
+        {isAuthenticated?
+        <footer className="fixed bottom-0">                         
+            <div className="hidden lg:flex items-center justify-evenly text-gray-500 w-screen h-16 bg-white border-black border-[1px] px-2 xs:px-0">                    
+                    <NavLink to="/" className='flex flex-col items-center text-3xl font-bold transition-color my-auto mt-1 md:mt-2 xs:mt-4'>
+                    <div><FaHome/></div>
+                    <div className="text-xl md:text-sm xs:hidden">Home</div>
+                    </NavLink>
+                    <NavLink to="/jobs" className='flex flex-col items-center text-3xl font-bold transition-color my-auto mt-1 md:mt-2 xs:mt-4'>
+                        <MdWorkOutline />
+                        <div className="text-xl md:text-sm xs:hidden">Jobs</div>
+                        </NavLink>
+                    <NavLink to="/resources" className='flex flex-col items-center text-3xl font-bold transition-color my-auto mt-1 md:mt-2 xs:mt-4'>
+                        <HiOutlineNewspaper />
+                        <div className="text-xl md:text-sm xs:hidden">Resources</div>
+                        </NavLink>
+                    <div id="notif-btn" onClick={() => setNotifsOpen(true)} className='flex flex-col items-center text-3xl font-bold transition-color my-auto mt-1 md:mt-2 xs:mt-4 '>
+                        <AiOutlineBell/>
+                        <div className="text-xl md:text-sm xs:hidden">Notifications</div>
+                        </div>
+                    <div onClick={openMessages} className='flex flex-col items-center text-3xl font-bold transition-color my-auto mt-1 md:mt-2 xs:mt-4'>
+                        <TfiEmail/>
+                        <div className="text-xl md:text-sm xs:hidden">Messages</div>
+                        </div>
+                    <div onClick={handleLogout} className='flex flex-col items-center text-3xl font-bold transition-color my-auto mt-1 md:mt-2 xs:mt-4'>
+                        <BiLogOut />
+                        <div className="text-xl md:text-sm xs:hidden">Logout</div>
+                    </div>
+             </div>
+                                                                                                                                       
+                { mOpen != false?<><DmModal mOpen={mOpen} setMOpen={setMOpen}/></> : null }
+                { notifsOpen == true?<><NotifDd notifsOpen={notifsOpen} setNotifsOpen={setNotifsOpen}/></> : null }
+         </footer>
                     :null
                     
             }
         </>
+        </>
+        
     );
 }
 

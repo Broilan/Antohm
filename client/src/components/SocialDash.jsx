@@ -65,13 +65,13 @@ const SocialDash = () => {
   return (
     <>
       <Modal component={<EditProfileModal/>}/>
-      <div className='fixed ml-72 mt-16 3xl:ml-24 xl:ml-10 lg:ml-0 md:hidden' >
+      <div className='fixed ml-64 mt-16 3xl:ml-24 2xl:ml-5 1.5xl:ml-0 lg:hidden' >
           <Usercard />
       </div>
     
     <div className='flex flex-col justify-center text-center'>
       
-    <div className='mx-auto w-[35%] border-gray-400 border-[1px] md:w-screen '>
+    <div className='mx-auto w-[35%] border-gray-400 border-[1px] lg:w-screen '>
     <input type="file" id="file-input" className='invisible absolute' onChange={(e) => handleFile({"type": "header", "e": e, "userid": currentUser.id })} />
     <label htmlFor="file-input"><img src={currentUser.header} className='bg-gray-300 w-[100%] h-[8rem] cursor-pointer object-cover'/></label>
     
@@ -91,7 +91,7 @@ const SocialDash = () => {
       <div className='text-left w-[30rem] h-[5rem] mt-2 text-lg'>{currentUser?.bio ?? null}</div>
       </div>
       </div>
-    <ul className='flex gap-16 justify-center text-lg font-bold border-gray-400 border-[1px] w-[100%] 2xl:gap-10 1.5xl:gap-5 lg:gap-2 md:gap-20 sm:gap-10 xs:gap-5 2xs:text-sm'>
+    <ul className='flex gap-16 justify-center text-lg font-bold border-gray-400 border-[1px] w-[100%] 2xl:gap-10 lg:gap-20 1.5xl:gap-5 md:gap-20 sm:gap-10 xs:gap-5 2xs:text-sm'>
       <li className="cursor-pointer hover:underline" onClick={(e) => changeFeed('posts')}>Posts</li>
       <li className="cursor-pointer hover:underline" onClick={(e) => changeFeed('likes')}>Likes</li>
       <li className="cursor-pointer hover:underline" onClick={(e) => changeFeed('comments')}>Comments</li>
