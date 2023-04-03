@@ -79,9 +79,9 @@ const Post = (props) => {
     }
   }
 
-  const handleUnfollow = (id) => {
-    axios.put(`https://thrive-server.herokuapp.com/user/unfollow/${id}/${currentUser.id}/`)
-  }
+  // const handleUnfollow = (id) => {
+  //   axios.put(`https://thrive-server.herokuapp.com/user/unfollow/${id}/${currentUser.id}/`)
+  // }
 
   const handleFollow = (id) => {
     axios.put(`https://thrive-server.herokuapp.com/user/follow/${id}/${currentUser.id}/`).then(response => {
@@ -95,7 +95,7 @@ const Post = (props) => {
     <div className='flex w-[100%] gap-2 m-5'>
     <img src={pfp?.pfp? pfp.pfp: pfp} onClick={(e) => posterID == currentUser.id? navigate('/profile') : navigate(`/profile/${posterID}`)} className='border-black border-[1px] h-16 w-16 rounded-[50%]'/>    
     <div>
-      <div className='flex gap-2'>
+      <div className='flex gap-2 3xs:gap-[1px]'>
     <h2 onClick={(e) => posterID == currentUser.id? navigate('/profile') : navigate(`/profile/${posterID}`)} className='font-bold'>{username? username: null}</h2>
     {currentUser? currentUser.following.includes(posterID) || posterID == currentUser.id? null: <div onClick={() => handleFollow(posterID)} className='cursor-pointer shadow-xl font-bold text-white p-1 rounded-xl bg-blue-400'>follow</div> :null }
     {niche? niche == "false"? null: <h2 className={`font-semibold ${niche=="Math"?'bg-blue-300':niche == 'Engineering'? 'bg-orange-300': niche=="Science"? "bg-purple-300":niche=="Data"? "bg-red-400": 'bg-yellow-200'} rounded-xl text-sm p-1 text-center shadow-xl`}>{niche}</h2> : null}
@@ -106,7 +106,7 @@ const Post = (props) => {
     </div>
     <div className='flex flex-col ml-auto items-center mr-8 gap-2 '>
       <div><BsThreeDots /></div>
-      <div onClick={()=> handleUnfollow(posterID)}>{currentFeed? currentFeed == "following"? <div className=' cursor-pointer font-bold text-white p-1 rounded-xl bg-blue-400'>unfollow</div>:null:null }</div>
+      <div onClick={()=> handleFollow(posterID)}>{currentFeed? currentFeed == "following"? <div className=' cursor-pointer font-bold text-white p-1 rounded-xl bg-blue-400'>unfollow</div>:null:null }</div>
       </div>
     </div>
     

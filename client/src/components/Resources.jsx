@@ -40,7 +40,7 @@ const Resources = () => {
     <ErrorModal error={error} setError={setError}/>
     <MakeSure makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal} setSuccess={setSuccess} setError={setError}/>
 
-    <div className='bg-dimWhite w-[60%] h-[80vh] mx-auto rounded-3xl shadow-xl border-2 border-gray-400'>
+    <div className='flex flex-col justify-start bg-dimWhite w-[60%] h-[80vh] mx-auto rounded-3xl shadow-xl border-2 border-gray-400'>
     <h1 className='text-[3rem] underline text-center font-bold '>My resources</h1>
 
                 <ul className='flex gap-8 w-[100%] justify-center font-bold mt-4 text-lg'>
@@ -49,11 +49,11 @@ const Resources = () => {
                 <li onClick={() => filterResources('Job Search')} className={`hover:underline cursor-pointer ${currentStyle=='Job Search' && current != resources? 'underline': null} `}>Job Search</li>
                 </ul>
                  
-                <div className='flex flex-wrap h-fit ml-2 mt-8 gap-8 w-[100%]'>
+                <div className='flex flex-wrap gap-4 ml-2 h-fit mt-8 w-[100%]'>
                 {current?.map((r) =>
-                <div className='w-[27rem] h-[8rem] bg-dimWhite rounded-3xl border-black border-[1.5px]'>
-                <div className='ml-auto mr-[-1.5px] mt-[-0.1rem] rounded-tl-none rounded-br-none bg-tertiary border-black border-t-0 border-r-0 border-[1px] w-16 h-8 rounded-3xl p-1 text-center'> 
-                <Link to={r.linkTo} className='bg-black text-white font-bold rounded-3xl h-7 p-2 flex gap-1'>
+                <div className='w-[32%] py-1 h-fit bg-dimWhite rounded-3xl border-black border-[1.5px]'>
+                <div className='ml-auto rounded-tl-none rounded-br-none bg-dimWhite border-black border-t-0 border-r-0 border-[1px] w-fit h-fit p-1 rounded-3xl text-center'> 
+                <Link to={r.linkTo} className='bg-black text-white text-sm font-bold rounded-3xl h-fit w-fit p-2 flex gap-1'>
                 <div>view</div>
                 <div className='pt-1'><BiLinkExternal /></div>
                 </Link>

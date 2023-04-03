@@ -48,35 +48,31 @@ const SocialDash = () => {
           setPosts(response.data.usersBookmarks.reverse()?.map((p, index) =>  <Post niche={p.niche} subNiche={p.subNiche} pfp={p.bookmarkTo.pfp} image={p.image} postID={p.post._id} posterID={p.bookmarkTo._id} username={p.bookmarkTo.name} displayName={p.bookmarkTo.displayName} bookmarks={p.post.bookmarks} comments={p.post.comments} likes={p.post.likes} datePosted={p.post.date} content={p.post.content} sourced={p.post.sourced}    /> ))
         }).catch(err => console.log(err))
         break;
-      case 'following':
-        axios.get(`https://thrive-server.herokuapp.com//user/${currentUser?.id}/following`)
-        .then(response => {
-          setPosts(response.data.usersFollowing.following.reverse()?.map((p, index) =>  <Post index={index} pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'following'} /> ))
-        }).catch(err => console.log(err))
-        break;
-      case 'followers':
-        axios.get(`https://thrive-server.herokuapp.com/user/${currentUser?.id}/followers`)
-        .then(response => {
-          setPosts(response.data.usersFollowers.followers.reverse()?.map((p, index) =>  <Post index={index} pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'followers'} /> ))
-          }).catch(err => console.log(err))
-          break;
+      // case 'following':
+      //   axios.get(`https://thrive-server.herokuapp.com//user/${currentUser?.id}/following`)
+      //   .then(response => {
+      //     setPosts(response.data.usersFollowing.following.reverse()?.map((p, index) =>  <Post index={index} pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'following'} /> ))
+      //   }).catch(err => console.log(err))
+      //   break;
+      // case 'followers':
+      //   axios.get(`https://thrive-server.herokuapp.com/user/${currentUser?.id}/followers`)
+      //   .then(response => {
+      //     setPosts(response.data.usersFollowers.followers.reverse()?.map((p, index) =>  <Post index={index} pfp={p.pfp} username={p.name} displayName={p.displayName} posterID={p._id} currentFeed={'followers'} /> ))
+      //     }).catch(err => console.log(err))
+      //     break;
   }
 }
   return (
     <>
       <Modal component={<EditProfileModal/>}/>
-      <div className='flex flex-col left-[15%] top-[10%] fixed gap-32' >
-
-      <div >
+      <div className='fixed ml-72 mt-16 3xl:ml-24 xl:ml-10 lg:ml-0 md:hidden' >
           <Usercard />
-      </div>
-
       </div>
     
     <div className='flex flex-col justify-center text-center'>
       
-    <div className='mx-auto w-[35%] '>
-    <input type="file" id="file-input" className='z-[-1] absolute' onChange={(e) => handleFile({"type": "header", "e": e, "userid": currentUser.id })} />
+    <div className='mx-auto w-[35%] border-gray-400 border-[1px] md:w-screen '>
+    <input type="file" id="file-input" className='invisible absolute' onChange={(e) => handleFile({"type": "header", "e": e, "userid": currentUser.id })} />
     <label htmlFor="file-input"><img src={currentUser.header} className='bg-gray-300 w-[100%] h-[8rem] cursor-pointer object-cover'/></label>
     
 
@@ -86,22 +82,20 @@ const SocialDash = () => {
       <div className='flex flex-col '>
       <div className='flex gap-4'>
       <label htmlFor="file-input"><img src={currentUser.pfp} className='bg-white border-[1px] mt-4 border-black cursor-pointer rounded-[50%] w-24 h-24'/></label>
-      <input type="file" id="file-input" className='z-[-1] absolute' onChange={(e) => handleFile({"type": "pfp", "e": e, "userid": currentUser.id })} />
+      <input type="file" id="file-input" className='invisible absolute' onChange={(e) => handleFile({"type": "pfp", "e": e, "userid": currentUser.id })} />
       <div className='flex gap-3 items-end'>
       <div className='font-bold text-2xl'>{currentUser.name} <br /> <p className='font-bold ml-1 text-lg'>@{currentUser.displayName}</p> </div>
-      <div onClick={() => setOpen(true)} className='bg-white rounded-3xl hover:bg-gray-300 border-blue-400 border-4 p-2 font-bold h-fit w-fit'>Edit Profile</div>
+      <div onClick={() => setOpen(true)} className='bg-white rounded-3xl hover:bg-gray-300 border-blue-400 border-4 p-2 font-bold h-fit w-fit 3xs:px-[3px]'>Edit Profile</div>
       </div>
       </div>
       <div className='text-left w-[30rem] h-[5rem] mt-2 text-lg'>{currentUser?.bio ?? null}</div>
       </div>
       </div>
-    <ul className='flex gap-10 justify-center text-xl border-black border-2'>
-      <li className="cursor-pointer" onClick={(e) => changeFeed('posts')}>Posts</li>
-      <li className="cursor-pointer" onClick={(e) => changeFeed('likes')}>Likes</li>
-      <li className="cursor-pointer" onClick={(e) => changeFeed('comments')}>Comments</li>
-      <li className="cursor-pointer" onClick={(e) => changeFeed('bookmarks')}>Bookmarks</li>
-      <li className="cursor-pointer" onClick={(e) => changeFeed('followers')}>Followers</li>
-      <li className="cursor-pointer" onClick={(e) => changeFeed('following')}>Following</li>
+    <ul className='flex gap-16 justify-center text-lg font-bold border-gray-400 border-[1px] w-[100%] 2xl:gap-10 1.5xl:gap-5 lg:gap-2 md:gap-20 sm:gap-10 xs:gap-5 2xs:text-sm'>
+      <li className="cursor-pointer hover:underline" onClick={(e) => changeFeed('posts')}>Posts</li>
+      <li className="cursor-pointer hover:underline" onClick={(e) => changeFeed('likes')}>Likes</li>
+      <li className="cursor-pointer hover:underline" onClick={(e) => changeFeed('comments')}>Comments</li>
+      <li className="cursor-pointer hover:underline" onClick={(e) => changeFeed('bookmarks')}>Bookmarks</li>
     </ul>
     </div>
     {posts} 
@@ -134,7 +128,7 @@ const EditProfileModal = () => {
       website: websiteRef.current.value,
       bio: bioRef.current.value,
     })
-    .then(response => {
+    .then(() => {
     }).catch(err => console.log(err))
   }
 
