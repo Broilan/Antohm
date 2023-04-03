@@ -6,7 +6,7 @@ import { FaClipboardList } from 'react-icons/fa';
 const OtherUserCard = ({otherUser}) => {
   return (
     <>
-    <div className='relative bg-white rounded-2xl border-gray-300 scale-[1.2] border-[1px] w-[18rem] h-[26rem]'>
+    <div className='relative flex flex-col bg-white rounded-2xl border-gray-300 border-[1px] w-fit h-fit mr-1 '>
     <img src={otherUser?.header} className='w-[100%] object-cover rounded-2xl h-16  rounded-br-none rounded-bl-none border-gray-400 border-b-black border-b-[1px]'/>
     <div className='flex flex-col items-center justify-center mt-[-3.5rem]'>
         <img src={otherUser?.pfp} className=' rounded-[50%] outline outline-1 w-16 mt-5 mb-3'/>

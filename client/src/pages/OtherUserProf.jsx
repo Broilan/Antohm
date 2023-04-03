@@ -66,17 +66,13 @@ const OtherUserProf = () => {
     return (
       <>
   
-        <div className='flex flex-col right-[5%] top-[10%] fixed gap-4' >
-  
-        <div >
+  <div className='flex flex-col ml-[15%] top-[10%] fixed gap-4 2xl:ml-[10%] 1.5xl:ml-[5%] lg:hidden' >
             <OtherUserCard otherUser={otherUser}/>
         </div>
-  
-        </div>
       
-      <div className='flex flex-col justify-center text-center'>
+        <div className='flex flex-col justify-center text-center lg:w-screen'>
         
-      <div className='mx-auto w-[35%] '>
+        <div className='mx-auto w-[35%] border-gray-400 border-[1px] lg:w-screen '>
         <body className='overflow-y-scroll scrollbar-hide'>
       <img src={otherUser?.header} className='bg-gray-300 w-[100%] h-[8rem] cursor-pointer object-cover'/>
   
