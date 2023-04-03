@@ -219,7 +219,7 @@ export default function QuantDash(){
     </div>
     {dataNames.map((d) => <DataComponents setUsersData={setUsersData} dataName={d} usersData={usersData}/>)}
   </div>
- <div className='xl:scale-x-90 xl:relative xl:left-[4rem]'> {taskOrDate == 1?<TodoList setTaskOrDate={setTaskOrDate} currentUser={currentUser.id}/>: <SavedDates setTaskOrDate={setTaskOrDate}/> }</div>
+ <div className='3xl:scale-x-90 3xl:relative 3xl:left-[6rem] 2xl:scale-100 2xl:relative 2xl:left-[0rem] 1.25xl:scale-x-90 1.25xl:relative 1.25xl:left-[4rem]'> {taskOrDate == 1?<TodoList setTaskOrDate={setTaskOrDate} currentUser={currentUser.id}/>: <SavedDates setTaskOrDate={setTaskOrDate}/> }</div>
   
 
   <div className='w-screen flex-col items-center '>

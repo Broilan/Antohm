@@ -146,7 +146,7 @@ function subtract() {
     <SuccessModal success={success} setSuccess={setSuccess} />
     <ErrorModal error={error} setError={setError} />
     <div className='mx-auto w-[60%] h-[80vh] p-2 flex flex-col justify-center rounded-3xl shadow-2xl border-gray-500 border-2 bg-dimWhite'>
-      <div className='flex items-center mb-[-3rem] gap-4'>
+      <div className='flex items-center mb-[-3rem] gap-4 '>
       <div className='font-bold text-3xl mr-auto'>{year}</div>
       <div onClick={() => setAddDateModal(true)} className='font-bold cursor-pointer text-[3rem]'>+</div>
       </div>
@@ -156,18 +156,18 @@ function subtract() {
       <div onClick={nextMonth} className="mt-2 cursor-pointer mr-auto"><AiOutlineArrowRight/></div>      
       </div>
 
-      <div className='flex flex-wrap w-[100%] justify-center' >
+      <div className='flex flex-wrap w-[100%] justify-center 3xl:mb-auto' >
         
       {months[render.current]?.map((d) => 
       <>
-      <div onClick={()=> checkDate(new Date(`${name} ${d} ${year}`))} className='w-[8.5rem] hover:bg-gray-200 cursor-pointer font-bold text-lg h-[10rem] border-black border-[1px]'> <p className='bg-blue-300 text-xl pl-1'>{d}</p> 
+      <div onClick={()=> checkDate(new Date(`${name} ${d} ${year}`))} className='w-[8.5rem] hover:bg-gray-200 cursor-pointer 3xl:w-[7.5rem] 3xl:h-[8.5rem] font-bold text-lg h-[10rem] border-black border-[1px]'> <p className='bg-blue-300 text-xl pl-1'>{d}</p> 
       <p className='bg-green-300'>{day? d==day && name == monthsNames[new Date().getMonth()]? 'today':null:null}</p> 
        <div className='bg-red-300 pl-1 text-black'>{checkDate2(new Date(`${name} ${d} ${year}`))}</div>
       </div>
       </>
       ) }
       {numba?.map((d) =>
-            <div className='w-[8.5rem] font-bold text-lg h-[10rem] border-black border-[1px]'>  <p className='bg-blue-300 text-blue-300 pl-1'>x</p></div> 
+            <div className='w-[8.5rem] font-bold text-lg h-[10rem] border-black border-[1px] 3xl:w-[7.5rem] 3xl:h-[8.5rem] '>  <p className='bg-blue-300 text-blue-300 pl-1'>x</p></div> 
       )}
       </div>
 
