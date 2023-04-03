@@ -82,8 +82,8 @@ export const Kanban = () => {
       <div onClick={() => setAddNoteModal(true)} className='text-[5rem] ml-auto'> + </div>
       </div>
 
-      <div className='flex h-[75%] gap-32 items-center justify-center'>
-        <div ref={container1Ref} className='h-[100%] w-[25%] rounded-xl bg-white shadow-2xl border-2 border-gray-400'>
+      <div className='flex h-[75%] gap-10 mt-10 items-center justify-center'>
+        <div ref={container1Ref} className='h-[110%] w-[30%] rounded-xl bg-white shadow-2xl border-2 border-gray-400'>
             <h1 className='font-bold underline text-3xl text-center'>Todo</h1>
 
           {userTasks?.map(task => 
@@ -107,7 +107,7 @@ export const Kanban = () => {
           )} 
         </div>
 
-        <div ref={container2Ref} className='h-[100%] w-[25%] rounded-xl bg-white shadow-2xl border-2 border-gray-400 container'>
+        <div ref={container2Ref} className='h-[110%] w-[30%] rounded-xl bg-white shadow-2xl border-2 border-gray-400 container'>
             <h1 className='font-bold underline text-3xl text-center'>In progress</h1>
 
           {userTasks?.map(task => 
@@ -131,7 +131,7 @@ export const Kanban = () => {
           )} 
         </div>
 
-        <div ref={container3Ref} className='h-[100%] w-[25%] rounded-xl bg-white shadow-2xl border-2 border-gray-400 container'>
+        <div ref={container3Ref} className='h-[110%] w-[30%] rounded-xl bg-white shadow-2xl border-2 border-gray-400 container'>
             <h1 className='font-bold underline text-3xl text-center'>Finished</h1>
 
           {userTasks?.map(task => 
@@ -454,32 +454,32 @@ export function TodoList({setTaskOrDate}){
       <MakeSure makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal} setTaskModal={setTaskModal} setSuccess={setSuccess} setError={setError}/>
       <SuccessModal success={success} setSuccess={setSuccess} />
       <ErrorModal error={error} setError={setError} />
-        <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll scrollbar-remove'>
+        <div className=' w-[22rem] h-[30rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll scrollbar-remove'>
         
         <div className='flex gap-3 mx-auto items-center justify-center' >
-        <div className= 'font-bold mt-4 text-[2rem] fixed '>{ currentView == archivedTasks? 'Archived Tasks' : "Current Tasks"}</div>
-        <div onClick={() => {currentView == userTasks? setCurrentView(archivedTasks) : setCurrentView(userTasks) }} className='text-[2rem] ml-2 cursor-pointer'>{ currentView == archivedTasks?<BiNotepad /> : <BsArchive />}</div>
-        <div className='ml-auto text-[2rem] cursor-pointer' onClick={() => setTaskOrDate(2)}><AiOutlineCalendar /></div>
-        <div onClick={() => setAddNoteModal(true)} className='text-[3rem] cursor-pointer'>+</div>
+        <div className= 'font-bold mt-4 text-[1.5rem] fixed '>{ currentView == archivedTasks? 'Archived Tasks' : "Current Tasks"}</div>
+        <div onClick={() => {currentView == userTasks? setCurrentView(archivedTasks) : setCurrentView(userTasks) }} className='text-[1.5rem] ml-2 cursor-pointer'>{ currentView == archivedTasks?<BiNotepad /> : <BsArchive />}</div>
+        <div className='ml-auto text-[1.5rem] cursor-pointer' onClick={() => setTaskOrDate(2)}><AiOutlineCalendar /></div>
+        <div onClick={() => setAddNoteModal(true)} className='text-[2.3rem] cursor-pointer'>+</div>
         </div>
 
         <div>
           {currentView?.map((task) => (
               <div onClick={(e) => setTaskModal(task)}>
 
-                <div className='flex h-20 cursor-pointer hover:bg-gray-300 hover:opacity-90 border-b-gray-300 border-[1px]'>
+                <div className='flex h-16 cursor-pointer hover:bg-gray-300 hover:opacity-90 border-b-gray-300 border-[1px]'>
 
                  <div className='ml-2 truncate'>
-                <div className='font-bold text-lg'>{task.taskName}</div>
+                <div className='font-bold text-md'>{task.taskName}</div>
                 <div className='truncate'>{task.task}</div> 
                 </div>
                 
-                {task.importance == "Low"?<div className="text-sm text-white bg-gray-400 rounded-lg w-fit p-1 ml-auto mr-1 my-auto font-semibold h-fit">{task.importance}</div>:
-                task.importance == 'Medium'?<div className="text-sm text-white bg-blue-400 rounded-lg w-fit p-1 ml-auto mr-1 my-auto font-semibold h-fit">{task.importance}</div>:
-                task.importance == "High"?<div className="text-sm text-white bg-red-500 rounded-lg w-fit p-1 ml-auto mr-1 my-auto font-semibold h-fit">{task.importance}</div>:
-                task.importance == "Extreme"?<div className="text-sm text-white bg-red-800 rounded-lg w-fit p-1 ml-auto mr-1 my-auto font-semibold h-fit">{task.importance}</div>:
+                {task.importance == "Low"?<div className="text-xs text-white bg-gray-400 rounded-lg w-fit p-1 ml-auto mr-1 my-auto font-semibold h-fit">{task.importance}</div>:
+                task.importance == 'Medium'?<div className="text-xs text-white bg-blue-400 rounded-lg w-fit p-1 ml-auto mr-1 my-auto font-semibold h-fit">{task.importance}</div>:
+                task.importance == "High"?<div className="text-xs text-white bg-red-500 rounded-lg w-fit p-1 ml-auto mr-1 my-auto font-semibold h-fit">{task.importance}</div>:
+                task.importance == "Extreme"?<div className="text-xs text-white bg-red-800 rounded-lg w-fit p-1 ml-auto mr-1 my-auto font-semibold h-fit">{task.importance}</div>:
                 null}
-                <div className="text-sm text-white bg-gray-400 rounded-lg w-fit p-1 mr-1 my-auto font-semibold h-fit">{task.status}</div>
+                <div className="text-xs text-white bg-gray-400 rounded-lg w-fit p-1 mr-1 my-auto font-semibold h-fit">{task.status}</div>
                   </div> 
 
               </div>

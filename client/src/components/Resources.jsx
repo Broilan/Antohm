@@ -41,19 +41,19 @@ const Resources = () => {
     <MakeSure makeSureModal={makeSureModal} setMakeSureModal={setMakeSureModal} setSuccess={setSuccess} setError={setError}/>
 
     <div className='bg-dimWhite w-[60%] h-[80vh] mx-auto rounded-3xl shadow-xl border-2 border-gray-400'>
-    <h1 className='text-[4rem] underline text-center font-bold '>My resources</h1>
+    <h1 className='text-[3rem] underline text-center font-bold '>My resources</h1>
 
-                <ul className='flex gap-10 w-[100%] justify-center font-bold mt-4 text-xl'>
+                <ul className='flex gap-8 w-[100%] justify-center font-bold mt-4 text-lg'>
                 <li onClick={() => setCurrent(resources)} className={`hover:underline cursor-pointer ${current==resources? 'underline': null} `}>All</li>
                 <li onClick={() => filterResources('Skill-Upkeep')} className={`hover:underline cursor-pointer ${currentStyle=='Skill-Upkeep' && current != resources? 'underline': null} `}>Skill-Upkeep</li>
                 <li onClick={() => filterResources('Job Search')} className={`hover:underline cursor-pointer ${currentStyle=='Job Search' && current != resources? 'underline': null} `}>Job Search</li>
                 </ul>
                  
-                <div className='flex flex-wrap h-fit ml-2 mt-8 gap-10 w-[100%]'>
+                <div className='flex flex-wrap h-fit ml-2 mt-8 gap-8 w-[100%]'>
                 {current?.map((r) =>
-                <div className='w-[30rem] h-[12rem] bg-dimWhite rounded-3xl border-black border-[1.5px]'>
-                <div className='ml-auto mr-[-1.5px] mt-[-0.1rem] rounded-tl-none rounded-br-none bg-tertiary border-black border-t-0 border-r-0 border-[1px] w-20 h-12 rounded-3xl p-1 text-center'> 
-                <Link to={r.linkTo} className='bg-black text-white font-bold rounded-3xl h-10 p-2 flex gap-1'>
+                <div className='w-[27rem] h-[8rem] bg-dimWhite rounded-3xl border-black border-[1.5px]'>
+                <div className='ml-auto mr-[-1.5px] mt-[-0.1rem] rounded-tl-none rounded-br-none bg-tertiary border-black border-t-0 border-r-0 border-[1px] w-16 h-8 rounded-3xl p-1 text-center'> 
+                <Link to={r.linkTo} className='bg-black text-white font-bold rounded-3xl h-7 p-2 flex gap-1'>
                 <div>view</div>
                 <div className='pt-1'><BiLinkExternal /></div>
                 </Link>
@@ -61,7 +61,7 @@ const Resources = () => {
 
                 <div className='ml-2 mt-[-2rem]'>  
                 <div className='flex gap-4'>
-                    <img src={r.resourceBy.pfp} className='rounded-lg border-[1px] w-16 h-16 border-black'/>
+                    <img src={r.resourceBy.pfp} className='rounded-lg border-[1px] w-12 h-12 border-black'/>
                     <div>
                     <div className='font-bold'>{r.resourceBy.name}</div>
                     <div className='font-bold text-sm'>@{r.resourceBy.displayName}</div>
@@ -107,7 +107,7 @@ const SuccessModal = ({setSuccess, success}) => {
     <>
     {success?
     <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
-    <div className='flex-col text-center mb-52 bg-green-300 p-2 rounded-xl scale-[1.5]'>
+    <div className='flex-col text-center mb-52 bg-green-300 p-2 rounded-xl scale-[1.2]'>
     <div className='flex justify-center'>
     <h1 className='font-bold text-xl ml-auto'>Success!</h1>
     <div onClick={() => setSuccess(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>
@@ -132,7 +132,7 @@ const ErrorModal = ({setError, error}) => {
       <>
       {error?
       <div className='w-screen h-screen flex items-center justify-center absolute z-[100]'>
-      <div className='flex-col text-center mb-52 bg-red-300 p-2 rounded-xl scale-[1.5]'>
+      <div className='flex-col text-center mb-52 bg-red-300 p-2 rounded-xl scale-[1.2]'>
       <div className='flex justify-center'>
       <h1 className='font-bold text-xl ml-auto'>Error!</h1>
       <div onClick={() => setError(false)} className='ml-auto mb-2 font-bold mr-2 cursor-pointer'>x</div>

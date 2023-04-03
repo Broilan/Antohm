@@ -29,7 +29,7 @@ const Applications = () => {
     <>
     <SuccessModal success={success} setSuccess={setSuccess}/>
     <div className='bg-dimWhite w-[60%] h-[80vh] mx-auto rounded-3xl shadow-xl border-2 border-gray-400 overflow-y-scroll scrollbar-remove'>
-    <h1 className='text-[4rem] underline text-center font-bold '>Job Tracking</h1>
+    <h1 className='text-[3rem] underline text-center font-bold '>Job Tracking</h1>
 
     <ul className='flex gap-10 w-[100%] justify-center font-bold mt-4 text-xl'>
         <li onClick={() => setCurrentView(applied)} className='hover:underline font-bold'>Applied</li>
@@ -64,8 +64,8 @@ function Views(props){
       })
   }
 return(
-  <div className='w-[30rem] h-[20rem] ml-2 mt-20 border-black border-[1px] rounded-3xl bg-dimWhite'>
-  <div className='relative flex flex-col items-center justify-center border-b-[1px] border-l-[1px] border-black bg-tertiary w-24 h-16 top-[-1px] right-[-1px] rounded-bl-lg ml-auto'>  
+  <div className='w-[22rem] h-[15rem] ml-2 mt-20 border-black border-[1px] rounded-3xl bg-dimWhite'>
+  <div className='relative flex flex-col items-center justify-center border-b-[1px] border-t-white rounded-tr-3xl border-r-white border-r-4 border-t-4 border-l-[1px] border-black bg-dimWhite w-24 h-16 top-[-1px] right-[-1px] rounded-bl-lg ml-auto'>  
 
     <div className='flex gap-2 bg-black items-center justify-center text-white font-bold rounded-full w-[90%] h-12'>   
       <a href={linkedInLinks} target="_blank">View</a>
@@ -87,10 +87,10 @@ return(
     <div className='bg-white text-center border-black rounded-[30px] border-[1px] w-24 h-fit p-1'> full time</div>
    </div>
 
-   <div className='flex gap-3 w-[90%] h-[40%] relative bottom-[0%] items-end justify-end'>
+   <div className='flex gap-3 w-[90%] h-[40%] mt-4 justify-end'>
 
-    <div className= 'text-center w-24 h-fit p-1'>+ Add note</div>
-    <div className='text-center w-24 h-fit p-1 bg-red-300 rounded-xl font-bold cursor-pointer' onClick={removeCompany}>Remove</div>
+    <div className= 'text-center w-18 h-fit p-1'>+ Add note</div>
+    <div className='text-center w-18 h-fit p-1 bg-red-300 rounded-xl font-bold cursor-pointer' onClick={removeCompany}>Remove</div>
    </div>
   
   </div>

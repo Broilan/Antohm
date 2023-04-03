@@ -37,6 +37,7 @@ const months =[
 export function Calendar() {
   const { currentUser } = useContext(DataContext)
   const [name, setName] = useState(monthsNames[new Date().getMonth()])
+  const [numba, setNumba] = useState([])
   const [success, setSuccess] = useState(false)
   const [year, setYear] = useState(new Date().getFullYear())
   const [day, setDay] = useState(new Date().getDate())
@@ -54,6 +55,7 @@ export function Calendar() {
     axios.get(`https://thrive-server.herokuapp.com/user/dates/${currentUser.id}`).then((res) => {
       setSavedDates(res.data.savedDates)
     })
+    subtract()
   }, [success])
 
 
@@ -67,6 +69,7 @@ function previousMonth() {
   render.current = render.current - 1
   setName(monthsNames[render.current])
 }
+subtract()
 }
 
 function nextMonth() {
@@ -78,7 +81,7 @@ function nextMonth() {
       render.current = render.current + 1
   setName(monthsNames[render.current])
   }
-
+  subtract()
 }
 
 async function checkDate(date) {
@@ -123,6 +126,17 @@ function checkDate2(date){
   }
 }
 
+function subtract() {
+  let arr = []
+  let x = 32 - months[render.current]?.length
+  if(x > 0) {
+    for(let i = 0; i < x ; i++) {
+      arr.push(i)
+    }
+  } 
+  setNumba(arr)
+  }
+
   return (
     <>
     <AddDateModal addDateModal={addDateModal} setAddDateModal={setAddDateModal} savedDates={savedDates} setSavedDates={setSavedDates} setSuccess={setSuccess} setError={setError} />
@@ -131,26 +145,29 @@ function checkDate2(date){
     <MakeSure setAreYouSure={setAreYouSure} areYouSure={areYouSure} setSuccess={setSuccess} setError={setError}/>
     <SuccessModal success={success} setSuccess={setSuccess} />
     <ErrorModal error={error} setError={setError} />
-    <div className='mx-auto w-[60%] h-fit p-2 rounded-3xl shadow-2xl border-gray-500 border-2 bg-dimWhite'>
-      <div className='flex items-center gap-4'>
+    <div className='mx-auto w-[60%] h-[80vh] p-2 flex flex-col justify-center rounded-3xl shadow-2xl border-gray-500 border-2 bg-dimWhite'>
+      <div className='flex items-center mb-[-3rem] gap-4'>
       <div className='font-bold text-3xl mr-auto'>{year}</div>
       <div onClick={() => setAddDateModal(true)} className='font-bold cursor-pointer text-[3rem]'>+</div>
       </div>
-      <div className='flex gap-2 text-[3rem]'>
-      <div onClick={previousMonth} className="mt-3 cursor-pointer ml-auto"> <AiOutlineArrowLeft/> </div>
+      <div className='flex gap-2 text-[2rem] w-fit mx-auto'>
+      <div onClick={previousMonth} className="mt-2 cursor-pointer ml-auto"> <AiOutlineArrowLeft/> </div>
       <div>{name}</div>
-      <div onClick={nextMonth} className="mt-3 cursor-pointer mr-auto"><AiOutlineArrowRight/></div>      
+      <div onClick={nextMonth} className="mt-2 cursor-pointer mr-auto"><AiOutlineArrowRight/></div>      
       </div>
 
-      <div className='flex flex-wrap w-[100%] justify-start ml-24 mb-6' >
+      <div className='flex flex-wrap w-[100%] justify-center' >
         
       {months[render.current]?.map((d) => 
       <>
-      <div onClick={()=> checkDate(new Date(`${name} ${d} ${year}`))} className='w-[12rem] hover:bg-gray-200 cursor-pointer font-bold text-xl h-[12rem] border-black border-[1px]'> <p className='bg-blue-300 text-2xl pl-1'>{d}</p> 
+      <div onClick={()=> checkDate(new Date(`${name} ${d} ${year}`))} className='w-[8.5rem] hover:bg-gray-200 cursor-pointer font-bold text-lg h-[10rem] border-black border-[1px]'> <p className='bg-blue-300 text-xl pl-1'>{d}</p> 
       <p className='bg-green-300'>{day? d==day && name == monthsNames[new Date().getMonth()]? 'today':null:null}</p> 
        <div className='bg-red-300 pl-1 text-black'>{checkDate2(new Date(`${name} ${d} ${year}`))}</div>
       </div>
       </>
+      ) }
+      {numba?.map((d) =>
+            <div className='w-[8.5rem] font-bold text-lg h-[10rem] border-black border-[1px]'>  <p className='bg-blue-300 text-blue-300 pl-1'>x</p></div> 
       )}
       </div>
 
@@ -188,13 +205,13 @@ export const SavedDates = ({setTaskOrDate}) => {
     <EdittingModal editting={editting} setEditting={setEditting} setSuccess={setSuccess} setError={setError} />
     <MakeSure setAreYouSure={setAreYouSure} areYouSure={areYouSure} setSuccess={setSuccess} setError={setError} />
     <SuccessModal success={success} setSuccess={setSuccess}  />
-  <div className=' w-[30rem] h-[40rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll scrollbar-remove'>
+  <div className=' w-[22rem] h-[30rem] m-5 mt-[15rem] bg-white absolute right-0 rounded-3xl shadow-2xl overflow-y-scroll scrollbar-remove'>
 
 <div className='flex justify-center items-center border-black border-b-[1px]'>
-<div className= 'font-bold mt-4 text-[2rem] fixed '>{currentView==savedDates? "Saved Dates" : "Archived Dates" }</div>
-<div onClick={() => {currentView == savedDates? setCurrentView(archivedDates) : setCurrentView(savedDates) }} className='text-[2rem] ml-2 cursor-pointer'>{currentView==savedDates? <BsArchive/> : <AiOutlineCalendar /> }</div>
-<div className='ml-auto text-[2rem]' onClick={() => setTaskOrDate(1)}><BiNotepad/></div>
-<div onClick={() => setAddDateModal(true)} className='text-[3rem] mr-4'> + </div>
+<div className= 'font-bold mt-4 text-[1.5rem] fixed '>{currentView==savedDates? "Saved Dates" : "Archived Dates" }</div>
+<div onClick={() => {currentView == savedDates? setCurrentView(archivedDates) : setCurrentView(savedDates) }} className='text-[1.5rem] ml-2 cursor-pointer'>{currentView==savedDates? <BsArchive/> : <AiOutlineCalendar /> }</div>
+<div className='ml-auto text-[1.5rem]' onClick={() => setTaskOrDate(1)}><BiNotepad/></div>
+<div onClick={() => setAddDateModal(true)} className='text-[2.3rem] mr-4'> + </div>
 </div>
 
 {currentView?.map((date) => 

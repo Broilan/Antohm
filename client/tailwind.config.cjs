@@ -24,12 +24,14 @@ module.exports = {
       },
     },
     screens: {
-      xs: "480px",
-      ss: "620px",
+      xxs: "480px",
+      xs: "620px",
       sm: "768px",
       md: "1060px",
       lg: "1200px",
       xl: "1700px",
+      xxl: "1920px",
+      xxxl: "2560px",
     },
     keyframes: {
       shrink: {

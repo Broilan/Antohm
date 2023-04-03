@@ -184,12 +184,12 @@ function DataComponents(props) {
   return (  
     <>
     <DataComponentModal open2={open2} setOpen2={setOpen2} jobs={jobs} usersData={usersData} setUsersData={setUsersData}/> 
-    <div className='bg-dimWhite text-center rounded-2xl w-[25rem] h-[10rem] border-2 border-gray-400 shadow-xl'>
+    <div className='bg-dimWhite text-center rounded-2xl w-[20rem] h-[7.5rem] border-2 border-gray-400 shadow-xl'>
       <div className='flex justify-center'>
-      <h1 className='underline text-2xl font-bold mx-auto'>{dataName}</h1>
-      <div onClick={() => setOpen2([true, dataName])} className='font-bold text-2xl translate-x-[-10px] mt-2 h-6 w-6 cursor-pointer'><GrDocumentUpdate/></div>
+      <h1 className='underline text-xl font-bold mx-auto'>{dataName}</h1>
+      <div onClick={() => setOpen2([true, dataName])} className='font-bold text-xl translate-x-[-10px] mt-2 h-6 w-6 cursor-pointer'><GrDocumentUpdate/></div>
       </div>
-      <p className='font-bold text-[5rem]'>{quantityRef.current}</p>
+      <p className='font-bold text-[3.5rem]'>{quantityRef.current}</p>
     </div>
     
     </>
@@ -200,7 +200,7 @@ function DataComponents(props) {
 
 export default function QuantDash(){ 
   const {currentUser} = useContext(DataContext)
-  const [view, setView] = useState(4)
+  const [view, setView] = useState(2)
   const [taskOrDate, setTaskOrDate] = useState(1)
   const [usersData, setUsersData] = useState()
   const dataNames = ["Applications Sent", "Responses", "Interviews", "Offers"]
@@ -212,10 +212,10 @@ export default function QuantDash(){
   
   return (
     <>   
-    <div className='flex flex-col gap-10 h-fit absolute ml-16 mt-4'>
-      <div className='bg-dimWhite text-center rounded-2xl w-[25rem] h-[25rem] border-2 border-gray-400 shadow-xl'>
-      <h1 className='underline text-2xl font-bold'>Tamagatchi</h1>
-      <p className='font-bold text-[5rem]'>level</p>
+    <div className='flex flex-col gap-[1rem] h-fit absolute ml-14 mt-4'>
+      <div className='bg-dimWhite text-center rounded-2xl w-[20rem] h-[20rem] border-2 border-gray-400 shadow-xl'>
+      <h1 className='underline text-xl font-bold'>Tamagatchi</h1>
+      <p className='font-bold text-[3rem]'>level</p>
     </div>
     {dataNames.map((d) => <DataComponents setUsersData={setUsersData} dataName={d} usersData={usersData}/>)}
   </div>
