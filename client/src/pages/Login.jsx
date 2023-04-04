@@ -49,9 +49,9 @@ const Login = () => {
 
     return (
         <>   
-        <div className='flex gap-1 lg:flex-col' id='login-signup-stuff'>
-        <div className='h-screen w-[50vw] bg-blue-500 lg:w-screen '>
-            <img src={logo} className="absolute left-[-3rem] h-96 w-96 top-[75%] 3xs:left-[11.5rem] 3xs:top-[78%] 3xs:h-64 3xs:w-64 2xs:left-[-6rem]" />
+        <div className='flex gap-1 lg:flex-col' id='login-signup-stuff'>            
+        <p className="absolute text-4xl font-Oswald ml-1">Thrive</p>
+        <div className='flex flex-col justify-center items-center h-screen w-[50vw] bg-blue-500 lg:w-screen '>
             <div className=' flex flex-col items-center absolute w-[60%] h-screen 1.5xl:w-[50%] lg:w-screen'>
                 <img src={capybara} className=" absolute h-96 w-96 mt-[25rem] 3xs:translate-y-[-6rem]"/>
                 <p className='absolute text-center text-white font-bold text-[2rem] 2xs:text-[1.7rem] 3xs:text-[1.5rem] mt-[5rem] 3xs:mt-[3rem]'>Streamline your job search and <br></br>be apart of a  like-minded, supportive <br></br>

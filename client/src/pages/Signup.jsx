@@ -51,7 +51,7 @@ const Signup = (props, ref) => {
     return (
         <>
         <div className='h-screen lg:hidden bg-blue-500'>
-         <img src={logo} className="absolute left-[-3rem] overflow-hidden h-96 w-96 top-[75%]" />
+        <p className="absolute text-4xl font-Oswald ml-1">Thrive</p>
         <div className=' flex flex-col items-center absolute w-[60%] h-screen'>
         <img src={capybara} className=" absolute h-96 w-96 mt-[25rem]"/>
         <p className='absolute text-center text-white font-bold text-[2rem] mt-[5rem]'>Streamline your job search and <br></br>

@@ -7,14 +7,16 @@
 
 
 body {
+  height: 100vh;
+  width: 100vw;
   background-color: #dff2f1;
   overflow-x: hidden;
   font-family: 'Poppins', sans-serif;
   }
 
-body::-webkit-scrollbar {
+/* body::-webkit-scrollbar {
   display: none;
-}
+} */
 
 .scrollbar-remove::-webkit-scrollbar {
   display: none;
