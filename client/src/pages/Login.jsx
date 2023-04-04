@@ -1,5 +1,5 @@
 // Imports
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import Signup from './Signup';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
@@ -8,12 +8,11 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utils/setAuthToken';
 import capybara from '../assets/Capybara.png'
-import logo from '../assets/Thrive.png'
 
 const Login = () => {
     const {currentUser, nowCurrentUser} = useContext(DataContext)
     const loginRef = useRef();
-    const signupRef= useRef();
+    const signupRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
     const navigate = useNavigate();
@@ -52,7 +51,7 @@ const Login = () => {
         <div className='flex gap-1 lg:flex-col' id='login-signup-stuff'>            
         <p className="absolute text-4xl font-Oswald ml-1">Thrive</p>
         <div className='flex flex-col justify-center items-center h-screen w-[50vw] bg-blue-500 lg:w-screen '>
-            <div className=' flex flex-col items-center absolute w-[60%] h-screen 1.5xl:w-[50%] lg:w-screen'>
+            <div className=' flex flex-col items-center absolute w-[60%] h-[100svh] 1.5xl:w-[50%] lg:w-screen'>
                 <img src={capybara} className=" absolute h-96 w-96 mt-[25rem] 3xs:translate-y-[-6rem]"/>
                 <p className='absolute text-center text-white font-bold text-[2rem] 2xs:text-[1.7rem] 3xs:text-[1.5rem] mt-[5rem] 3xs:mt-[3rem]'>Streamline your job search and <br></br>be apart of a  like-minded, supportive <br></br>
                 community that'll help you<br></br> achieve your goals <br></br> and help you stay motivated.</p>
