@@ -2,7 +2,6 @@ import React, { forwardRef, useRef, useState } from 'react';
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 import capybara from '../assets/Capybara.png'
-import logo from '../assets/Thrive.png'
 import defaultpfp from '../assets/defaultpfp.png'
 import defaultheader from '../assets/defaultheader.jpg'
 
@@ -51,7 +50,7 @@ const Signup = (props, ref) => {
     return (
         <>
         <div className='h-screen lg:hidden bg-blue-500'>
-        <p className="absolute text-4xl font-Oswald ml-1">Thrive</p>
+        <p className="absolute text-4xl font-Oswald ml-1">AntΩhm</p>
         <div className=' flex flex-col items-center absolute w-[60%] h-screen'>
         <img src={capybara} className=" absolute h-96 w-96 mt-[25rem]"/>
         <p className='absolute text-center text-white font-bold text-[2rem] mt-[5rem]'>Streamline your job search and <br></br>

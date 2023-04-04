@@ -49,7 +49,7 @@ const Login = () => {
     return (
         <>   
         <div className='flex gap-1 lg:flex-col' id='login-signup-stuff'>            
-        <p className="absolute text-4xl font-Oswald ml-1">Thrive</p>
+        <p className="absolute text-4xl font-Oswald ml-1">AntΩhm</p>
         <div className='flex flex-col justify-center items-center h-screen w-[50vw] bg-blue-500 lg:w-screen '>
             <div className=' flex flex-col items-center absolute w-[60%] h-[100svh] 1.5xl:w-[50%] lg:w-screen'>
                 <img src={capybara} className=" absolute h-96 w-96 mt-[25rem] 3xs:translate-y-[-6rem]"/>

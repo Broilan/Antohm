@@ -32,7 +32,7 @@ const Navbar = () => {
         {isAuthenticated?
         <nav>                         
             <div className="flex items-center w-screen h-12 lg:h-16 bg-white border-black border-[1px] py-6 px-2 gap-1">                    
-                     <div onClick={() => nav('/')} className="font-Oswald cursor-pointer ml-auto text-[3rem] lg:hidden h-0 translate-y-[-2.2rem]">Thrive</div>   
+                     <div onClick={() => nav('/')} className="font-Oswald cursor-pointer ml-auto text-[3rem] lg:hidden h-0 translate-y-[-2.2rem]">AntΩhm</div>   
                      <img src={currentUser?.pfp} onClick={() => nav('/profile')} className=" hidden cursor-pointer border-gray-300 border-[1px] ml-auto h-[3.6rem] w-[3.6rem] lg:block rounded-[50%]" />   
                     <input type="text" placeholder="Search" className="border-gray-600 text-center mx-auto border-[1px] rounded-xl w-[30%] lg:w-[100%] h-10" />
 
