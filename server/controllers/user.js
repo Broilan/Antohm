@@ -23,7 +23,6 @@ const userSignup = (req, res) => {
         if (user) {
             return res.status(400).json({ message: 'Email already exists' });
         } else {
-            // Create a new user
             const newUser = new User({
                 name: req.body.name,
                 email: req.body.email,
