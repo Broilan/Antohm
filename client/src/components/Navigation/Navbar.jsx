@@ -26,7 +26,6 @@ const Navbar = () => {
     function openMessages(){
         setMOpen(true)
     }
-console.log(currentUser)
 
     return (
         <>
@@ -58,8 +57,8 @@ console.log(currentUser)
                     <>
 
         {isAuthenticated?
-        <footer className="fixed bottom-0">                         
-            <div className="hidden lg:flex items-center justify-evenly text-gray-500 w-screen h-16 bg-white border-black border-[1px] px-2 xs:px-0">                    
+        <footer className="fixed bottom-0 z-[200]">                         
+            <div className="hidden fixed bottom-0 lg:flex items-center justify-evenly text-gray-500 w-screen h-16 bg-white border-black border-[1px] px-2 xs:px-0">                    
                     <NavLink to="/" className='flex flex-col items-center text-3xl font-bold transition-color my-auto mt-1 md:mt-2 xs:mt-4'>
                     <div><FaHome/></div>
                     <div className="text-xl md:text-sm xs:hidden">Home</div>

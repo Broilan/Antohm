@@ -21,7 +21,7 @@ const NotifDd = (props) => {
 
   return (
     <>
-    <div className='absolute bg-white w-96 h-[25rem] rounded-3xl overflow-y-scroll z-10 right-6 border-gray-400 border-[2px] scrollbar-remove' >
+    <div className='absolute bg-white w-96 h-[25rem] rounded-3xl overflow-y-scroll z-[100] right-6 border-gray-400 border-[2px] scrollbar-remove md:rounded-none md:w-screen md:h-screen md:top-0 md:right-0' >
 
       <div className='mb-[0.75rem]'>
       <h1 className='font-bold p-2 border-b-black border-b-[1px]'>Notifications</h1>
@@ -35,7 +35,7 @@ const NotifDd = (props) => {
     
     <div>
     <div className='font-semibold text-md mt-1'> <div className='cursor-pointer' onClick={(e) => navigate(`/profile/${n.from._id}`)}>@{n.from.displayName}</div>{n.likeCommentOrFollow=='Comment'? "commented on your post!" :n.content? n.content: null}</div>
-    <div onClick={(e) => navigate(`/post/${n.postID._id}`)} className='truncate text-sm cursor-pointer'>{n.likeCommentOrFollow == "Comment"? n.content: n.postID?.content? n.postID.content: null}</div>
+    <div onClick={(e) => {navigate(`/post/${n.postID._id}`), setNotifsOpen(false)}} className='truncate text-sm cursor-pointer'>{n.likeCommentOrFollow == "Comment"? n.content: n.postID?.content? n.postID.content: null}</div>
     </div>
     </div>
     )}
