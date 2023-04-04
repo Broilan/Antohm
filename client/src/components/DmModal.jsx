@@ -9,6 +9,7 @@ const DmModal = (props) => {
     const {mOpen, setMOpen} = props
     const [currentDm, setCurrentDm] = useState()
     const [dropdownState, setDropdownState] = useState([])
+    const [dmsOpen, setDmsOpen] = useState(false)
     const [dmArray, setDmArray] = useState([])
     const [allDms, setAllDms] = useState()
     const [allUsers, setAllUsers] = useState()
@@ -94,16 +95,18 @@ const DmModal = (props) => {
 
   return (
     <>
-    <div className='w-screen h-screen absolute flex items-end justify-end  '>
-    <div className='flex bg-white rounded-3xl border-gray-400 border-[2px] rounded-b-none rounded-tr-none w-[45rem] h-[30rem] z-10 mb-[3.1rem]'>
+    <div className='w-screen h-screen absolute flex items-end justify-end md:items-start md:justify-start'>
+    <div className=' fixed flex bg-white rounded-3xl border-gray-400 border-[2px] rounded-b-none  rounded-tr-none w-[45rem] md:rounded-none h-[30rem] lg:z-[201] md:z-[200] mb-[3.1rem] md:w-screen md:h-screen '>
 
-    <div className='flex flex-col w-[40%] border-r-gray-400 border-r-[1px] overflow-y-scroll scrollbar-remove '>
-        <h1 className='text-center font-bold mt-1 border-b-[1px] border-black pb-6'>Chats</h1>
+    <div className='flex flex-col w-[40%] border-r-gray-400 border-r-[1px] md:border-none overflow-y-scroll scrollbar-remove md:w-screen'>
+        <h1 className='text-center font-bold mt-1 border-b-[1px] border-black pb-6'>Chats 
+        <p onClick={() => setMOpen(false)} className='hidden bg-black font-bold text-white rounded-[50%] md:flex items-center justify-center w-6 h-6 ml-auto mr-2 mt-[-1rem]'>x</p>
+        </h1>
         <input onChange={(e) => searchUsers(e)} type="text" className='border-black border-2 w-48 mx-auto my-2 relative mt-[-1rem] rounded-md p-1 ' placeholder='Search users'/>
 
     {dropdownState?.map((d) => 
     
-        <div onClick={() => openDM(d)} className='flex truncate border-b-gray-500 border-b-[1px] hover:bg-gray-200'>
+        <div onClick={() => {openDM(d), setDmsOpen(true)}} className='flex truncate border-b-gray-500 border-b-[1px] hover:bg-gray-200'>
     <img src={d?.from?._id == currentUser?.id? d?.to?.pfp : d?.from?.pfp? d.from.pfp: d.pfp} className='rounded-[50%] m-1 border-[1px] w-12  border-black'/>
     <div>
     <div className='font-semibold text-sm mt-1'>{d.from?._id == currentUser.id? d.to?.name: d.from?.name? d.from?.name : d.name}</div>
@@ -113,7 +116,7 @@ const DmModal = (props) => {
     )}
     </div>
 
-    <div className='w-[60%] h-[100%] overflow-y-scroll scrollbar-remove'>
+    <div className='w-[60%] h-[100%] overflow-y-scroll scrollbar-remove md:hidden'>
 
         <div className='border-b-black border-b-[1px] mb-2 p-1'>
         <h1 className='font-bold m-5 '>{currentDm? currentDm.name: "Welcome to your chats!"}</h1>
@@ -125,7 +128,7 @@ const DmModal = (props) => {
             <div className='mt-4'>
             {dmArray == false?<div className='rounded-lg border-black bg-blue-400 text-white font-bold break-words border-[1px] w-fit h-fit p-5 mx-auto'>Search for other users to chat with.<br></br> <p className='text-center text-2xl'>Be kind!</p> </div> : null} 
 
-            <div className='mb-12'>
+            <div className='mb-[7rem]'>
             {dmArray?.map((d) =>
             <>
             {d.from == currentUser.id?
@@ -144,6 +147,37 @@ const DmModal = (props) => {
             </div>
 
     </div>
+
+    {dmsOpen? 
+    <div className='hidden md:block absolute bg-white w-screen h-screen overflow-y-scroll scrollbar-remove'>
+
+        <div className='border-b-black border-b-[1px] mb-2 p-1'>
+        <h1 className='font-bold m-5 '>{currentDm? currentDm.name: "Welcome to your chats!"}</h1>
+        <div onClick={() => setDmsOpen(false)} className='bg-black cursor-pointer rounded-[50%] h-5 w-5 text-white text-center ml-auto mr-5 mt-[-2.5rem]'>x</div>
+        </div>
+            {/* replace this with the thrive logo later */}
+           <img src={currentDm?.pfp ?? currentUser?.pfp} className='rounded-[50%] border-[1px] w-12 mx-auto border-black' />   
+
+            <div className='mt-4'>
+            {dmArray == false?<div className='rounded-lg border-black bg-blue-400 text-white font-bold break-words border-[1px] w-fit h-fit p-5 mx-auto'>Search for other users to chat with.<br></br> <p className='text-center text-2xl'>Be kind!</p> </div> : null} 
+
+            <div className='mb-[15rem]'>
+            {dmArray?.map((d) =>
+            <>
+            {d.from == currentUser.id?
+            <div className='break-words rounded-lg border-black border-[1px] bg-blue-300 font-bold w-44 h-fit p-5 ml-auto mr-1'>{d.message?.[0] ?? d }</div>:
+            <div className='break-words rounded-lg border-black border-[1px] bg-gray-300 font-bold w-44 h-fit p-5 ml-1'>{d.message?.[0] ?? d }</div>
+            }
+            </>
+            )} 
+            </div>   
+            <div className='fixed flex items-center justify-center border-b-gray-400 border-b-[2px] bottom-0 w-[24%] md:w-screen md:h-fit md:mb-16 h-12 gap-2 bg-white'>
+            <input type="text" ref={messageRef} className='border-black border-[1px] rounded-lg ml-16 md:ml-0 p-2' placeholder='Be nice' />
+             <div onClick={(e) => sendMessage()} className='w-16 h-10 cursor-pointer bg-blue-400 text-white text-center pt-2 font-bold rounded-lg'>Send</div> 
+            </div>  
+            </div>
+
+    </div> :null}
 
     </div>
     </div>
