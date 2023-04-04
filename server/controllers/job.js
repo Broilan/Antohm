@@ -18,6 +18,12 @@ const getJobs = (req, res) => {
     })
 }
 
+const deleteAllJobs = (req, res) => {
+    Job.deleteMany()
+    .then(response => res.json({allJobs: response}))
+    .catch(err => console.log(err))
+}
+
 const postJobs = async (num) => {
     // initializing variable for recursion
     let cleanedJobArr = []
@@ -160,5 +166,6 @@ const completion = await openai.createChatCompletion({
 
 module.exports = {
     getJobs,
-    postJobs
+    postJobs,
+    deleteAllJobs
 }

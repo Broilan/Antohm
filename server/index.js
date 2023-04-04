@@ -2,6 +2,7 @@ const cors = require("cors");
 require('dotenv').config()
 const express = require("express");
 const {Server} = require('socket.io')
+const axios = require('axios')
 const http = require('http')
 const mongoose = require("mongoose")
 const passport = require('passport');
@@ -60,6 +61,17 @@ app.get('/', (req, res) => {
   app.use("/chat", routes.chat);
   app.use("/upload", routes.upload);
   app.use("/job", routes.job);
+
+  //intervals
+  //delete all jobs every 2.99 days
+ setInterval( async () => {
+  await axios.post(`https://thrive-server.herokuapp.com/job/deleteAll`)
+}, 258900000);
+//post jobs every 3 days
+  setInterval( async () => {
+     await axios.post(`https://thrive-server.herokuapp.com/job`)
+ }, 259200000);
+
 
 
   // Server
