@@ -233,7 +233,7 @@ const ClickedDateModal = ({setDateModalOpen, dateModalOpen, setEditting, setAreY
   <>
   {dateModalOpen?
   <div className='w-screen flex items-center justify-center h-screen absolute top-0 bg-transBlack'>
-  <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[30%]`}>
+  <div className={`flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-fit py-2`}>
     <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>{dateModalOpen[2]}</h1>
     <div onClick={()=> setDateModalOpen(false)} className='ml-auto mr-2 cursor-pointer'>x</div></div>
     <h1 className='font-bold text-2xl pl-2 mt-2'>Stuff saved for this date:</h1>

@@ -254,7 +254,7 @@ const AddNote = ({addNoteModal, setAddNoteModal, setTaskModal, setSuccess, setEr
     {addNoteModal?
       <>
       <div className='w-screen flex items-center justify-center h-screen absolute z-[101] top-0 bg-transBlack'>
-      <div className="flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-[40%]">
+      <div className="flex-col justify-center border-black border-2 items-center bg-white w-[20%] rounded-xl shadow-2xl h-fit py-2">
       <div className='text-2xl flex justify-center font-bold border-b-black border-b-2 h-fit w-[100%]'><h1 className='ml-auto'>Add a note</h1>
       <div onClick={()=> setAddNoteModal(false)}  className='ml-auto mr-2 cursor-pointer'>x</div></div>
       <div className='flex flex-col items-center gap-2 mt-4'>
