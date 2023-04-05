@@ -6,7 +6,7 @@ Antohm is a full-stack social media geared towards helping job seekers in STEM f
 
 Job Board
 ---------------
-As of 04/04/2023, the job board makes use of Puppeteer to scrape job data, (currently only scrapes Software Engineer, Dev Ops, and UX design positions) from LinkedIns job board every 3 days. Post scraping, the about sections are then populated with an AI generated about section and posted to my database. When you hit apply, you'll be redirected to LinkedIns application page. I'd like to use my own data in the future for the sake of user experience and responsiveness, but for now I don't have access to the resources necessary. Below, you'll find photos of the job board in action.
+As of 04/04/2023, the job board makes use of Puppeteer to scrape job data, (currently only scrapes Software Engineer, Dev Ops, and UX design positions) from LinkedIns job board every 3 days. Post scraping, the about sections are generated using OPEN AI's API, and then the scraped jobs are posted to my database. When you hit apply, you'll be redirected to LinkedIns application page. I'd like to use my own data in the future for the sake of user experience and responsiveness, but for now I don't have access to the resources necessary. Below, you'll find photos of the job board in action.
 
 Quantitative Dashboard
 ---------------------------
