@@ -1,5 +1,10 @@
 SITE: https://thrivestem.netlify.app/
 --------------------------------------
+
+TECHNOLOGIES
+--------------------------------------
+MongoDB, React, Javascript, Socket.IO, Cloudinary, Puppeteer, OpenAI, Express, Node, Tailwind, & Vite
+
 ABOUT
 -------------------------------------
 Antohm is a full-stack social media geared towards helping job seekers in STEM find a job, and a supportive community. Presently, Antohm operates just like any other social media. It allows users to post, comment, like, bookmark, DM, view other users profiles, and so on and so forth. What makes Antohm unique, though, is that it comes with a job board and a 'quantitative dashboard'.
@@ -11,10 +16,6 @@ As of 04/04/2023, the job board makes use of Puppeteer to scrape job data, (curr
 Quantitative Dashboard
 ---------------------------
 The quantitative dashboard makes use of a calendar, Kanban board, job tracker, a task/to-do list, and a saved dates lists in order to help the user organize and hasten their job search. Below, you'll find photos of the quantitative board in action.
-
-TECHNOLOGIES
---------------------------------------
-MongoDB, React, Javascript, Socket.IO, Cloudinary, Puppeteer, OpenAI, Express, Node, Tailwind, & Vite
 
 LOGIN PAGE
 --------------------------------------
