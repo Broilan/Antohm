@@ -43,10 +43,11 @@ SAVED DATES WITH SUBDATES/SUBTASKS MODAL
 
 KANBAN BOARD W/ TASKS VIEW 
 --------------------------------------
+![kanban board w tasks](https://user-images.githubusercontent.com/107972255/229951422-c0d7ffa4-633e-4efe-a233-90797ddcca97.JPG)
 
 ADD NOTE TO TASK/ADD SUBTASK MODAL
 --------------------------------------
-![kanban board w tasks](https://user-images.githubusercontent.com/107972255/229951422-c0d7ffa4-633e-4efe-a233-90797ddcca97.JPG)
+![add note or task modal](https://user-images.githubusercontent.com/107972255/229951686-91ac6c38-fbcf-48d1-bb37-a6cd83878604.JPG)
 
 JOB TRACKING VIEW
 --------------------------------------
