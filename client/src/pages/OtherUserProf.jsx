@@ -73,7 +73,6 @@ const OtherUserProf = () => {
         <div className='flex flex-col justify-center text-center lg:w-screen'>
         
         <div className='mx-auto w-[35%] border-gray-400 border-[1px] lg:w-screen '>
-        <body className='overflow-y-scroll scrollbar-hide'>
       <img src={otherUser?.header} className='bg-gray-300 w-[100%] h-[8rem] cursor-pointer object-cover'/>
   
       <div className='bg-white h-[12rem] flex flex-col justify-end'>
@@ -106,7 +105,6 @@ const OtherUserProf = () => {
       </ul>
       </div>
       {posts} 
-      </body>
       </div>
   
       </div>
