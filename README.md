@@ -16,7 +16,7 @@ HOMEPAGE
 
 JOB-BOARD
 --------------------------------------
-![job board](https://user-images.githubusercontent.com/107972255/229951301-024d41d0-a52d-450d-b453-86d44cb7310b.JPG)
+![job board](https://user-images.githubusercontent.com/107972255/229951926-5e822f4b-e057-4783-ae79-61f10b49350b.JPG)
 
 RESOURCES/GROUPS PAGE
 --------------------------------------
@@ -45,6 +45,10 @@ KANBAN BOARD W/ TASKS VIEW
 --------------------------------------
 ![kanban board w tasks](https://user-images.githubusercontent.com/107972255/229951422-c0d7ffa4-633e-4efe-a233-90797ddcca97.JPG)
 
+TASKMODAL W/ SUBTASKS
+--------------------------------------
+![task modal w subtasks](https://user-images.githubusercontent.com/107972255/229951816-b80723a9-031d-41f6-ab4f-0a4550f34c0c.JPG)
+
 ADD NOTE TO TASK/ADD SUBTASK MODAL
 --------------------------------------
 ![add note or task modal](https://user-images.githubusercontent.com/107972255/229951686-91ac6c38-fbcf-48d1-bb37-a6cd83878604.JPG)
@@ -68,7 +72,3 @@ NOTIFICATIONS MODAL
 OTHER USER PROFILE, (AS VIEWED BY CURRENT USER)
 --------------------------------------
 ![Other user profile](https://user-images.githubusercontent.com/107972255/229951514-ee300264-c9e8-4dcd-bb61-f8e4341dd9fa.JPG)
-
-
-
-
