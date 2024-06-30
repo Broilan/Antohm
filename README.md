@@ -1,6 +1,6 @@
 # Antohm
 
-Antohm is a fullstack social media geared towards helping job seekers in STEM find a job, and a supportive community. Presently, Antohm operates just like any other social media. It allows users to post, comment, like, bookmark, DM, view other users profiles, and so on and so forth. What makes Antohm unique, though, is that it comes with a job board and a 'quantitative dashboard'.
+Antohm is a fullstack social media geared towards helping STEM job seekers find both jobs and communion. It currently operates like any other social media in that it allows users to post, comment, like, bookmark, DM, view other users' profiles, and so on and so forth. What makes Antohm unique, though, is that it comes with a job board and a dashboard, which work in tandem to assist and hasten your processes.
 
 ## Technologies
 
