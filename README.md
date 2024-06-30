@@ -14,7 +14,3 @@ As of 04/04/2023, the job board makes use of Puppeteer to scrape job data, (curr
 
 The quantitative dashboard makes use of a calendar, Kanban board, job tracker, a task/to-do list, and a saved dates lists in order to help the user organize and hasten their job search. Below, you'll find photos of the quantitative board in action.
 
-## Site
-
-https://thrivestem.netlify.app/
-
